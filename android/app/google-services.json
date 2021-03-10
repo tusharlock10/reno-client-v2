@@ -1,0 +1,87 @@
+{
+  "project_info": {
+    "project_number": "247753482400",
+    "firebase_url": "https://reno-5fe9c.firebaseio.com",
+    "project_id": "reno-5fe9c",
+    "storage_bucket": "reno-5fe9c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:247753482400:android:9d943b9f734006f8",
+        "android_client_info": {
+          "package_name": "com.reno"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "247753482400-942a9m2d2vgmfodbcpq0282ub4g8nqcp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.reno",
+            "certificate_hash": "8f8ca598d3ca3618d48e0f80f0bdb93627d8937d"
+          }
+        },
+        {
+          "client_id": "247753482400-95vpk2571shgs7r4fsmflbqpmhh2ggja.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.reno",
+            "certificate_hash": "8b1e7f7e4568bec50404d3ff5ca1f993a30564a5"
+          }
+        },
+        {
+          "client_id": "247753482400-ptkhfk06j6q1915cqct37d09a3g769cc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.reno",
+            "certificate_hash": "b6709298af16cdeb710b9ce11e5bd5087495f22e"
+          }
+        },
+        {
+          "client_id": "247753482400-r5uulpnd2eehvjg6ntd0828tldv87lai.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.reno",
+            "certificate_hash": "b7faead8eba539b7cc3f41125183da0f2f6d7993"
+          }
+        },
+        {
+          "client_id": "247753482400-ssvnncdb81uhlg07gk5h5puveltdbn9m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.reno",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "247753482400-5mh1i6oectdqks5sc34incak618pbbf4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBgcEPDO8t4caY2XRlb0we-WRIV4nmHRfU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "247753482400-5mh1i6oectdqks5sc34incak618pbbf4.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "247753482400-7edouggulm1vh23jbk2jsc3suaegsbqh.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.reno"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
