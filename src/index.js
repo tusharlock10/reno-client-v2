@@ -21,7 +21,8 @@ export default function Main() {
       primary: "#3498db",
       accent: "#f1c40f"
     },
-    fonts: "regular"
+    fonts: "regular",
+    animation:{scale:1}
   };
   const prefix = "reno://";
   return (

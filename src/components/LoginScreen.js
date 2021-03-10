@@ -5,8 +5,8 @@ import {
   ImageBackground,
   Image,
   Dimensions,
-  ActivityIndicator
 } from "react-native";
+import {ActivityIndicator} from 'react-native-paper'
 import LinearGradient from "react-native-linear-gradient";
 import Ripple from "react-native-material-ripple";
 import { GoogleSignin, statusCodes } from "@react-native-google-signin/google-signin";
