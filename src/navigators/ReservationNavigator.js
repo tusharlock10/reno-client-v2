@@ -1,34 +1,34 @@
-import { createStackNavigator, createAppContainer } from "react-navigation";
-import LoginScreen from "../components/LoginScreen";
+import {createStackNavigator} from 'react-navigation-stack';
+import LoginScreen from '../components/LoginScreen';
 
-import ReservationHome from "../components/Tabs/Reservations";
+import ReservationHome from '../components/Tabs/Reservations';
 
 const ReservationNavigator = createStackNavigator(
   {
     ReservationHome: {
       screen: ReservationHome,
       navigationOptions: {
-        gesturesEnabled: false
-      }
-    }
+        gesturesEnabled: false,
+      },
+    },
   },
   {
-    initialRouteName: "ReservationHome",
-    headerMode: "none",
+    initialRouteName: 'ReservationHome',
+    headerMode: 'none',
     cardStyle: {
-      backgroundColor: "#fff"
+      backgroundColor: '#fff',
     },
-    navigationOptions: ({ navigation }) => {
+    navigationOptions: ({navigation}) => {
       let tabBarVisible = true;
       let routes = navigation.state.index;
       if (routes > 0) {
         tabBarVisible = false;
       }
       return {
-        tabBarVisible
+        tabBarVisible,
       };
-    }
-  }
+    },
+  },
 );
 
-export default createAppContainer(ReservationNavigator);
+export default ReservationNavigator;

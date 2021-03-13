@@ -5,10 +5,9 @@ import axios from "../api";
 export const getMyReservations = () => async dispatch => {
   try {
     const response = await axios.get("/orders");
-    console.log(response);
     dispatch({ type: RESERVATIONS_FETCH, payload: response });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     errorHandler(error, RESERVATIONS_FETCH_ERROR, dispatch);
   }
 };
@@ -18,7 +17,7 @@ function errorHandler(err, type, dispatch) {
   if (errors) {
     errors.forEach(error => {
       //   dispatch(setAlert(error.msg, "danger"));
-      console.log(error);
+      console.error(error);
     });
     dispatch({ type });
   }

@@ -53,7 +53,6 @@ class FindAndDine extends Component {
         preventBackClick: true, // true => To prevent the location services popup from closing when it is clicked back button
         providerListener: false // true ==> Trigger locationProviderStatusChange listener when the location state changes
       }).then(function(success) {
-        console.log(success); // success => {alreadyEnabled: false, enabled: true, status: "enabled"}
         let location = navigator.geolocation.getCurrentPosition(
           position => {
             getNearbyRestaurants(
@@ -62,7 +61,7 @@ class FindAndDine extends Component {
             );
           },
           error => {
-            console.log(error);
+            console.error(error);
             Alert.alert(
               "Location Error",
               "Cannot fetch the location at the moment!!",
@@ -82,7 +81,7 @@ class FindAndDine extends Component {
           );
         },
         error => {
-          console.log(error);
+          console.error(error);
           Alert.alert(
             "Location Error",
             "Cannot fetch the location at the moment!!",
@@ -96,9 +95,6 @@ class FindAndDine extends Component {
   }
 
   render() {
-    // if(this.props.nearby.restaurants!= null){
-    //   console.log(this.props.nearby.restaurants.data);
-    // }
     if (this.props.nearby.restaurants) {
       return (
         <View style={{ flex: 1 }}>
@@ -247,7 +243,6 @@ const styles = StyleSheet.create({
 });
 
 mapStateToProps = state => {
-  console.log(state);
   return { nearby: state.nearby };
 };
 

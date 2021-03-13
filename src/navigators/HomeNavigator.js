@@ -1,54 +1,50 @@
-import {
-  createDrawerNavigator,
-  createStackNavigator,
-  createAppContainer
-} from "react-navigation";
-import React from "react";
-import { Platform, Dimensions, Image, View, Text } from "react-native";
-import Home from "../components/Tabs/Home";
-import Tabs from "./TabNavigator";
-import { fromLeft } from "react-navigation-transitions";
-import ChangeCity from "../components/Tabs/Home/ChangeCity";
-import RightDrawer from "../common/RightDrawer";
-import { width } from "../constants";
+import {createAppContainer} from 'react-navigation';
+import {createStackNavigator} from 'react-navigation-stack';
+import {createDrawerNavigator} from 'react-navigation-drawer';
+import React from 'react';
+import {Platform, Dimensions, Image, View, Text} from 'react-native';
+import Home from '../components/Tabs/Home';
+import Tabs from './TabNavigator';
+import ChangeCity from '../components/Tabs/Home/ChangeCity';
+import RightDrawer from '../common/RightDrawer';
+import {width} from '../constants';
 
 const TabNavigation = createStackNavigator(
   {
     Tabs: {
       screen: Tabs,
       navigationOptions: {
-        gesturesEnabled: false
+        gesturesEnabled: false,
       },
-      path:"tabsHome"
+      path: 'tabsHome',
     },
     ChangeCity: {
       screen: ChangeCity,
       navigationOptions: {
-        gesturesEnabled: false
-      }
-    }
+        gesturesEnabled: false,
+      },
+    },
   },
   {
-    initialRouteName: "Tabs",
-    headerMode: "none",
-    transitionConfig: () => fromLeft(500),
+    initialRouteName: 'Tabs',
+    headerMode: 'none',
     cardStyle: {
-      backgroundColor: "#fff"
-    }
-  }
+      backgroundColor: '#fff',
+    },
+  },
 );
 
 const HomeNavigator = createDrawerNavigator(
   {
     Home: {
-      screen: TabNavigation
-    }
+      screen: TabNavigation,
+    },
   },
   {
-    drawerPosition: "right",
+    drawerPosition: 'right',
     contentComponent: RightDrawer,
-    drawerWidth:width*0.8,
-    edgeWidth:-width
-  }
+    drawerWidth: width * 0.8,
+    edgeWidth: -width,
+  },
 );
 export default createAppContainer(HomeNavigator);

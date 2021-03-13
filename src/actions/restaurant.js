@@ -4,30 +4,26 @@ import {
   IS_INDEXING_BRAND_TILES,
   IS_INDEXING_RESTAURANT,
   INDEX_BRAND_TILES,
-  BRAND_TILE_FETCH_ERROR
-} from "./types";
-import axios from "../api";
+  BRAND_TILE_FETCH_ERROR,
+} from './types';
+import axios from '../api';
 
-export const indexRestaurants = () => async dispatch => {
+export const indexRestaurants = () => async (dispatch) => {
   try {
-    dispatch({ type: IS_INDEXING_RESTAURANT });
-    const response = await axios.get("/restaurant");
-    console.log(response);
-    dispatch({ type: INDEX_RESTAURANT, payload: response });
+    dispatch({type: IS_INDEXING_RESTAURANT});
+    const response = await axios.get('/restaurant');
+    dispatch({type: INDEX_RESTAURANT, payload: response});
   } catch (error) {
-    console.log(error);
     errorHandler(error, RESTAURANT_FETCH_ERROR, dispatch);
   }
 };
 
-export const brandTiles = () => async dispatch => {
+export const brandTiles = () => async (dispatch) => {
   try {
-    dispatch({ type: IS_INDEXING_BRAND_TILES });
-    const response = await axios.get("/brandTiles");
-    console.log(response);
-    dispatch({ type: INDEX_BRAND_TILES, payload: response });
+    dispatch({type: IS_INDEXING_BRAND_TILES});
+    const response = await axios.get('/brandTiles');
+    dispatch({type: INDEX_BRAND_TILES, payload: response});
   } catch (error) {
-    console.log(error);
     errorHandler(error, BRAND_TILE_FETCH_ERROR, dispatch);
   }
 };
@@ -35,10 +31,9 @@ export const brandTiles = () => async dispatch => {
 function errorHandler(err, type, dispatch) {
   const errors = err.response.data.errors;
   if (errors) {
-    errors.forEach(error => {
-      //   dispatch(setAlert(error.msg, "danger"));
-      console.log(error);
+    errors.forEach((error) => {
+      console.error(error);
     });
-    dispatch({ type });
+    dispatch({type});
   }
 }

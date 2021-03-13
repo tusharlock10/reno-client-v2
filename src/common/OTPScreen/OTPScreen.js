@@ -24,7 +24,6 @@ class OTPScreen extends Component {
   }
 
   render() {
-    console.log(this.state);
     return (
       <SafeAreaView style={{ backgroundColor: "#fff", flex: 1 }}>
         <Header navigation={this.props.navigation} />

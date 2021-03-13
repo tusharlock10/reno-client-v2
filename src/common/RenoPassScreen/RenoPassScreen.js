@@ -28,11 +28,9 @@ class RenoPassScreen extends Component {
   }
   async componentDidMount() {
     var cityData = await axios.get("/city/premiumAmount");
-    console.log(cityData);
     this.setState({ cityData, loading: false });
   }
   render() {
-    console.log(this.state)
     if (this.state.loading) {
       return (
         <View

@@ -43,11 +43,8 @@ class RenderRestaurants extends Component {
     let date = new Date();
     date = date.getDay(date);
     this.day = setDay(date).substring(0, 3) + "Discount";
-    // console.log(this.day);
   }
   render() {
-    // console.log(this.props.timeDiscounts);
-
     return (
       <View style={{ width: width, alignItems: "center" }}>
         <TouchableOpacity

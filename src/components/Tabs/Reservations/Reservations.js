@@ -55,7 +55,6 @@ class Reservations extends Component {
 }
 
 mapStateToProps = state => {
-  console.log(state);
   return { reservations: state.reservations };
 };
 

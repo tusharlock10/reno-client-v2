@@ -2,9 +2,6 @@ import React, { Component } from "react";
 import { Text, View, SafeAreaView } from "react-native";
 import Ripple from "react-native-material-ripple";
 class Slots extends Component {
-  componentDidMount(){
-    console.log(this.props);
-  }
   render() {
     return (
       <View>

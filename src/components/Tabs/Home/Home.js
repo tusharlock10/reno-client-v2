@@ -65,7 +65,6 @@ class HomeScreen extends Component {
     let date = new Date();
     date = date.getDay(date);
     this.day = setDay(date);
-    console.log(this.day);
     this.renderData();
   }
   async renderData() {
@@ -76,12 +75,9 @@ class HomeScreen extends Component {
     this.props.indexRestaurants();
   }
   onGoBack = someData => {
-    console.log(someData);
     this.renderData();
   };
   render() {
-    console.log(this.props);
-    console.log(this.day);
     // const day = this.props.restaurants.restaurants.data.day;
     return (
       <Fragment>
@@ -242,8 +238,6 @@ class HomeScreen extends Component {
                     initialNumToRender={10}
                     data={this.props.restaurants.restaurants.data}
                     renderItem={({ item, index }) => {
-                      //  console.log(item[this.day]);
-                      console.log(item,this.day);
                       return (
                         <RenderRestaurants
                           id={item.id}
@@ -302,7 +296,6 @@ const styles = {
 };
 
 mapStateToProps = state => {
-  console.log(state);
   return { restaurants: state.restaurants };
 };
 

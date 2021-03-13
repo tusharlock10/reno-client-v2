@@ -26,7 +26,6 @@ class ChangeCity extends Component {
 
   async componentDidMount() {
     const cities = await axios.get("/city");
-    console.log(cities);
     this.setState({ loading: false, cityData: cities.data });
   }
 
@@ -36,7 +35,6 @@ class ChangeCity extends Component {
     }
   }
   render() {
-    console.log(this.props.navigation);
     const { goBack } = this.props.navigation;
 
     if (!this.state.loading)

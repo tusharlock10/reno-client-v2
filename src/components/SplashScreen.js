@@ -20,7 +20,6 @@ class SplashScreen extends Component {
   
   componentDidMount() {
     setTimeout(() => {
-      // console.log(this.videoplayer);
       this._navigateTo();
     }, 3500);
   }
@@ -60,7 +59,6 @@ class SplashScreen extends Component {
 }
 
 const mapStateToProps = state => {
-  console.log(state);
   return { auth: state.auth };
 };
 

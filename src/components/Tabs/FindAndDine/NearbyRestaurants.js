@@ -7,7 +7,6 @@ import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
 import Ionicons from "react-native-vector-icons/Ionicons";
 class RenderRestaurants extends Component {
   render() {
-    // console.log(this.props);
     return (
       <View
         rippleDuration={300}

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, {Component} from 'react';
 import {
   Text,
   View,
@@ -8,43 +8,43 @@ import {
   SafeAreaView,
   Image,
   TouchableOpacity,
-  StyleSheet
-} from "react-native";
-import Ionicons from "react-native-vector-icons/Ionicons";
-import { height, width } from "../../constants";
-import RenderSlots from "./RenderSlots";
-import DateComponent from "./DateComponent";
-import { ScrollView, FlatList } from "react-native-gesture-handler";
-import Header from "./Header";
-import Footer from "./Footer";
-import PeopleComponent from "./PeopleComponent";
-import PersonalDetails from "./PersonalDetails";
-import AMRTab from "./AMRTab/AMRTab";
-import { connect } from "react-redux";
-import { indexCreateOrder } from "../../actions/createorder";
-import TermsAndConditions from "./TermsAndConditions";
-import { ActivityIndicator, Snackbar } from "react-native-paper";
+  StyleSheet,
+} from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import {height, width} from '../../constants';
+import RenderSlots from './RenderSlots';
+import DateComponent from './DateComponent';
+import {ScrollView, FlatList} from 'react-native-gesture-handler';
+import Header from './Header';
+import Footer from './Footer';
+import PeopleComponent from './PeopleComponent';
+import PersonalDetails from './PersonalDetails';
+import AMRTab from './AMRTab/AMRTab';
+import {connect} from 'react-redux';
+import {indexCreateOrder} from '../../actions/createorder';
+import TermsAndConditions from './TermsAndConditions';
+import {ActivityIndicator, Snackbar} from 'react-native-paper';
 const setDay = function getDay(date) {
   if (date == 0) {
-    day = "sunday";
+    day = 'sunday';
   }
   if (date == 1) {
-    day = "monday";
+    day = 'monday';
   }
   if (date == 2) {
-    day = "tuesday";
+    day = 'tuesday';
   }
   if (date == 3) {
-    day = "wednesday";
+    day = 'wednesday';
   }
   if (date == 4) {
-    day = "thursday";
+    day = 'thursday';
   }
   if (date == 5) {
-    day = "friday";
+    day = 'friday';
   }
   if (date == 6) {
-    day = "saturday";
+    day = 'saturday';
   }
 
   return day;
@@ -55,86 +55,78 @@ class CreateOrder extends Component {
     super(props);
     let date = new Date();
     date = date.getDay(date);
-    this.day = setDay(date).substring(0, 3) + "Discount";
+    this.day = setDay(date).substring(0, 3) + 'Discount';
     this.state = {
       TermsAccepted: false,
       timeStamp: new Date().getTime(),
       visible: false,
       people: 1,
       name: `${this.props.auth.user.firstname} ${this.props.auth.user.lastname}`,
-      number: "",
+      number: '',
       discount: this.props.navigation.state.params.discount,
       time: this.props.navigation.state.params.time,
-      timeDiscountId: this.props.navigation.state.params.timeDiscountId
+      timeDiscountId: this.props.navigation.state.params.timeDiscountId,
     };
   }
   componentDidMount() {
-    console.log(this.props.navigation);
     this.props.indexCreateOrder(this.props.navigation.state.params.id);
   }
   openGoogleMaps(url) {
     Linking.canOpenURL(url)
-      .then(supported => {
-        if (!supported) {
-          console.log(`Can't handle url: ${url}`);
-        } else {
+      .then((supported) => {
+        if (supported) {
           return Linking.openURL(url);
         }
       })
-      .catch(err => console.log("An error occurred"));
+      .catch((err) => console.error(err));
   }
 
   render() {
-    console.log(this.state);
     return (
-      <SafeAreaView style={{ backgroundColor: "#fff", flex: 1 }}>
+      <SafeAreaView style={{backgroundColor: '#fff', flex: 1}}>
         <Header
           navigation={this.props.navigation}
           name={this.props.navigation.state.params.name}
         />
-        <View style={{ flex: 1 }}>
+        <View style={{flex: 1}}>
           <ScrollView
             showsVerticalScrollIndicator={false}
-            keyboardShouldPersistTaps="handled"
-          >
+            keyboardShouldPersistTaps="handled">
             <ImageBackground
-              source={{ uri: this.props.navigation.state.params.imageUri }}
+              source={{uri: this.props.navigation.state.params.imageUri}}
               style={{
                 height: height * 0.3,
                 marginBottom: 5,
-                justifyContent: "flex-end",
-                width
+                justifyContent: 'flex-end',
+                width,
               }}
-              resizeMode="cover"
-            >
+              resizeMode="cover">
               <View
                 style={{
                   height: 38,
                   width: 60,
                   marginTop: 45,
                   opacity: 0.8,
-                  alignSelf: "flex-end",
+                  alignSelf: 'flex-end',
                   borderTopLeftRadius: 5,
-                  flexDirection: "row",
-                  backgroundColor: "#fff",
-                  justifyContent: "center",
-                  alignItems: "center"
-                }}
-              >
+                  flexDirection: 'row',
+                  backgroundColor: '#fff',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
                 <Text
                   style={{
-                    fontFamily: "Poppins-Regular",
+                    fontFamily: 'Poppins-Regular',
                     fontSize: 19,
-                    color: "#000"
-                  }}
-                >
+                    color: '#000',
+                  }}>
                   4.5
                 </Text>
                 <Ionicons
                   name="ios-star"
                   color="#000"
                   size={20}
-                  style={{ marginLeft: 5 }}
+                  style={{marginLeft: 5}}
                 />
               </View>
             </ImageBackground>
@@ -143,71 +135,65 @@ class CreateOrder extends Component {
               style={{
                 margin: 10,
                 width: width,
-                alignItems: "center",
-                flexDirection: "row"
-              }}
-            >
-              <View style={{ width: "75%" }}>
+                alignItems: 'center',
+                flexDirection: 'row',
+              }}>
+              <View style={{width: '75%'}}>
                 <Text
                   style={{
-                    fontFamily: "Poppins-Medium",
+                    fontFamily: 'Poppins-Medium',
                     fontSize: 20,
-                    color: "#000"
-                  }}
-                >
+                    color: '#000',
+                  }}>
                   {this.props.navigation.state.params.name}
                 </Text>
                 <Text
                   style={{
-                    fontFamily: "Poppins-Regular",
+                    fontFamily: 'Poppins-Regular',
                     fontSize: 17,
                     opacity: 0.7,
-                    color: "#000"
-                  }}
-                >
+                    color: '#000',
+                  }}>
                   {this.props.navigation.state.params.city}
                 </Text>
               </View>
               <TouchableOpacity
                 activeOpacity={0.5}
                 style={{
-                  justifyContent: "center",
-                  alignItems: "center",
-                  width: "25%"
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  width: '25%',
                 }}
                 onPress={this.openGoogleMaps.bind(
                   this,
-                  this.props.navigation.state.params.directions
-                )}
-              >
+                  this.props.navigation.state.params.directions,
+                )}>
                 <Image
-                  source={require("../../../assets/compass.png")}
-                  style={{ height: 30, width: 30 }}
+                  source={require('../../../assets/compass.png')}
+                  style={{height: 30, width: 30}}
                   resizeMode="contain"
                 />
                 <Text
                   style={{
-                    fontFamily: "Poppins-Regular",
+                    fontFamily: 'Poppins-Regular',
                     marginTop: 5,
-                    color: "#000",
-                    fontSize: 13
-                  }}
-                >
+                    color: '#000',
+                    fontSize: 13,
+                  }}>
                   Direction
                 </Text>
               </TouchableOpacity>
             </View>
             <DateComponent
-              callbackFromMainCalendar={timeStamp => {
+              callbackFromMainCalendar={(timeStamp) => {
                 if (this.state.timeStamp != timeStamp) {
-                  this.setState({ timeStamp });
+                  this.setState({timeStamp});
                   this.day =
                     setDay(new Date(timeStamp).getDay()).substring(0, 3) +
-                    "Discount";
-                  console.log("timeStamp", timeStamp);
+                    'Discount';
                   this.props.indexCreateOrder(
                     this.props.navigation.state.params.id,
-                    timeStamp
+                    timeStamp,
                   );
                 }
               }}
@@ -215,12 +201,11 @@ class CreateOrder extends Component {
             <Text
               style={{
                 marginTop: 15,
-                fontFamily: "Poppins-Regular",
-                color: "#000000",
+                fontFamily: 'Poppins-Regular',
+                color: '#000000',
                 fontSize: 17,
-                marginLeft: 15 + 7
-              }}
-            >
+                marginLeft: 15 + 7,
+              }}>
               What time?
             </Text>
             {this.props.createorder.loading ? (
@@ -231,10 +216,9 @@ class CreateOrder extends Component {
                   marginLeft: 10,
                   marginTop: 20,
                   marginRight: 10,
-                  justifyContent: "center",
-                  alignItems: "center"
-                }}
-              >
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
                 <ActivityIndicator
                   animating={true}
                   color="#d20000"
@@ -244,7 +228,7 @@ class CreateOrder extends Component {
             ) : (
               <FlatList
                 keyboardShouldPersistTaps="handled"
-                style={{ height: 80, marginLeft: 15, marginRight: 15 }}
+                style={{height: 80, marginLeft: 15, marginRight: 15}}
                 horizontal
                 keyExtractor={(item, index) => index.toString()}
                 showsHorizontalScrollIndicator={false}
@@ -254,7 +238,7 @@ class CreateOrder extends Component {
                     ? this.props.createorder.orderData.data.timeDiscounts
                     : this.props.navigation.state.params.timeDiscounts
                 }
-                renderItem={({ item, index }) => {
+                renderItem={({item, index}) => {
                   return (
                     <RenderSlots
                       discount={item[this.day]}
@@ -263,12 +247,11 @@ class CreateOrder extends Component {
                       backgroundColor={
                         this.state.discount == item[this.day] &&
                         this.state.time == item.time
-                          ? "#FFA500"
-                          : "#d20000"
+                          ? '#FFA500'
+                          : '#d20000'
                       }
                       callbackFromChild={(discount, time, id) => {
-                        console.log(discount, time, id);
-                        this.setState({ discount, time, timeDiscountId: id });
+                        this.setState({discount, time, timeDiscountId: id});
                       }}
                     />
                   );
@@ -276,18 +259,18 @@ class CreateOrder extends Component {
               />
             )}
             <PeopleComponent
-              callbackFromPeople={people => {
-                this.setState({ people });
+              callbackFromPeople={(people) => {
+                this.setState({people});
               }}
             />
             <PersonalDetails
-              callbackAsName={name => this.setState({ name })}
-              callbackAsNumber={number => this.setState({ number })}
+              callbackAsName={(name) => this.setState({name})}
+              callbackAsNumber={(number) => this.setState({number})}
             />
             <AMRTab />
             <TermsAndConditions
-              callbackFromChild={state => {
-                this.setState({ TermsAccepted: state });
+              callbackFromChild={(state) => {
+                this.setState({TermsAccepted: state});
               }}
             />
           </ScrollView>
@@ -299,41 +282,39 @@ class CreateOrder extends Component {
             restaurantId={this.props.navigation.state.params.id}
             timeDiscountId={this.state.timeDiscountId}
             date={this.state.timeStamp}
-            callbackFromParent={show => {
+            callbackFromParent={(show) => {
               if (show) {
-                this.setState({ visible: show });
+                this.setState({visible: show});
               }
             }}
             active={this.state.TermsAccepted}
           />
           <Snackbar
             visible={this.state.visible}
-            theme={{ colors: { accent: "white" } }}
+            theme={{colors: {accent: 'white'}}}
             style={{
-              position: "absolute",
+              position: 'absolute',
               bottom: 0,
               elevation: 17,
-              backgroundColor: "#FFA500",
+              backgroundColor: '#FFA500',
               height: 55,
-              width: "90%",
-              alignSelf: "center",
-              borderRadius: 5
+              width: '90%',
+              alignSelf: 'center',
+              borderRadius: 5,
             }}
-            onDismiss={() => this.setState({ visible: false })}
+            onDismiss={() => this.setState({visible: false})}
             action={{
-              label: "Okay",
+              label: 'Okay',
               onPress: () => {
                 null;
-              }
-            }}
-          >
+              },
+            }}>
             <Text
               style={{
                 marginLeft: 10,
-                fontFamily: "Poppins-Medium",
-                color: "#fff"
-              }}
-            >
+                fontFamily: 'Poppins-Medium',
+                color: '#fff',
+              }}>
               Accept Terms & Conditions
             </Text>
           </Snackbar>
@@ -344,21 +325,20 @@ class CreateOrder extends Component {
 }
 const styles = StyleSheet.create({
   container: {
-    justifyContent: "center",
-    alignItems: "center"
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   absolute: {
-    position: "absolute",
+    position: 'absolute',
     top: 0,
     height: height,
     width: width,
     left: 0,
     bottom: 0,
-    right: 0
-  }
+    right: 0,
+  },
 });
-mapStateToProps = state => {
-  console.log(state);
-  return { createorder: state.createorder, auth: state.auth };
+mapStateToProps = (state) => {
+  return {createorder: state.createorder, auth: state.auth};
 };
-export default connect(mapStateToProps, { indexCreateOrder })(CreateOrder);
+export default connect(mapStateToProps, {indexCreateOrder})(CreateOrder);

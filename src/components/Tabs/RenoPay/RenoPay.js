@@ -431,7 +431,6 @@ class QRCodeScreen extends Component {
 }
 
 mapStateToProps = state => {
-  console.log(state);
   return { reservations: state.reservations };
 };
 

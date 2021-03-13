@@ -20,9 +20,6 @@ const data = {
   people: 5
 };
 class UpcomingDetails extends Component {
-  componentDidMount() {
-    console.log(this.props.navigation);
-  }
   render() {
     return (
       <SafeAreaView

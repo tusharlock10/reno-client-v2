@@ -21,7 +21,6 @@ class TypeScreen extends Component {
     this.setState({ restaurants: response, loading: false });
   }
   render() {
-    console.log(this.state);
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
         <Header

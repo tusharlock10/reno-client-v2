@@ -7,9 +7,6 @@ import Feather from "react-native-vector-icons/Feather";
 import { ScrollView } from "react-native-gesture-handler";
 
 class PastDetails extends Component {
-  componentDidMount() {
-    console.log(this.props);
-  }
   render() {
     const { data } = this.props.navigation.state.params;
     return (

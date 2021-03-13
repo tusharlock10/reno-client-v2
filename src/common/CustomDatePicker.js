@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import { Text, View, Platform, TouchableOpacity } from "react-native";
-import { width, height } from "../constants";
-import { Calendar } from "react-native-calendars";
-import Ripple from "react-native-material-ripple";
+import React, {Component} from 'react';
+import {Text, View, Platform, TouchableOpacity} from 'react-native';
+import {width, height} from '../constants';
+import {Calendar} from 'react-native-calendars';
+import Ripple from 'react-native-material-ripple';
 
-nextDate = daysToAdd => {
+nextDate = (daysToAdd) => {
   var someDate = new Date();
   someDate.setDate(someDate.getDate() + daysToAdd);
   return someDate;
@@ -19,16 +19,16 @@ var lastYear = nextDate(6).getFullYear();
 var lastMonth = nextDate(6).getMonth() + 1;
 
 if (dateToday < 10) {
-  dateToday = "0" + dateToday;
+  dateToday = '0' + dateToday;
 }
 if (currentMonth < 10) {
-  currentMonth = "0" + currentMonth;
+  currentMonth = '0' + currentMonth;
 }
 if (lastDate < 10) {
-  lastDate = "0" + lastDate;
+  lastDate = '0' + lastDate;
 }
 if (currentMonth < 10) {
-  currentMonth = "0" + currentMonth;
+  currentMonth = '0' + currentMonth;
 }
 
 class CustomDatePicker extends Component {
@@ -39,7 +39,7 @@ class CustomDatePicker extends Component {
     this.timeStamp = new Date().getTime();
     this.state = {
       selectedDate: this.today,
-      timeStamp: this.timeStamp
+      timeStamp: this.timeStamp,
     };
   }
 
@@ -47,29 +47,27 @@ class CustomDatePicker extends Component {
     return (
       <View
         style={{
-          position: "absolute",
-          alignSelf: "center",
+          position: 'absolute',
+          alignSelf: 'center',
           top: height / 3.5,
-          shadowColor: "#00000029",
-          shadowOffset: { height: 5, width: 5 },
+          shadowColor: '#00000029',
+          shadowOffset: {height: 5, width: 5},
           shadowOpacity: 1,
           elevation: 7,
-          shadowRadius: 10
-        }}
-      >
+          shadowRadius: 10,
+        }}>
         <Calendar
-          style={{ width: width * 0.9 }}
+          style={{width: width * 0.9}}
           markedDates={{
             [this.state.selectedDate]: {
               selected: true,
-              selectedColor: "#d20000"
-            }
+              selectedColor: '#d20000',
+            },
           }}
-          onDayPress={day => {
-            console.log(day);
+          onDayPress={(day) => {
             this.setState({
               selectedDate: day.dateString,
-              timeStamp: day.timestamp
+              timeStamp: day.timestamp,
             });
           }}
           minDate={this.today}
@@ -81,43 +79,38 @@ class CustomDatePicker extends Component {
           style={{
             height: 70,
             width: width * 0.9,
-            backgroundColor: "#fff",
-            alignItems: "center",
-            flexDirection: "row",
-            justifyContent: "flex-end",
+            backgroundColor: '#fff',
+            alignItems: 'center',
+            flexDirection: 'row',
+            justifyContent: 'flex-end',
             borderBottomLeftRadius: 7,
-            borderBottomRightRadius: 7
-          }}
-        >
+            borderBottomRightRadius: 7,
+          }}>
           <TouchableOpacity
-            style={{ marginRight: 10 }}
+            style={{marginRight: 10}}
             onPress={() =>
               this.props.callbackFromCalendar(this.state.timeStamp)
-            }
-          >
+            }>
             <Text
               style={{
-                fontFamily: "Poppins-Regular",
+                fontFamily: 'Poppins-Regular',
                 fontSize: 15,
-                color: "#d20000",
-                margin: 7
-              }}
-            >
+                color: '#d20000',
+                margin: 7,
+              }}>
               OK
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={{ marginRight: 10 }}
-            onPress={() => this.props.callbackFromCalendar(null)}
-          >
+            style={{marginRight: 10}}
+            onPress={() => this.props.callbackFromCalendar(null)}>
             <Text
               style={{
-                fontFamily: "Poppins-Regular",
+                fontFamily: 'Poppins-Regular',
                 fontSize: 15,
-                color: "#d20000",
-                margin: 7
-              }}
-            >
+                color: '#d20000',
+                margin: 7,
+              }}>
               CANCEL
             </Text>
           </TouchableOpacity>
@@ -128,73 +121,73 @@ class CustomDatePicker extends Component {
 }
 
 const calendarTheme = {
-  calendarBackground: "#fff",
-  monthTextColor: "#000",
-  arrowColor: "#000",
-  "stylesheet.calendar.header": {
+  calendarBackground: '#fff',
+  monthTextColor: '#000',
+  arrowColor: '#000',
+  'stylesheet.calendar.header': {
     header: {
-      backgroundColor: "#FFE59F",
-      flexDirection: "row",
-      justifyContent: "space-between",
+      backgroundColor: '#FFE59F',
+      flexDirection: 'row',
+      justifyContent: 'space-between',
       height: 55,
-      alignItems: "center",
+      alignItems: 'center',
       borderTopLeftRadius: 7,
-      borderTopRightRadius: 7
+      borderTopRightRadius: 7,
     },
     monthText: {
-      fontFamily: "Poppins-Regular",
+      fontFamily: 'Poppins-Regular',
       fontSize: 15,
       margin: 10,
-      textTransform: "uppercase"
+      textTransform: 'uppercase',
     },
     week: {
       marginTop: 7,
       marginBottom: 7,
-      flexDirection: "row",
-      justifyContent: "space-around"
+      flexDirection: 'row',
+      justifyContent: 'space-around',
     },
     dayHeader: {
-      color: "#d20000",
-      fontFamily: "Poppins-Regular",
-      fontSize: 14
-    }
+      color: '#d20000',
+      fontFamily: 'Poppins-Regular',
+      fontSize: 14,
+    },
   },
-  "stylesheet.calendar.main": {
+  'stylesheet.calendar.main': {
     container: {
       paddingLeft: 0,
       paddingRight: 0,
       borderRadius: 7,
-      backgroundColor: "#fff"
+      backgroundColor: '#fff',
     },
     week: {
       marginTop: 4,
       marginBottom: 4,
-      flexDirection: "row",
-      justifyContent: "space-around"
-    }
+      flexDirection: 'row',
+      justifyContent: 'space-around',
+    },
   },
-  "stylesheet.day.basic": {
+  'stylesheet.day.basic': {
     text: {
-      fontFamily: "Poppins-Regular",
-      marginTop: Platform.OS === "android" ? 4 : 6,
-      fontSize: 14
+      fontFamily: 'Poppins-Regular',
+      marginTop: Platform.OS === 'android' ? 4 : 6,
+      fontSize: 14,
     },
     todayText: {
-      color: "#299e49"
+      color: '#299e49',
     },
     disabledText: {
-      color: "#D2D2D2"
+      color: '#D2D2D2',
     },
     selected: {
-      backgroundColor: "#d20000",
+      backgroundColor: '#d20000',
       borderRadius: 16,
-      shadowColor: "#00000029",
-      shadowOffset: { height: 3, width: 3 },
+      shadowColor: '#00000029',
+      shadowOffset: {height: 3, width: 3},
       shadowOpacity: 1,
       shadowRadius: 7,
       elevation: 7,
-      marginBottom: 7
-    }
-  }
+      marginBottom: 7,
+    },
+  },
 };
 export default CustomDatePicker;

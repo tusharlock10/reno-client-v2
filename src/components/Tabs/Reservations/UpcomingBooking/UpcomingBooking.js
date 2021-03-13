@@ -8,9 +8,6 @@ import { height, width } from "../../../../constants";
 import Feather from "react-native-vector-icons/Feather";
 
 class UpcomingBooking extends Component {
-  componentDidMount() {
-    console.log(this.props);
-  }
   render() {
     if (!_.isEmpty(this.props.data)) {
       return (

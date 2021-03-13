@@ -23,7 +23,6 @@ class Footer extends Component {
       >
         <Ripple
           onPress={async () => {
-            console.log(this.props);
             var res = await axios.post("/confirmBooking", {
               people: this.props.people,
               mobile: this.props.mobile,
@@ -33,7 +32,6 @@ class Footer extends Component {
               date: this.props.date,
               otp: this.props.otp
             });
-            console.log(res);
             if (res.data.confirmed) {
               this.props.navigation.navigate("BookingConfirmation", {
                 data: res

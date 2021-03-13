@@ -1,17 +1,17 @@
-import { NEARBY_FETCH_ERROR, NEARBY_FETCH } from "./types";
+import {NEARBY_FETCH_ERROR, NEARBY_FETCH} from './types';
 
-import axios from "../api";
+import axios from '../api';
 
-export const getNearbyRestaurants = (longitude, latitude) => async dispatch => {
+export const getNearbyRestaurants = (longitude, latitude) => async (
+  dispatch,
+) => {
   try {
-    const response = await axios.post("/nearby", {
+    const response = await axios.post('/nearby', {
       longitude,
-      latitude
+      latitude,
     });
-    console.log(response);
-    dispatch({ type: NEARBY_FETCH, payload: {response,longitude,latitude} });
+    dispatch({type: NEARBY_FETCH, payload: {response, longitude, latitude}});
   } catch (error) {
-    console.log(error);
     errorHandler(error, NEARBY_FETCH_ERROR, dispatch);
   }
 };
@@ -19,10 +19,9 @@ export const getNearbyRestaurants = (longitude, latitude) => async dispatch => {
 function errorHandler(err, type, dispatch) {
   const errors = err.response.data.errors;
   if (errors) {
-    errors.forEach(error => {
-      //   dispatch(setAlert(error.msg, "danger"));
-      console.log(error);
+    errors.forEach((error) => {
+      console.error(error);
     });
-    dispatch({ type });
+    dispatch({type});
   }
 }

@@ -173,7 +173,6 @@ class QRSearchScreen extends Component {
   }
 }
 mapStateToProps = state => {
-  console.log(state);
   return { search: state.search };
 };
 export default connect(mapStateToProps, { indexSearchRestaurants })(

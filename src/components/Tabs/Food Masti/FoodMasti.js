@@ -7,9 +7,6 @@ import Ripple from "react-native-material-ripple";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { ScrollView } from "react-native-gesture-handler";
 class BookingConfirmation extends Component {
-  componentDidMount() {
-    console.log(this.props.navigation);
-  }
   render() {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
