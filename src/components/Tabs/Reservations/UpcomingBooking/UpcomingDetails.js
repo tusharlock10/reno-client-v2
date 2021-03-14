@@ -6,19 +6,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 import Ripple from "react-native-material-ripple";
 import Feather from "react-native-vector-icons/Feather";
 import { ScrollView } from "react-native-gesture-handler";
-const data = {
-  date: "Thu, 22 Nov 2019",
-  time: "08:15 PM",
-  timeSlot: "08:15-09:15 PM",
-  imageurl:
-    "https://images.pexels.com/photos/6267/menu-restaurant-vintage-table.jpg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-  name: "Patang Rooftop Restaurant",
-  state: "New Delhi, India",
-  discount: 50,
-  userName: "Naman Singh",
-  phone: "9090909099",
-  people: 5
-};
+
 class UpcomingDetails extends Component {
   render() {
     return (

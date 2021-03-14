@@ -85,13 +85,13 @@ class ChangeCity extends Component {
                 <FlatList
                   style={{marginTop: 30}}
                   data={this.state.cityData}
-                  keyExtractor={(item, index) => index.toString()}
-                  renderItem={({item, index}) => {
+                  keyExtractor={(_, index) => index.toString()}
+                  renderItem={({item}) => {
                     return (
                       <Ripple
                         onPress={async () => {
                           await AsyncStorage.setItem('city', item.city);
-                          this.props.navigation.navigate('Tabs');
+                          this.props.navigation.replace('Tabs');
                         }}
                         style={{
                           borderRadius: 13,

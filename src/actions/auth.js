@@ -1,7 +1,6 @@
 import {
   USER_LOADED,
   AUTH_SUCCESS,
-  AUTH_FAIL,
   AUTH_ERROR,
   AWAIT_AUTH,
   AUTH_CANCELED,
@@ -10,8 +9,6 @@ import {
 } from './types';
 import axios from '../api';
 import setAuthToken from '../utils/setAuthToken';
-import AsyncStorage from '@react-native-community/async-storage';
-import NavigationService from '../utils/navigationService';
 
 //await auth
 export const awaitAuth = (authState) => async (dispatch) => {
@@ -19,14 +16,11 @@ export const awaitAuth = (authState) => async (dispatch) => {
 };
 
 //get user data
-export const loadUser = () => async (dispatch) => {
-  const token = await AsyncStorage.getItem('jwtToken');
-  if (token) {
-    setAuthToken(token);
-  }
+export const loadUser = (onSuccess) => async (dispatch) => {
   try {
     const response = await axios.get('/user-profile');
     dispatch({type: USER_LOADED, payload: response.data});
+    onSuccess()
   } catch (err) {
     console.error(err);
     dispatch({type: AUTH_ERROR});
@@ -34,7 +28,7 @@ export const loadUser = () => async (dispatch) => {
 };
 
 //user auth
-export const facebookAuth = (data) => async (dispatch) => {
+export const facebookAuth = (data, navigation) => async (dispatch) => {
   const splitUserName = data.name.split(' ');
   const user = {
     facebookID: data.id,
@@ -45,12 +39,14 @@ export const facebookAuth = (data) => async (dispatch) => {
   };
 
   const response = await axios.post('/auth', user);
-  dispatch({type: AUTH_SUCCESS, payload: response.data});
-  dispatch(loadUser());
-  NavigationService.navigate('ChooseLocation');
+  setAuthToken(response.data.token)
+  dispatch(loadUser(()=>{
+    dispatch({type: AUTH_SUCCESS, payload: response.data});
+    navigation.replace('ChooseLocation');
+  }));
 };
 
-export const googleAuth = (data) => async (dispatch) => {
+export const googleAuth = (data, navigation) => async (dispatch) => {
   const user = {
     facebookID: data.user.id,
     email: data.user.email,
@@ -60,9 +56,11 @@ export const googleAuth = (data) => async (dispatch) => {
   };
 
   const response = await axios.post('/auth', user);
-  dispatch({type: AUTH_SUCCESS, payload: response.data});
-  dispatch(loadUser());
-  NavigationService.navigate('ChooseLocation');
+  setAuthToken(response.data.token)
+  dispatch(loadUser(()=>{
+    dispatch({type: AUTH_SUCCESS, payload: response.data});
+    navigation.replace('ChooseLocation');
+  }));
 };
 
 //logout user
@@ -91,7 +89,6 @@ function errorHandler(err, type, dispatch) {
   const errors = err.response.data.errors;
   if (errors) {
     errors.forEach((error) => {
-      //   dispatch(setAlert(error.msg, "danger"));
       console.error(error);
     });
     dispatch({type});

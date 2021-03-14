@@ -1,33 +1,26 @@
-import React, { Component } from "react";
-import {
-  Text,
-  View,
-  SafeAreaView,
-  Image,
-  TouchableOpacity
-} from "react-native";
-import { width } from "../constants";
-import Ripple from "react-native-material-ripple";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import React, {Component} from 'react';
+import {Text, View, SafeAreaView, Image, TouchableOpacity} from 'react-native';
+import {connect} from 'react-redux';
+import {width} from '../constants';
+import Ripple from 'react-native-material-ripple';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 class DrawerItems extends Component {
   render() {
     return (
       <Ripple
-        style={{ height: 55, width, justifyContent: "center" }}
+        style={{height: 55, width, justifyContent: 'center'}}
         onPress={() => {
           this.props.navigation.closeDrawer();
           this.props.navigation.navigate(this.props.screen);
-        }}
-      >
+        }}>
         <Text
           style={{
-            fontFamily: "Poppins-Regular",
-            color: "#000",
-            marginLeft: "10%",
-            fontSize: 17
-          }}
-        >
+            fontFamily: 'Poppins-Regular',
+            color: '#000',
+            marginLeft: '10%',
+            fontSize: 17,
+          }}>
           {this.props.name}
         </Text>
       </Ripple>
@@ -39,38 +32,33 @@ class RightDrawer extends Component {
   render() {
     return (
       <React.Fragment>
-        <SafeAreaView style={{ flex: 0, backgroundColor: "#d20000" }} />
-        <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
+        <SafeAreaView style={{flex: 0, backgroundColor: '#d20000'}} />
+        <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
           <View
             style={{
-              width: "100%",
+              width: '100%',
               height: 88,
-              backgroundColor: "#d20000",
-              flexDirection: "row",
-              alignItems: "center"
-            }}
-          >
+              backgroundColor: '#d20000',
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}>
             <View
               style={{
                 borderRadius: 45 / 2,
-                shadowColor: "#000",
+                shadowColor: '#000',
                 shadowRadius: 2,
                 shadowOpacity: 0.4,
                 marginLeft: 24,
-                shadowOffset: { height: 1, width: 1 }
-              }}
-            >
+                shadowOffset: {height: 1, width: 1},
+              }}>
               <Image
-                source={{
-                  uri:
-                    "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-                }}
+                source={{uri: this.props.auth.user.profileImage}}
                 borderRadius={45 / 2}
                 style={{
                   height: 45,
                   width: 45,
                   borderWidth: 2,
-                  borderColor: "#fff"
+                  borderColor: '#fff',
                 }}
                 resizeMode="cover"
               />
@@ -78,15 +66,14 @@ class RightDrawer extends Component {
             <Text
               style={{
                 marginLeft: 20,
-                fontFamily: "Poppins-Medium",
-                color: "#fff",
-                fontSize: 24
-              }}
-            >
-              Neha Yadav
+                fontFamily: 'Poppins-Medium',
+                color: '#fff',
+                fontSize: 24,
+              }}>
+              {`${this.props.auth.user.firstname} ${this.props.auth.user.lastname}`}
             </Text>
           </View>
-          <View style={{ marginTop: 40 }}>
+          <View style={{marginTop: 40}}>
             <DrawerItems
               name="My Account"
               navigation={this.props.navigation}
@@ -114,33 +101,31 @@ class RightDrawer extends Component {
             />
           </View>
           <Image
-            source={require("../../assets/PassMain.png")}
-            style={{ width: "100%", height: 200,marginTop:60 }}
+            source={require('../../assets/PassMain.png')}
+            style={{width: '100%', height: 200, marginTop: 60}}
             resizeMode="cover"
           />
           <TouchableOpacity
             style={{
               width,
-              flexDirection: "row",
-              position: "absolute",
+              flexDirection: 'row',
+              position: 'absolute',
               bottom: 20,
               marginBottom: 10,
-              left: 20
-            }}
-          >
+              left: 20,
+            }}>
             <MaterialCommunityIcons
               name="logout"
               size={25}
               color="#000"
-              style={{ marginLeft: 10 }}
+              style={{marginLeft: 10}}
             />
             <Text
               style={{
-                fontFamily: "Poppins-Regular",
+                fontFamily: 'Poppins-Regular',
                 fontSize: 17,
-                color: "#000"
-              }}
-            >
+                color: '#000',
+              }}>
               Logout
             </Text>
           </TouchableOpacity>
@@ -150,4 +135,6 @@ class RightDrawer extends Component {
   }
 }
 
-export default RightDrawer;
+const mapStateToProps = ({auth}) => ({auth});
+
+export default connect(mapStateToProps)(RightDrawer);

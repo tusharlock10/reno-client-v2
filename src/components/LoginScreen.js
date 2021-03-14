@@ -39,7 +39,7 @@ class LoginScreen extends Component {
       const userInfo = await GoogleSignin.signIn();
       this.setState({isVisible: false});
 
-      this.props.googleAuth(userInfo);
+      this.props.googleAuth(userInfo, this.props.navigation);
     } catch (error) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         // user cancelled the login flow
@@ -81,7 +81,7 @@ class LoginScreen extends Component {
     if (error) {
       console.error(error);
     } else {
-      this.props.facebookAuth(result);
+      this.props.facebookAuth(result, this.props.navigation);
     }
   };
 

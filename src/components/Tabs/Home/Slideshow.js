@@ -42,8 +42,8 @@ class SlideShow extends Component {
           this._carousel = c;
         }}
         data={ONBOARDING}
-        autoplay
-        loop
+        // autoplay
+        // loop
         renderItem={this._renderItem}
         onSnapToItem={index => this.setState({ sliderIndex: index })}
         sliderWidth={width}

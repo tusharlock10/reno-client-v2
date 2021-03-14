@@ -18,7 +18,8 @@ class App extends Component {
           shadowColor: "#000",
           shadowOffset: { height: 4, width: 1 },
           shadowOpacity: 0.2,
-          marginBottom: 20
+          marginBottom: 20,
+          elevation:10,
         }}
       >
         <Image

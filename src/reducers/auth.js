@@ -16,15 +16,11 @@ import {
 import AsyncStorage from "@react-native-community/async-storage";
 
 const INITIAL_STATE = {
-  token: getAsyncToken(),
+  token:null,
   isAuthenticated: null,
   loading: false,
   user: null
 };
-
-async function getAsyncToken() {
-  return await AsyncStorage.getItem("jwtToken");
-}
 
 async function setAsyncToken(token) {
   await AsyncStorage.setItem("jwtToken", token);

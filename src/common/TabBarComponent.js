@@ -27,28 +27,33 @@ class TabBarComponent extends React.Component {
     } = this.state;
     Animated.spring(translateX, {
       toValue: type,
-      duration: 100
+      duration: 100,
+      useNativeDriver:true,
     }).start();
     if (active === 0) {
       Animated.parallel([
         Animated.spring(translateXTabOne, {
           toValue: 0,
-          duration: 100
+          duration: 100,
+          useNativeDriver:true,
         }).start(),
         Animated.spring(translateXTabTwo, {
           toValue: width,
-          duration: 100
+          duration: 100,
+          useNativeDriver:true,
         }).start()
       ]);
     } else {
       Animated.parallel([
         Animated.spring(translateXTabOne, {
           toValue: -width,
-          duration: 100
+          duration: 100,
+          useNativeDriver:true,
         }).start(),
         Animated.spring(translateXTabTwo, {
           toValue: 0,
-          duration: 100
+          duration: 100,
+          useNativeDriver:true,
         }).start()
       ]);
     }

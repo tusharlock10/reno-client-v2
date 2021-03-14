@@ -12,7 +12,7 @@ import Home from '../components/Tabs/Home';
 import FindAndDine from '../components/Tabs/FindAndDine';
 import RenoPay from '../components/Tabs/RenoPay';
 import Reservations from './ReservationNavigator';
-import FoodMasti from '../components/Tabs/Food Masti';
+import FoodMasti from '../components/Tabs/FoodMasti';
 
 const width = Dimensions.get('window').width;
 
