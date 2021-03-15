@@ -20,7 +20,8 @@ class RenderRestaurants extends Component {
           flexDirection: "row",
           shadowColor: "#000",
           shadowOffset: { height: 3, width: 0 },
-          shadowOpacity: 0.2
+          shadowOpacity: 0.2,
+          elevation:4
         }}
       >
         <ImageBackground
@@ -101,7 +102,7 @@ class RenderRestaurants extends Component {
                   paddingLeft: 5
                 }}
               >
-                {this.props.distance / 1000} km
+                {this.props.distance.toFixed(2)} km
               </Text>
             </View>
             <View
@@ -121,7 +122,7 @@ class RenderRestaurants extends Component {
                   paddingLeft: 5
                 }}
               >
-                {(this.props.duration / 60).toString().slice(0, 4)} min
+                {(this.props.duration * 60).toString().slice(0, 4)} min
               </Text>
             </View>
           </View>

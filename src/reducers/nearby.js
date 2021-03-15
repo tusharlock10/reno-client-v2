@@ -14,7 +14,7 @@ export const nearby = (state = INITIAL_STATE, action) => {
     case NEARBY_FETCH:
       return {
         ...state,
-        restaurants: payload.response,
+        restaurants: payload.response.data,
         longitude: payload.longitude,
         latitude:payload.latitude,
         loading: false

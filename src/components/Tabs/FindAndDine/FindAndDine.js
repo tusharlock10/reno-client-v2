@@ -7,7 +7,7 @@ import {
   PermissionsAndroid,
 } from 'react-native';
 import _ from 'lodash';
-import MapView, {Marker, PROVIDER_DEFAULT} from 'react-native-maps';
+import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import AnimatedPriceMarker from './RestaurantMarker';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {connect} from 'react-redux';
@@ -17,10 +17,12 @@ import {ActivityIndicator} from 'react-native-paper';
 import {width} from '../../../constants';
 import Ripple from 'react-native-material-ripple';
 import Geolocation from 'react-native-geolocation-service';
+import AsyncStorage from '@react-native-community/async-storage';
 
 class FindAndDine extends Component {
   state = {
     data: '',
+    maxDistance: 40, // in km
   };
 
   componentDidMount() {
@@ -48,12 +50,11 @@ class FindAndDine extends Component {
       }
     }
 
+    const city = await AsyncStorage.getItem('city');
+
     Geolocation.getCurrentPosition(
       (position) => {
-        this.props.getNearbyRestaurants(
-          position.coords.longitude, // 28.6187961,
-          position.coords.latitude, // 77.21920639999999,
-        );
+        this.props.getNearbyRestaurants({...position.coords, city});
       },
       (error) => console.error(error),
       {enableHighAccuracy: false, timeout: 20000, maximumAge: 1000},
@@ -61,7 +62,6 @@ class FindAndDine extends Component {
   }
 
   render() {
-    console.log('PROPS IN NEARBY : ', this.props);
     if (this.props.nearby.restaurants) {
       return (
         <View style={{flex: 1}}>
@@ -75,7 +75,7 @@ class FindAndDine extends Component {
               latitudeDelta: 0.5,
               longitudeDelta: 0.4,
             }}
-            provider={PROVIDER_DEFAULT}
+            provider={PROVIDER_GOOGLE}
             mapType="standard"
             style={{flex: 1}}>
             <Marker
@@ -84,9 +84,12 @@ class FindAndDine extends Component {
                 longitude: this.props.nearby.longitude,
               }}
               title={'Your Location'}
-            />
+            />  
             {this.props.nearby.restaurants != null ? (
-              this.props.nearby.restaurants.data.map((marker) => {
+              this.props.nearby.restaurants.map((marker) => {
+                if (marker.distance > this.state.maxDistance) {
+                  return null;
+                }
                 if (!_.isEmpty(marker.timeDiscounts)) {
                   return (
                     <Marker
