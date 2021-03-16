@@ -45,18 +45,22 @@ class TabBarComponent extends Component {
         Animated.spring(translateXTabOne, {
           toValue: 0,
           duration: 100,
+          useNativeDriver: true,
         }).start(),
         Animated.spring(translateXTabTwo, {
           toValue: width,
           duration: 100,
+          useNativeDriver: true,
         }).start(),
         Animated.spring(translateXTabThree, {
           toValue: width,
           duration: 100,
+          useNativeDriver: true,
         }).start(),
         Animated.spring(translateXTabFour, {
           toValue: width,
           duration: 100,
+          useNativeDriver: true,
         }).start(),
       ]);
     } else if (active == 1) {
@@ -64,18 +68,22 @@ class TabBarComponent extends Component {
         Animated.spring(translateXTabOne, {
           toValue: -width,
           duration: 100,
+          useNativeDriver: true,
         }).start(),
         Animated.spring(translateXTabTwo, {
           toValue: 0,
           duration: 100,
+          useNativeDriver: true,
         }).start(),
         Animated.spring(translateXTabThree, {
           toValue: width,
           duration: 100,
+          useNativeDriver: true,
         }).start(),
         Animated.spring(translateXTabFour, {
           toValue: width,
           duration: 100,
+          useNativeDriver: true,
         }).start(),
       ]);
     } else if (active == 2) {
@@ -84,18 +92,22 @@ class TabBarComponent extends Component {
           Animated.spring(translateXTabOne, {
             toValue: -width,
             duration: 100,
+            useNativeDriver: true,
           }).start(),
           Animated.spring(translateXTabTwo, {
             toValue: -width,
             duration: 100,
+            useNativeDriver: true,
           }).start(),
           Animated.spring(translateXTabThree, {
             toValue: 0,
             duration: 100,
+            useNativeDriver: true,
           }).start(),
           Animated.spring(translateXTabFour, {
             toValue: width,
             duration: 100,
+            useNativeDriver: true,
           }).start(),
         ]);
       }

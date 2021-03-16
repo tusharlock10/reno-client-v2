@@ -20,7 +20,7 @@ export const loadUser = (onSuccess) => async (dispatch) => {
   try {
     const response = await axios.get('/user-profile');
     dispatch({type: USER_LOADED, payload: response.data});
-    onSuccess()
+    onSuccess();
   } catch (err) {
     console.error(err);
     dispatch({type: AUTH_ERROR});
@@ -39,11 +39,13 @@ export const facebookAuth = (data, navigation) => async (dispatch) => {
   };
 
   const response = await axios.post('/auth', user);
-  setAuthToken(response.data.token)
-  dispatch(loadUser(()=>{
-    dispatch({type: AUTH_SUCCESS, payload: response.data});
-    navigation.replace('ChooseLocation');
-  }));
+  setAuthToken(response.data.token);
+  dispatch(
+    loadUser(() => {
+      dispatch({type: AUTH_SUCCESS, payload: response.data});
+      navigation.replace('ChooseLocation');
+    }),
+  );
 };
 
 export const googleAuth = (data, navigation) => async (dispatch) => {
@@ -56,11 +58,13 @@ export const googleAuth = (data, navigation) => async (dispatch) => {
   };
 
   const response = await axios.post('/auth', user);
-  setAuthToken(response.data.token)
-  dispatch(loadUser(()=>{
-    dispatch({type: AUTH_SUCCESS, payload: response.data});
-    navigation.replace('ChooseLocation');
-  }));
+  setAuthToken(response.data.token);
+  dispatch(
+    loadUser(() => {
+      dispatch({type: AUTH_SUCCESS, payload: response.data});
+      navigation.replace('ChooseLocation');
+    }),
+  );
 };
 
 //logout user

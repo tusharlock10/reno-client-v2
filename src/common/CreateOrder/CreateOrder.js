@@ -264,6 +264,8 @@ class CreateOrder extends Component {
               }}
             />
             <PersonalDetails
+              name={this.state.name}
+              number={this.state.number}
               callbackAsName={(name) => this.setState({name})}
               callbackAsNumber={(number) => this.setState({number})}
             />

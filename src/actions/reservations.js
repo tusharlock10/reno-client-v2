@@ -7,7 +7,6 @@ export const getMyReservations = () => async dispatch => {
     const response = await axios.get("/orders");
     dispatch({ type: RESERVATIONS_FETCH, payload: response });
   } catch (error) {
-    console.error(error);
     errorHandler(error, RESERVATIONS_FETCH_ERROR, dispatch);
   }
 };

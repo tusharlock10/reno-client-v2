@@ -26,8 +26,8 @@ class NameInput extends Component {
           }}
         >
           <TextInput
-            editable={false}
             selectionColor="#000"
+            placeholder="Enter name"
             style={{
               fontSize: 16,
               height: 40,
@@ -104,6 +104,7 @@ class NumberInput extends Component {
               selectionColor="#d20000"
               maxLength={10}
               keyboardType="phone-pad"
+              placeholder="Phone number"
               style={{
                 textAlignVertical: "center",
                 fontSize: 16,
@@ -123,15 +124,6 @@ class NumberInput extends Component {
 }
 
 class PersonalDetails extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      name: "Naman Singh",
-      number: "7217836748"
-    };
-    this.props.callbackAsNumber(this.state.number);
-  }
 
   render() {
     return (
@@ -155,14 +147,14 @@ class PersonalDetails extends Component {
           }}
         >
           <NameInput
-            value={this.state.name}
+            value={this.props.name}
             onChangeText={name => {
               this.setState({ name });
               this.props.callbackAsName(name);
             }}
           />
           <NumberInput
-            value={this.state.number}
+            value={this.props.number}
             onChangeText={number => {
               this.setState({ number });
               this.props.callbackAsNumber(number);

@@ -80,21 +80,21 @@ const TabBarContainer = createBottomTabNavigator(
         ),
       },
     },
-    FoodScreen: {
-      screen: FoodMasti,
-      navigationOptions: {
-        title: 'Nukkad!',
-        gesturesEnabled: false,
-        tabBarIcon: ({tintColor}) => (
-          <MaterialCommunityIcons
-            name="food"
-            color={tintColor}
-            size={32}
-            style={{marginTop: 10}}
-          />
-        ),
-      },
-    },
+    // FoodScreen: {
+    //   screen: FoodMasti,
+    //   navigationOptions: {
+    //     title: 'Nukkad!',
+    //     gesturesEnabled: false,
+    //     tabBarIcon: ({tintColor}) => (
+    //       <MaterialCommunityIcons
+    //         name="food"
+    //         color={tintColor}
+    //         size={32}
+    //         style={{marginTop: 10}}
+    //       />
+    //     ),
+    //   },
+    // },
   },
   {
     initialRouteName: 'Home',

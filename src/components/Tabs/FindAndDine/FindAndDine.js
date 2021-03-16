@@ -22,7 +22,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 class FindAndDine extends Component {
   state = {
     data: '',
-    maxDistance: 40, // in km
+    maxDistance: 1000, // in km
   };
 
   componentDidMount() {
@@ -35,11 +35,10 @@ class FindAndDine extends Component {
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
       );
       if (!hasPermission) {
-        console.log({hasPermission});
         const reqPermission = await PermissionsAndroid.request(
           PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
         );
-        if (reqPermission !== PermissionsAndroid.RESULTS.granted) {
+        if (reqPermission !== PermissionsAndroid.RESULTS.GRANTED) {
           return null;
         }
       }
@@ -84,7 +83,7 @@ class FindAndDine extends Component {
                 longitude: this.props.nearby.longitude,
               }}
               title={'Your Location'}
-            />  
+            />
             {this.props.nearby.restaurants != null ? (
               this.props.nearby.restaurants.map((marker) => {
                 if (marker.distance > this.state.maxDistance) {
@@ -144,41 +143,21 @@ class FindAndDine extends Component {
           ) : (
             <View />
           )}
-          <View
-            style={{
-              width: width * 0.5,
-              alignSelf: 'center',
-              height: 40,
-              backgroundColor: 'transparent',
-              position: 'absolute',
-              shadowColor: '#000',
-              shadowOffset: {height: 1, width: 1},
-              shadowOpacity: 0.3,
-              shadowRadius: 7,
-              top: 44,
-            }}>
-            <Ripple
-              style={[styles.bubble, styles.button]}
-              onPress={() => this.getCurrentPosition()}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  flex: 1,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <Entypo name="location-pin" color="#d20000" size={20} />
-                <Text
-                  style={{
-                    color: '#d20000',
-                    fontFamily: 'Poppins-SemiBold',
-                    marginLeft: 5,
-                  }}>
-                  Refresh my location
-                </Text>
-              </View>
-            </Ripple>
-          </View>
+
+          <Ripple
+            style={[styles.bubble, styles.button]}
+            onPress={() => this.getCurrentPosition()}>
+            <Entypo name="location-pin" color="#d20000" size={16} />
+            <Text
+              style={{
+                color: '#d20000',
+                fontFamily: 'Poppins',
+                marginLeft: 5,
+                fontSize: 14,
+              }}>
+              Refresh Location
+            </Text>
+          </Ripple>
         </View>
       );
     } else {
@@ -194,12 +173,19 @@ class FindAndDine extends Component {
 const styles = StyleSheet.create({
   bubble: {
     flex: 1,
-    backgroundColor: 'rgba(255, 255, 255,0.8)',
+    backgroundColor: 'white',
     borderRadius: 20,
+    elevation: 4,
   },
   button: {
     justifyContent: 'center',
     alignItems: 'center',
+    flexDirection: 'row',
+    position: 'absolute',
+    top: 15,
+    left: 15,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
   },
 });
 

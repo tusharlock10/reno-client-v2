@@ -14,9 +14,12 @@ class UpcomingBooking extends Component {
         <FlatList
           ListFooterComponent={<View style={{ marginBottom: 100 }} />}
           showsVerticalScrollIndicator={false}
-          keyExtractor={(item, index) => index.toString()}
           data={this.props.data}
-          renderItem={({ item, index }) => {
+          keyExtractor={(_,index) => index.toString()}
+          renderItem={({ item}) => {
+            if (!item.restaurants){
+              return null
+            }
             return (
               <TouchableOpacity
                 onPress={() =>

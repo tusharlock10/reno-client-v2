@@ -10,8 +10,11 @@ class PastBooking extends Component {
           showsVerticalScrollIndicator={false}
           ListFooterComponent={<View style={{marginBottom: 100}} />}
           data={this.props.data}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={({item, index}) => {
+          keyExtractor={(_, index) => index.toString()}
+          renderItem={({item}) => {
+            if (!item.restaurants){
+              return null
+            }
             return (
               <Ripple
                 style={{

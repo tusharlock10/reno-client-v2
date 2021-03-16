@@ -3,6 +3,19 @@ import { Text, View } from "react-native";
 import { width } from "../../constants";
 import Ripple from "react-native-material-ripple";
 class Footer extends Component {
+  canConfirmBooking(){
+    // function to determine if the user can confirm booking or not
+    if (!this.props.phoneno.match(/\d/g) || this.props.phoneno.match(/\d/g).length!==10){
+      // if his number smaller then 10 digits then invalid
+      return false
+    }
+    if (this.props.name.trim().length<2){
+      // if his name is smaller than 2 letters, then invalid
+      return false
+    }
+    return this.props.active
+  }
+
   render() {
     return (
       <View
@@ -22,7 +35,7 @@ class Footer extends Component {
       >
         <Ripple
           onPress={() => {
-            if (this.props.active) {
+            if (this.canConfirmBooking()) {
               this.props.navigation.navigate("OTPScreen", { ...this.props });
             } else {
               this.props.callbackFromParent(true);
@@ -31,7 +44,7 @@ class Footer extends Component {
           style={{
             width: "90%",
             height: 55,
-            backgroundColor: this.props.active ? "#d20000" : "#00000059",
+            backgroundColor: this.canConfirmBooking() ? "#d20000" : "#00000059",
             borderRadius: 5,
             justifyContent: "center",
             alignItems: "center"
