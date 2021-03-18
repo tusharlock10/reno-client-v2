@@ -38,7 +38,7 @@ class TypeScreen extends Component {
             showsVerticalScrollIndicator={false}
             ListHeaderComponent={<View></View>}
             keyExtractor={item => item.id}
-            data={this.state.restaurants.data}
+            data={this.state.restaurants}
             renderItem={({ item, index }) => {
               return (
                 <RenderRestaurants

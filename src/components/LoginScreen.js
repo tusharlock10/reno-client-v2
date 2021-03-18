@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import {Text, View, ImageBackground, Image, Dimensions} from 'react-native';
+import {Text, View, Dimensions} from 'react-native';
+import Image from 'react-native-fast-image';
 import {ActivityIndicator} from 'react-native-paper';
 import LinearGradient from 'react-native-linear-gradient';
 import Ripple from 'react-native-material-ripple';
@@ -88,7 +89,7 @@ class LoginScreen extends Component {
   render() {
     return (
       <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <ImageBackground
+        <Image
           source={require('../../assets/login_main.png')}
           style={{height: height, width: width}}>
           <LinearGradient
@@ -187,7 +188,7 @@ class LoginScreen extends Component {
               </Text>
             </Ripple>
           </LinearGradient>
-        </ImageBackground>
+        </Image>
         <Modal
           animationIn="fadeIn"
           animationOut="fadeOut"

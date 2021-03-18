@@ -2,11 +2,8 @@ import React, {Component} from 'react';
 import {
   Text,
   View,
-  ImageBackground,
   Linking,
-  ListView,
   SafeAreaView,
-  Image,
   TouchableOpacity,
   StyleSheet,
 } from 'react-native';
@@ -24,6 +21,8 @@ import {connect} from 'react-redux';
 import {indexCreateOrder} from '../../actions/createorder';
 import TermsAndConditions from './TermsAndConditions';
 import {ActivityIndicator, Snackbar} from 'react-native-paper';
+import Image from 'react-native-fast-image';
+
 const setDay = function getDay(date) {
   if (date == 0) {
     day = 'sunday';
@@ -92,7 +91,7 @@ class CreateOrder extends Component {
           <ScrollView
             showsVerticalScrollIndicator={false}
             keyboardShouldPersistTaps="handled">
-            <ImageBackground
+            <Image
               source={{uri: this.props.navigation.state.params.imageUri}}
               style={{
                 height: height * 0.3,
@@ -129,7 +128,7 @@ class CreateOrder extends Component {
                   style={{marginLeft: 5}}
                 />
               </View>
-            </ImageBackground>
+            </Image>
 
             <View
               style={{
@@ -235,7 +234,7 @@ class CreateOrder extends Component {
                 data={
                   this.state.timeStamp != null &&
                   this.props.createorder.orderData
-                    ? this.props.createorder.orderData.data.timeDiscounts
+                    ? this.props.createorder.orderData.timeDiscounts
                     : this.props.navigation.state.params.timeDiscounts
                 }
                 renderItem={({item, index}) => {

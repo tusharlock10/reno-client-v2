@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import {Text, View, SafeAreaView, Image, TouchableOpacity} from 'react-native';
+import {Text, View, SafeAreaView, TouchableOpacity} from 'react-native';
+import Image from 'react-native-fast-image';
 import {connect} from 'react-redux';
 import {width} from '../constants';
 import Ripple from 'react-native-material-ripple';

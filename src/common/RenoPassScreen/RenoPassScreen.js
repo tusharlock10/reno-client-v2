@@ -3,11 +3,11 @@ import {
   Text,
   View,
   SafeAreaView,
-  ImageBackground,
   StatusBar,
   FlatList,
   ScrollView
 } from "react-native";
+import Image from 'react-native-fast-image'
 import Ripple from "react-native-material-ripple";
 import { width, height } from "../../constants";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -45,7 +45,7 @@ class RenoPassScreen extends Component {
         <View style={{ flex: 1, backgroundColor: "#000" }}>
           <StatusBar backgroundColor="#000" barStyle="light-content" animated />
           <ScrollView showsVerticalScrollIndicator={false}>
-            <ImageBackground
+            <Image
               source={require("../../../assets/PassMain.png")}
               style={{ width, height: height * 0.3, marginBottom: 20 }}
               resizeMode="cover"

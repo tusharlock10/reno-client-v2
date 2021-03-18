@@ -12,7 +12,7 @@ export const indexRestaurants = () => async (dispatch) => {
   try {
     dispatch({type: IS_INDEXING_RESTAURANT});
     const response = await axios.get('/restaurant');
-    dispatch({type: INDEX_RESTAURANT, payload: response});
+    dispatch({type: INDEX_RESTAURANT, payload: response.data});
   } catch (error) {
     errorHandler(error, RESTAURANT_FETCH_ERROR, dispatch);
   }
@@ -22,7 +22,7 @@ export const brandTiles = () => async (dispatch) => {
   try {
     dispatch({type: IS_INDEXING_BRAND_TILES});
     const response = await axios.get('/brandTiles');
-    dispatch({type: INDEX_BRAND_TILES, payload: response});
+    dispatch({type: INDEX_BRAND_TILES, payload: response.data});
   } catch (error) {
     errorHandler(error, BRAND_TILE_FETCH_ERROR, dispatch);
   }

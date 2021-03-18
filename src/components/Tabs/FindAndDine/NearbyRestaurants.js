@@ -1,10 +1,11 @@
-import React, { Component } from "react";
-import { Text, View, FlatList, ImageBackground, Image } from "react-native";
-import { Svg, Polygon } from "react-native-svg";
-import Ripple from "react-native-material-ripple";
-import { height, width } from "../../../constants";
-import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
-import Ionicons from "react-native-vector-icons/Ionicons";
+import React, {Component} from 'react';
+import {Text, View} from 'react-native';
+import Image from 'react-native-fast-image';
+import {Svg, Polygon} from 'react-native-svg';
+import Ripple from 'react-native-material-ripple';
+import {height, width} from '../../../constants';
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 class RenderRestaurants extends Component {
   render() {
     return (
@@ -15,147 +16,134 @@ class RenderRestaurants extends Component {
           height: 100,
           marginBottom: 20,
           borderRadius: 8,
-          backgroundColor: "#fff",
+          backgroundColor: '#fff',
           height: 150,
-          flexDirection: "row",
-          shadowColor: "#000",
-          shadowOffset: { height: 3, width: 0 },
+          flexDirection: 'row',
+          shadowColor: '#000',
+          shadowOffset: {height: 3, width: 0},
           shadowOpacity: 0.2,
-          elevation:4
-        }}
-      >
-        <ImageBackground
-          source={{ uri: this.props.image }}
+          elevation: 4,
+        }}>
+        <Image
+          source={{uri: this.props.data.imageurl}}
           style={{
             height: 150,
             width: 150,
-            overflow: "hidden",
+            overflow: 'hidden',
             borderTopLeftRadius: 8,
-            borderBottomLeftRadius: 8
+            borderBottomLeftRadius: 8,
           }}
-          resizeMode="cover"
-        >
+          resizeMode="cover">
           <View
             style={{
               width: 35,
               height: 38,
               marginRight: 20,
-              backgroundColor: "#fff",
+              backgroundColor: '#fff',
               opacity: 0.9,
-              alignSelf: "flex-end",
+              alignSelf: 'flex-end',
               borderBottomLeftRadius: 7,
               borderBottomRightRadius: 7,
-              justifyContent: "center",
-              alignItems: "center"
-            }}
-          >
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
             <Text
               style={{
-                fontFamily: "Poppins-Regular",
+                fontFamily: 'Poppins-Regular',
                 fontSize: 18,
-                color: "#000"
-              }}
-            >
-              {this.props.rating}
+                color: '#000',
+              }}>
+              {this.props.data.rating}
             </Text>
           </View>
-        </ImageBackground>
+        </Image>
         <View
           style={{
             marginLeft: 15,
             marginTop: 10,
-            flex: 1
-          }}
-        >
+            flex: 1,
+          }}>
           <Text
             style={{
-              fontFamily: "Poppins-SemiBold",
+              fontFamily: 'Poppins-SemiBold',
               fontSize: 18,
-              color: "#000"
-            }}
-          >
-            {this.props.name}
+              color: '#000',
+            }}>
+            {this.props.data.name}
           </Text>
           <Text
             style={{
-              fontFamily: "Poppins-Regular",
+              fontFamily: 'Poppins-Regular',
               fontSize: 14,
-              color: "#7a7a7a"
-            }}
-          >
-            {this.props.city}
+              color: '#7a7a7a',
+            }}>
+            {this.props.data.city}
           </Text>
-          <View style={{ flexDirection: "row" }}>
+          <View style={{flexDirection: 'row'}}>
             <View
               style={{
                 marginTop: 10,
-                flexDirection: "row",
-                alignItems: "center"
-              }}
-            >
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}>
               <SimpleLineIcons name="location-pin" color="#7a7a7a" size={15} />
               <Text
                 style={{
                   fontSize: 15,
-                  fontFamily: "Poppins-Regular",
-                  color: "#000",
-                  paddingLeft: 5
-                }}
-              >
-                {this.props.distance.toFixed(2)} km
+                  fontFamily: 'Poppins-Regular',
+                  color: '#000',
+                  paddingLeft: 5,
+                }}>
+                {this.props.data.distance.toFixed(2)} km
               </Text>
             </View>
             <View
               style={{
                 marginTop: 10,
                 marginLeft: 10,
-                flexDirection: "row",
-                alignItems: "center"
-              }}
-            >
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}>
               <Ionicons name="md-time" color="#7a7a7a" size={18} />
               <Text
                 style={{
                   fontSize: 15,
-                  fontFamily: "Poppins-Regular",
-                  color: "#000",
-                  paddingLeft: 5
-                }}
-              >
-                {(this.props.duration * 60).toString().slice(0, 4)} min
+                  fontFamily: 'Poppins-Regular',
+                  color: '#000',
+                  paddingLeft: 5,
+                }}>
+                {(this.props.data.duration * 60).toString().slice(0, 4)} min
               </Text>
             </View>
           </View>
           <Ripple
             rippleColor="#d20000"
             onPress={() =>
-              this.props.navigation.navigate("CreateOrdersScreen", {
-                timeDiscounts: this.props.timeDiscounts,
-                imageUri: this.props.image,
-                directions: this.props.directions,
-                name: this.props.name,
-                city: this.props.city
+              this.props.navigation.navigate('CreateOrdersScreen', {
+                timeDiscounts: this.props.data.timeDiscounts,
+                imageUri: this.props.data.imageurl,
+                directions: this.props.data.directions,
+                name: this.props.data.name,
+                city: this.props.data.city,
               })
             }
             style={{
-              width: "90%",
+              width: '90%',
               height: 45,
-              backgroundColor: "#fff",
+              backgroundColor: '#fff',
               marginTop: 5,
               borderRadius: 8,
-              justifyContent: "center",
-              alignItems: "center",
+              justifyContent: 'center',
+              alignItems: 'center',
               borderWidth: 2,
-              borderColor: "#d20000"
-            }}
-          >
+              borderColor: '#d20000',
+            }}>
             <Text
               style={{
                 fontSize: 16,
-                fontFamily: "Poppins-SemiBold",
-                color: "#d20000"
-              }}
-            >
+                fontFamily: 'Poppins-SemiBold',
+                color: '#d20000',
+              }}>
               Book Now
             </Text>
           </Ripple>

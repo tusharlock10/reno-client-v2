@@ -1,12 +1,6 @@
 import React, {Component} from 'react';
-import {
-  Text,
-  View,
-  SafeAreaView,
-  Image,
-  ImageBackground,
-  Linking,
-} from 'react-native';
+import {Text, View, SafeAreaView, Linking} from 'react-native';
+import Image from 'react-native-fast-image';
 import Foundation from 'react-native-vector-icons/Foundation';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {height, width} from '../../constants';
@@ -26,7 +20,7 @@ class BookingConfirmation extends Component {
     return (
       <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
         <View style={{height: height * 0.4, width, backgroundColor: '#E9E9E9'}}>
-          <ImageBackground
+          <Image
             source={require('../../../assets/confirm.gif')}
             style={{
               height: '100%',
@@ -66,7 +60,7 @@ class BookingConfirmation extends Component {
                 Booking Confirmed
               </Text>
             </View>
-          </ImageBackground>
+          </Image>
         </View>
         <View
           style={{
@@ -101,7 +95,7 @@ class BookingConfirmation extends Component {
             }}>
             <Image
               source={{
-                uri: this.props.navigation.state.params.data.data.bookingData
+                uri: this.props.navigation.state.params.data.bookingData
                   .restaurants.imageurl,
               }}
               style={{height: 120, width: 150, borderRadius: 8}}
@@ -114,7 +108,7 @@ class BookingConfirmation extends Component {
                   color: '#000',
                 }}>
                 {
-                  this.props.navigation.state.params.data.data.bookingData
+                  this.props.navigation.state.params.data.bookingData
                     .restaurants.name
                 }
               </Text>
@@ -132,7 +126,7 @@ class BookingConfirmation extends Component {
                 }}
                 onPress={() =>
                   Linking.openURL(
-                    `tel://+91${this.props.navigation.state.params.data.data.bookingData.restaurants.rphone[0]}`,
+                    `tel://+91${this.props.navigation.state.params.data.bookingData.restaurants.rphone[0]}`,
                   )
                 }>
                 <Foundation name="telephone" size={18} color="#d20000" />
@@ -175,7 +169,7 @@ class BookingConfirmation extends Component {
                   fontFamily: 'Poppins-Regular',
                   fontSize: 16,
                 }}>
-                {this.props.navigation.state.params.data.data.bookingData.name}
+                {this.props.navigation.state.params.data.bookingData.name}
               </Text>
             </View>
             <Text
@@ -187,8 +181,8 @@ class BookingConfirmation extends Component {
               }}
               onPress={this.openGoogleMaps.bind(
                 this,
-                this.props.navigation.state.params.data.data.bookingData
-                  .restaurants.googlemapsurl,
+                this.props.navigation.state.params.data.bookingData.restaurants
+                  .googlemapsurl,
               )}>
               Directions
             </Text>
@@ -223,7 +217,7 @@ class BookingConfirmation extends Component {
                   fontFamily: 'Poppins-Regular',
                 }}>
                 {new Date(
-                  this.props.navigation.state.params.data.data.bookingData.date,
+                  this.props.navigation.state.params.data.bookingData.date,
                 ).toDateString()}
               </Text>
             </View>
@@ -251,7 +245,7 @@ class BookingConfirmation extends Component {
                   fontFamily: 'Poppins-Regular',
                 }}>
                 {
-                  this.props.navigation.state.params.data.data.bookingData
+                  this.props.navigation.state.params.data.bookingData
                     .timeDiscount.time
                 }
               </Text>
@@ -279,10 +273,7 @@ class BookingConfirmation extends Component {
                   fontSize: 16,
                   fontFamily: 'Poppins-Regular',
                 }}>
-                {
-                  this.props.navigation.state.params.data.data.bookingData
-                    .people
-                }
+                {this.props.navigation.state.params.data.bookingData.people}
               </Text>
             </View>
           </View>

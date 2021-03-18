@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import {Text, View, SafeAreaView, Image, Linking} from 'react-native';
+import {Text, View, SafeAreaView, Linking} from 'react-native';
+import Image from 'react-native-fast-image';
 import {width, height} from '../../constants';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 class AboutUs extends Component {

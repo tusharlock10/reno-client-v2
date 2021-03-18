@@ -22,7 +22,7 @@ export const indexSearchRestaurants = () => async (dispatch) => {
   try {
     dispatch({type: FETCHING_RESTAURANTS});
     const response = await axios.get('/restaurant');
-    dispatch({type: FETCH_RESTAURANTS, payload: response});
+    dispatch({type: FETCH_RESTAURANTS, payload: response.data});
   } catch (error) {
     errorHandler(error, FETCHING_RESTAURANTS_FAILED, dispatch);
   }

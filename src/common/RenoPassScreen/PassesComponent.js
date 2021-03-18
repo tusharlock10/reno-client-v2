@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import {Text, View, ImageBackground, FlatList} from 'react-native';
-import {height, width} from '../../constants';
+import {Text} from 'react-native';
+import Image from 'react-native-fast-image';
+import {width} from '../../constants';
 import Carousel from 'react-native-snap-carousel';
 import Ripple from 'react-native-material-ripple';
 
@@ -42,7 +43,7 @@ export default class PassesComponent extends Component {
           borderRadius: 7,
         }}
         onPress={() => null}>
-        <ImageBackground
+        <Image
           source={
             index == this.state.sliderIndex
               ? require('../../../assets/SelectedPass.png')
@@ -81,7 +82,7 @@ export default class PassesComponent extends Component {
             }}>
             ₹ {item.priceWithOffer}
           </Text>
-        </ImageBackground>
+        </Image>
       </Ripple>
     );
   };

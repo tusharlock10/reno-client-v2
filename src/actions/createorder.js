@@ -12,7 +12,7 @@ export const indexCreateOrder = (id, date) => async (dispatch) => {
       url: `/restaurant/${id}`,
       headers: {date},
     });
-    dispatch({type: FETCH_RES_ORDER_DATA, payload: response});
+    dispatch({type: FETCH_RES_ORDER_DATA, payload: response.data});
   } catch (error) {
     errorHandler(error, FETCH_RES_ORDER_ERROR, dispatch);
   }

@@ -6,7 +6,10 @@ export const getNearbyRestaurants = (data) => async (dispatch) => {
   // data = {longitude, latitude, city}
   try {
     const response = await axios.post('/nearby', data);
-    dispatch({type: NEARBY_FETCH, payload: {response, ...data}});
+    dispatch({
+      type: NEARBY_FETCH,
+      payload: {...data, restaurants: response.data},
+    });
   } catch (error) {
     errorHandler(error, NEARBY_FETCH_ERROR, dispatch);
   }

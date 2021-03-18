@@ -4,8 +4,8 @@ import {
   View,
   SafeAreaView,
   FlatList,
-  ImageBackground
 } from "react-native";
+import Image from 'react-native-fast-image'
 import { height, width } from "../../../constants";
 import AsyncStorage from "@react-native-community/async-storage";
 import axios from "../../../api";
@@ -130,7 +130,7 @@ class ChangeCity extends Component {
                           alignItems: "center"
                         }}
                       >
-                        <ImageBackground
+                        <Image
                           source={{ uri: item.imageUrl }}
                           resizeMode="cover"
                           style={{
@@ -166,7 +166,7 @@ class ChangeCity extends Component {
                           >
                             {item.city}
                           </Text>
-                        </ImageBackground>
+                        </Image>
                       </Ripple>
                     );
                   }}

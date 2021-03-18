@@ -1,9 +1,8 @@
-import React, { Component } from "react";
-import { Text, View, Image } from "react-native";
-import Ripple from "react-native-material-ripple";
-import Carousel from "react-native-snap-carousel";
-import { ONBOARDING, width } from "../../../constants";
-import TouchableScale from "react-native-touchable-scale";
+import React, {Component} from 'react';
+import Image from 'react-native-fast-image';
+import Carousel from 'react-native-snap-carousel';
+import {ONBOARDING, width} from '../../../constants';
+import TouchableScale from 'react-native-touchable-scale';
 
 class SlideShow extends Component {
   constructor(props) {
@@ -11,22 +10,21 @@ class SlideShow extends Component {
 
     this.state = {
       sliderIndex: 0,
-      entries: 3
+      entries: 3,
     };
   }
 
-  _renderItem = ({ item, index }) => {
+  _renderItem = ({item}) => {
     return (
       <TouchableScale
-        onPress={() => this.props.navigation.navigate("RenoPassScreen")}
-        activeScale={0.97}
-      >
+        onPress={() => this.props.navigation.navigate('RenoPassScreen')}
+        activeScale={0.97}>
         <Image
           style={{
             height: 150,
             width: width * 0.88,
             borderRadius: 15,
-            alignSelf: "center"
+            alignSelf: 'center',
           }}
           source={item.ASSET}
           resizeMode="cover"
@@ -38,18 +36,18 @@ class SlideShow extends Component {
   render() {
     return (
       <Carousel
-        ref={c => {
+        ref={(c) => {
           this._carousel = c;
         }}
         data={ONBOARDING}
         // autoplay
         // loop
         renderItem={this._renderItem}
-        onSnapToItem={index => this.setState({ sliderIndex: index })}
+        onSnapToItem={(index) => this.setState({sliderIndex: index})}
         sliderWidth={width}
         inactiveSlideScale={0.93}
         inactiveSlideOpacity={0.8}
-        style={{ borderRadius: 10 }}
+        style={{borderRadius: 10}}
         itemWidth={width * 0.88}
       />
     );

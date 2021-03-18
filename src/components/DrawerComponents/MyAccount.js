@@ -6,9 +6,9 @@ import {
   ImageBackground,
   Clipboard,
   StatusBar,
-  Image,
   ScrollView,
 } from 'react-native';
+import Image from 'react-native-fast-image';
 import {connect} from 'react-redux';
 import {width} from '../../constants';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -29,7 +29,7 @@ class MyAccount extends Component {
           <StatusBar barStyle="light-content" backgroundColor="#000" />
           <View style={{flex: 1}}>
             <ScrollView showsVerticalScrollIndicator={false}>
-              <ImageBackground
+              <Image
                 // source={require("../../../assets/account_back.png")}
                 source={require('../../../assets/reno_pass_header.jpg')}
                 style={{
@@ -48,7 +48,7 @@ class MyAccount extends Component {
                   }}>
                   Valid until 31st January 2020
                 </Text>
-              </ImageBackground>
+              </Image>
               <View
                 style={{
                   flexDirection: 'row',

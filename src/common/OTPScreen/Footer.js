@@ -34,7 +34,7 @@ class Footer extends Component {
             });
             if (res.data.confirmed) {
               this.props.navigation.navigate("BookingConfirmation", {
-                data: res
+                data: res.data
               });
             } else {
               this.props.showSnackbar(true);

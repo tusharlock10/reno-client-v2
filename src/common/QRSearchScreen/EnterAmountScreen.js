@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { Text, View, SafeAreaView, Image, TextInput } from "react-native";
+import { Text, View, SafeAreaView, TextInput } from "react-native";
+import Image from 'react-native-fast-image'
 import { width } from "../../constants";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";

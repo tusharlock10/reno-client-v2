@@ -4,12 +4,12 @@ import {
   View,
   StatusBar,
   SafeAreaView,
-  Image,
   FlatList,
   TouchableOpacity,
   ActivityIndicator,
   ScrollView,
 } from 'react-native';
+import Image from 'react-native-fast-image';
 import {Searchbar} from 'react-native-paper';
 import RenderRestaurants from './RenderRestaurants';
 import {connect} from 'react-redux';
@@ -74,7 +74,7 @@ class HomeScreen extends Component {
     this.renderData();
   };
   render() {
-    // const day = this.props.restaurants.restaurants.data.day;
+    // const day = this.props.restaurants.restaurants.day;
     return (
       <Fragment>
         <SafeAreaView style={{flex: 0, backgroundColor: '#fff'}} />
@@ -182,7 +182,7 @@ class HomeScreen extends Component {
               this.props.restaurants.gotBrandTiles ? (
                 <View style={{alignItems: 'center'}}>
                   <FlatList
-                    data={this.props.restaurants.brandTiles.data}
+                    data={this.props.restaurants.brandTiles}
                     showsHorizontalScrollIndicator={false}
                     keyExtractor={(_, index) => index.toString()}
                     horizontal
@@ -221,7 +221,7 @@ class HomeScreen extends Component {
                     showsVerticalScrollIndicator={false}
                     keyExtractor={(item) => item.id}
                     initialNumToRender={10}
-                    data={this.props.restaurants.restaurants.data}
+                    data={this.props.restaurants.restaurants}
                     renderItem={({item}) => {
                       return (
                         <RenderRestaurants

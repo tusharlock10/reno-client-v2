@@ -1,79 +1,68 @@
-import React, { Component } from "react";
-import {
-  Text,
-  View,
-  FlatList,
-  ScrollView,
-  Image,
-  ImageBackground
-} from "react-native";
-import Ripple from "react-native-material-ripple";
-import { width } from "../../constants";
+import React, {Component} from 'react';
+import {Text, View, FlatList} from 'react-native';
+import Image from 'react-native-fast-image';
+import Ripple from 'react-native-material-ripple';
+import {width} from '../../constants';
 class RestaurantTypes extends Component {
   render() {
-    const { navigation } = this.props;
+    const {navigation} = this.props;
     return (
-      <View style={{ flex: 1, marginTop: 10 }}>
+      <View style={{flex: 1, marginTop: 10}}>
         <Text
           style={{
-            color: "#777777",
-            fontFamily: "Poppins-SemiBold",
+            color: '#777777',
+            fontFamily: 'Poppins-SemiBold',
             fontSize: 18,
             marginLeft: 20,
-            marginBottom: 10
-          }}
-        >
+            marginBottom: 10,
+          }}>
           Top Categories
         </Text>
         <FlatList
           data={this.props.types.data}
-          style={{ alignSelf: "center", width: width * 0.95 }}
+          style={{alignSelf: 'center', width: width * 0.95}}
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ alignItems: "center" }}
-          renderItem={({ item, index }) => {
+          contentContainerStyle={{alignItems: 'center'}}
+          renderItem={({item, index}) => {
             return (
               <Ripple
                 style={{
                   height: 120,
-                  flexDirection: "column",
+                  flexDirection: 'column',
                   margin: 8,
-                  width: "45.6%",
-                  alignSelf: "center",
-                  borderRadius: 6
+                  width: '45.6%',
+                  alignSelf: 'center',
+                  borderRadius: 6,
                 }}
                 onPress={() =>
-                  this.props.navigation.navigate("TypeScreen", {
+                  this.props.navigation.navigate('TypeScreen', {
                     name: item.type,
-                    id: item.id
+                    id: item.id,
                   })
-                }
-              >
-                <ImageBackground
-                  source={{ uri: item.imageurl }}
-                  style={{ borderRadius: 10 }}
-                  imageStyle={{ borderRadius: 6 }}
-                >
+                }>
+                <Image
+                  source={{uri: item.imageurl}}
+                  style={{borderRadius: 10}}
+                  imageStyle={{borderRadius: 6}}>
                   <View
                     style={{
-                      height: "100%",
-                      width: "100%",
+                      height: '100%',
+                      width: '100%',
                       borderRadius: 6,
-                      justifyContent: "center",
-                      alignItems: "center",
-                      backgroundColor: "rgba(0, 0, 0, 0.4)"
-                    }}
-                  >
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      backgroundColor: 'rgba(0, 0, 0, 0.4)',
+                    }}>
                     <Text
                       style={{
-                        fontFamily: "Poppins-Medium",
+                        fontFamily: 'Poppins-Medium',
                         fontSize: 18,
-                        color: "#fff"
-                      }}
-                    >
+                        color: '#fff',
+                      }}>
                       {item.type}
                     </Text>
                   </View>
-                </ImageBackground>
+                </Image>
               </Ripple>
             );
           }}

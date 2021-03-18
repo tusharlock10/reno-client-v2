@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { Text, View, ImageBackground, SafeAreaView } from "react-native";
+import { Text, View,  } from "react-native";
+import Image from 'react-native-fast-image'
 import { height, width } from "../../../../constants";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Ripple from "react-native-material-ripple";
@@ -11,7 +12,7 @@ class PastDetails extends Component {
     const { data } = this.props.navigation.state.params;
     return (
       <View style={{ backgroundColor: "#F8F8F8", flex: 1 }}>
-        <ImageBackground
+        <Image
           source={{ uri: data.restaurants.imageurl }}
           style={{
             height: height * 0.25,
@@ -59,7 +60,7 @@ class PastDetails extends Component {
               style={{ marginLeft: 5 }}
             />
           </View>
-        </ImageBackground>
+        </Image>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View
             style={{

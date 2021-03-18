@@ -3,10 +3,9 @@ import {
   Text,
   View,
   FlatList,
-  ImageBackground,
-  Image,
   TouchableOpacity
 } from "react-native";
+import Image from 'react-native-fast-image'
 import { Svg, Polygon } from "react-native-svg";
 import { height, width } from "../../../constants";
 import RenderSlots from "./RenderSlots";
@@ -73,7 +72,7 @@ class RenderRestaurants extends Component {
             shadowOpacity: 0.2
           }}
         >
-          <ImageBackground
+          <Image
             source={{ uri: this.props.image }}
             style={{
               height: 220,
@@ -111,7 +110,7 @@ class RenderRestaurants extends Component {
             >
               {this.props.name}
             </Text>
-          </ImageBackground>
+          </Image>
           <FlatList
             showsHorizontalScrollIndicator={false}
             style={{ marginLeft: 10, marginRight: 10, marginBottom: 3 }}

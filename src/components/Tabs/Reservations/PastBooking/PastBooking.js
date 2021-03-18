@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import {Text, View, FlatList, Image, TouchableOpacity} from 'react-native';
+import {Text, View, FlatList, TouchableOpacity} from 'react-native';
+import Image from 'react-native-fast-image';
 import Ripple from 'react-native-material-ripple';
 import _ from 'lodash';
 class PastBooking extends Component {
@@ -12,8 +13,8 @@ class PastBooking extends Component {
           data={this.props.data}
           keyExtractor={(_, index) => index.toString()}
           renderItem={({item}) => {
-            if (!item.restaurants){
-              return null
+            if (!item.restaurants) {
+              return null;
             }
             return (
               <Ripple
