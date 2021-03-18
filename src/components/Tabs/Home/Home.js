@@ -145,12 +145,12 @@ class HomeScreen extends Component {
                 }}>
                 <Image
                   source={{uri: this.props.auth.user.profileImage}}
-                  borderRadius={40 / 2}
                   style={{
                     height: 40,
                     width: 40,
                     borderWidth: 2,
                     borderColor: '#fff',
+                    borderRadius:40/2,
                   }}
                   resizeMode="cover"
                 />
@@ -177,27 +177,27 @@ class HomeScreen extends Component {
               selectionColor="#d20000"
             />
             {/*End of header component */}
-            <ScrollView contentContainerStyle={{alignItems: 'center'}}>
-              {this.props.restaurants.gotRestaurantData &&
-              this.props.restaurants.gotBrandTiles ? (
-                <View style={{alignItems: 'center'}}>
-                  <FlatList
-                    data={this.props.restaurants.brandTiles}
-                    showsHorizontalScrollIndicator={false}
-                    keyExtractor={(_, index) => index.toString()}
-                    horizontal
-                    renderItem={({item}) => {
-                      return (
-                        <RenderSlider
-                          image={item.imageurl}
-                          navigation={this.props.navigation}
-                        />
-                      );
-                    }}
-                  />
-                  <SlideShow navigation={this.props.navigation} />
-                  <FlatList
-                    ListHeaderComponent={
+            {this.props.restaurants.gotRestaurantData &&
+            this.props.restaurants.gotBrandTiles ? (
+              <View style={{alignItems: 'center'}}>
+                <FlatList
+                  ListHeaderComponent={
+                    <>
+                      <FlatList
+                        data={this.props.restaurants.brandTiles}
+                        showsHorizontalScrollIndicator={false}
+                        keyExtractor={(_, index) => index.toString()}
+                        horizontal
+                        renderItem={({item}) => {
+                          return (
+                            <RenderSlider
+                              image={item.imageurl}
+                              navigation={this.props.navigation}
+                            />
+                          );
+                        }}
+                      />
+                      <SlideShow navigation={this.props.navigation} />
                       <View
                         style={{
                           marginLeft: 25,
@@ -217,40 +217,40 @@ class HomeScreen extends Component {
                           Top Restaurants
                         </Text>
                       </View>
-                    }
-                    showsVerticalScrollIndicator={false}
-                    keyExtractor={(item) => item.id}
-                    initialNumToRender={10}
-                    data={this.props.restaurants.restaurants}
-                    renderItem={({item}) => {
-                      return (
-                        <RenderRestaurants
-                          id={item.id}
-                          city={item.city}
-                          name={item.name}
-                          timeDiscounts={
-                            item[this.day] ? item[this.day].timeDiscounts : []
-                          }
-                          isRenoPayEnabled={true}
-                          image={item.imageurl}
-                          directions={item.googlemapsurl}
-                          navigation={this.props.navigation}
-                        />
-                      );
-                    }}
-                  />
-                </View>
-              ) : (
-                <View
-                  style={{
-                    flex: 1,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}>
-                  <ActivityIndicator size="large" color="#d20000" />
-                </View>
-              )}
-            </ScrollView>
+                    </>
+                  }
+                  showsVerticalScrollIndicator={false}
+                  keyExtractor={(item) => item.id}
+                  initialNumToRender={10}
+                  data={this.props.restaurants.restaurants}
+                  renderItem={({item}) => {
+                    return (
+                      <RenderRestaurants
+                        id={item.id}
+                        city={item.city}
+                        name={item.name}
+                        timeDiscounts={
+                          item[this.day] ? item[this.day].timeDiscounts : []
+                        }
+                        isRenoPayEnabled={true}
+                        image={item.imageurl}
+                        directions={item.googlemapsurl}
+                        navigation={this.props.navigation}
+                      />
+                    );
+                  }}
+                />
+              </View>
+            ) : (
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <ActivityIndicator size="large" color="#d20000" />
+              </View>
+            )}
           </View>
         </SafeAreaView>
       </Fragment>

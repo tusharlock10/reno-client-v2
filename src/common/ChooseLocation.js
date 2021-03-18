@@ -1,11 +1,6 @@
 import React, {Component, Fragment} from 'react';
-import {
-  Text,
-  View,
-  SafeAreaView,
-  FlatList,
-} from 'react-native';
-import Image from 'react-native-fast-image'
+import {Text, View, SafeAreaView, FlatList} from 'react-native';
+import Image from 'react-native-fast-image';
 import {height, width} from '../constants';
 import AsyncStorage from '@react-native-community/async-storage';
 import axios from '../api';
@@ -83,6 +78,7 @@ class ChangeCity extends Component {
                   borderTopRightRadius: 24,
                 }}>
                 <FlatList
+                  showsVerticalScrollIndicator={false}
                   style={{marginTop: 30}}
                   data={this.state.cityData}
                   keyExtractor={(_, index) => index.toString()}
@@ -110,8 +106,7 @@ class ChangeCity extends Component {
                             borderRadius: 10,
                             justifyContent: 'center',
                             alignItems: 'center',
-                          }}
-                          imageStyle={{borderRadius: 10}}>
+                          }}>
                           <LinearGradient
                             colors={['#000000', '#090909F6', '#FFFFFF00']}
                             start={{x: 0, y: 0}}

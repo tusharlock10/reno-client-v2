@@ -40,10 +40,7 @@ class RestaurantTypes extends Component {
                     id: item.id,
                   })
                 }>
-                <Image
-                  source={{uri: item.imageurl}}
-                  style={{borderRadius: 10}}
-                  imageStyle={{borderRadius: 6}}>
+                <Image source={{uri: item.imageurl}} style={{borderRadius: 10}}>
                   <View
                     style={{
                       height: '100%',

@@ -54,12 +54,12 @@ class RightDrawer extends Component {
               }}>
               <Image
                 source={{uri: this.props.auth.user.profileImage}}
-                borderRadius={45 / 2}
                 style={{
                   height: 45,
                   width: 45,
                   borderWidth: 2,
                   borderColor: '#fff',
+                  borderRadius: 45 / 2,
                 }}
                 resizeMode="cover"
               />

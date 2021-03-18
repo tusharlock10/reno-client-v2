@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Text, View, FlatList, TouchableOpacity} from 'react-native';
+import {Text, View, FlatList} from 'react-native';
 import Image from 'react-native-fast-image';
 import Ripple from 'react-native-material-ripple';
 import _ from 'lodash';
@@ -11,7 +11,7 @@ class PastBooking extends Component {
           showsVerticalScrollIndicator={false}
           ListFooterComponent={<View style={{marginBottom: 100}} />}
           data={this.props.data}
-          keyExtractor={(_, index) => index.toString()}
+          keyExtractor={(item) => item.id}
           renderItem={({item}) => {
             if (!item.restaurants) {
               return null;
@@ -23,7 +23,7 @@ class PastBooking extends Component {
                   borderRadius: 10,
                   backgroundColor: '#fff',
                   shadowColor: '#00000029',
-                  elevation: 2,
+                  elevation: 7,
                   shadowOpacity: 0.2,
                   marginTop: 15,
                 }}
@@ -129,20 +129,12 @@ class PastBooking extends Component {
                     alignSelf: 'center',
                     marginBottom: 15,
                   }}>
-                  {/*<Text
-                    style={{
-                      color: item.unlock ? "green" : "red",
-                      fontFamily: "Poppins-Medium"
-                    }}
-                  >
-                     {item.unlock ? "Deal Unlocked" : "Deal Not Unlocked"}
-                  </Text>*/}
                   <Text
                     style={{
-                      color: 'green',
+                      color: item.unlockActive ? 'green' : 'red',
                       fontFamily: 'Poppins-Medium',
                     }}>
-                    Deal Unlocked
+                    {item.unlockActive ? 'Deal Unlocked' : 'Deal Not Unlocked'}
                   </Text>
                 </View>
               </Ripple>

@@ -54,8 +54,8 @@ export default class PassesComponent extends Component {
             height: '100%',
             justifyContent: 'center',
             alignItems: 'center',
+            borderRadius: 7,
           }}
-          imageStyle={{borderRadius: 7}}
           resizeMode="cover">
           <Text
             style={{
