@@ -19,13 +19,14 @@ class PastBooking extends Component {
             return (
               <Ripple
                 style={{
-                  width: '100%',
+                  flex:1,
                   borderRadius: 10,
                   backgroundColor: '#fff',
                   shadowColor: '#00000029',
                   elevation: 7,
                   shadowOpacity: 0.2,
                   marginTop: 15,
+                  marginHorizontal:10,
                 }}
                 onPress={() =>
                   this.props.navigation.navigate('PastDetailsScreen', {

@@ -1,14 +1,27 @@
 import axios from '../api';
 import RazorpayCheckout from 'react-native-razorpay';
 
-export const completePayment = async ({amount, name, email, mobile}) => {
+export const completePayment = async ({
+  amount,
+  name,
+  email,
+  mobile,
+  orderId,
+}) => {
   const razorpayKeyId = 'rzp_test_oCjDks1GbKEPfO';
-  const {data} = await axios.post('/createPaymentOrder', {
-    amount,
-    name,
-    email,
-    mobile,
-  });
+  let data;
+  try {
+    data = (
+      await axios.post('/createPaymentOrder', {
+        amount,
+        name,
+        email,
+        mobile,
+      })
+    ).data;
+  } catch (error) {
+    return {success: false, message: 'Payment error', error, data: null};
+  }
 
   const options = {
     description: 'Reno restaurant booking payment',
@@ -26,19 +39,29 @@ export const completePayment = async ({amount, name, email, mobile}) => {
   let response;
   try {
     response = await RazorpayCheckout.open(options);
-  } catch (e) {
-    return {error: e, payment_id: null};
+  } catch (error) {
+    return {success: false, message: 'Payment cancelled', error, data: null};
   }
 
   const to_send = {
+    orderId,
     amount: data.amount / 100,
     receipt: data.receipt,
-    order_id: data.id,
-    description: options.description,
-    razorpay_payment_id: response.razorpay_payment_id,
+    paymentOrderId: data.id,
+    paymentDescription: options.description,
+    paymentId: response.razorpay_payment_id,
   };
 
-  const {data: data2} = await axios.post('/confirmPayment', to_send);
+  try {
+    await axios.post('/confirmPayment', to_send);
+  } catch (error) {
+    return {
+      success: false,
+      message: `Payment processed but couldn't communicate with the server`,
+      error,
+      data: to_send,
+    };
+  }
 
-  return {paymentId: data2.paymentId, error: null};
+  return {success: true, message: 'Payment Successful', data: to_send};
 };

@@ -56,12 +56,12 @@ class CreateOrder extends Component {
     date = date.getDay(date);
     this.day = setDay(date).substring(0, 3) + 'Discount';
     this.state = {
-      TermsAccepted: false,
+      TermsAccepted: __DEV__?true:false,
       timeStamp: new Date().getTime(),
       visible: false,
       people: 1,
       name: `${this.props.auth.user.firstname} ${this.props.auth.user.lastname}`,
-      number: '',
+      number: __DEV__?'9354527144':'',
       discount: this.props.navigation.state.params.discount,
       time: this.props.navigation.state.params.time,
       timeDiscountId: this.props.navigation.state.params.timeDiscountId,

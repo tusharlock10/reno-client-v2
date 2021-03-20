@@ -30,7 +30,7 @@ class Footer extends Component {
               restaurantsId: this.props.restaurantId,
               name: this.props.name,
               date: this.props.date,
-              otp: this.props.otp
+              otp: __DEV__?'0000':this.props.otp
             });
             if (res.data.confirmed) {
               this.props.navigation.navigate("BookingConfirmation", {

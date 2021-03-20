@@ -1,11 +1,6 @@
 import React, {Component} from 'react';
-import {
-  Text,
-  View,
-  Alert,
-  PermissionsAndroid,
-} from 'react-native';
-import Image from 'react-native-fast-image'
+import {Text, View} from 'react-native';
+import Image from 'react-native-fast-image';
 import {connect} from 'react-redux';
 import {SafeAreaView} from 'react-navigation';
 import {height, width} from '../../../../constants';
@@ -13,51 +8,23 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Ripple from 'react-native-material-ripple';
 import Feather from 'react-native-vector-icons/Feather';
 import {ScrollView} from 'react-native-gesture-handler';
-import Geolocation from 'react-native-geolocation-service';
-import {getPermission} from '../../../../utils/permissions';
-import {updateUpcomingReservation} from '../../../../actions/reservations';
-import axios from '../../../../api';
+import {unlockDeal} from '../../../../actions/reservations';
+import {isCurrentTimeInRange} from '../../../../utils/dateTimeUtils';
 
 class UpcomingDetails extends Component {
-  state = {
-    order: this.props.navigation.state.params.data,
-  };
-
-  unlockDeal = async (data) => {
-    // data = { orderId, longitude, latitude }
-    const response = await axios.post('/unlockDeal', data);
-    this.props.updateUpcomingReservation(response.data);
-    this.setState({order: response.data});
-  };
-
-  onUnlockTheDeal() {
-    if (!getPermission(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION)) {
-      Alert.alert(
-        'Location required',
-        'We require your location to unlock the deal',
-      );
-    }
-
-    Geolocation.getCurrentPosition(
-      (position) => {
-        this.unlockDeal({
-          ...position.coords,
-          orderId: this.state.order.id,
-        });
-      },
-      (error) => console.error(error),
-      {enableHighAccuracy: false, timeout: 20000, maximumAge: 1000},
-    );
-  }
-
   render() {
+    // getting this order directly from the redux state to update the order details live
+    const order = this.props.reservations.orders.upcomingOrders[
+      this.props.navigation.state.params.index
+    ];
+    const canUnlockTheDeal = isCurrentTimeInRange(order.timeDiscount.time);
     return (
       <SafeAreaView
         style={{flex: 1, backgroundColor: '#F8F8F8'}}
         forceInset={{top: 'never'}}>
         <Image
           source={{
-            uri: this.state.order.restaurants.imageurl,
+            uri: order.restaurants.imageurl,
           }}
           style={{
             height: height * 0.25,
@@ -93,7 +60,7 @@ class UpcomingDetails extends Component {
                 fontSize: 19,
                 color: '#000',
               }}>
-              {this.state.order.restaurants.rating}
+              {order.restaurants.rating}
             </Text>
             <Ionicons
               name="ios-star"
@@ -117,7 +84,7 @@ class UpcomingDetails extends Component {
                 textAlign: 'center',
                 color: '#000',
               }}>
-              {this.state.order.restaurants.name}
+              {order.restaurants.name}
             </Text>
             <View
               style={{
@@ -135,15 +102,17 @@ class UpcomingDetails extends Component {
                 opacity: 0.7,
                 color: '#000',
               }}>
-              {this.state.order.restaurants.city}
+              {order.restaurants.city}
             </Text>
           </View>
           <Ripple
             onPress={() => {
-              if (!this.state.order.unlockActive) {
-                this.onUnlockTheDeal();
-              } else {
-                this.props.navigation.navigate('RenoPay');
+              if (order.unlockActive) {
+                this.props.navigation.navigate('EnterAmountScreen', {
+                  data: order,
+                });
+              } else if (canUnlockTheDeal) {
+                this.props.unlockDeal(order.id);
               }
             }}
             style={{
@@ -152,12 +121,14 @@ class UpcomingDetails extends Component {
               alignItems: 'center',
               borderRadius: 12,
               elevation: 5,
-              backgroundColor: this.state.order.unlockActive
-                ? '#299e49'
-                : '#D20000',
               shadowOffset: {height: 4, width: 2},
               shadowRadius: 5,
               shadowOpacity: 2,
+              backgroundColor: order.unlockActive
+                ? '#299e49'
+                : canUnlockTheDeal
+                ? '#D20000'
+                : '#7a7a7a',
             }}>
             <Text
               style={{
@@ -166,9 +137,7 @@ class UpcomingDetails extends Component {
                 fontFamily: 'Poppins-Regular',
                 color: '#fff',
               }}>
-              {this.state.order.unlockActive
-                ? 'Pay with Reno Pay'
-                : 'Unlock your visit'}
+              {order.unlockActive ? 'Pay with Reno Pay' : 'Unlock your visit'}
             </Text>
           </Ripple>
           <View
@@ -192,7 +161,8 @@ class UpcomingDetails extends Component {
               }}>
               Please unlock your Visit ID at the restaurant. Unlock option
               appears only in the given time slot for which the reservation is
-              made.
+              made. After unlocking, you can pay at anytime before leaving the
+              restaurant
             </Text>
           </View>
           <Text
@@ -224,7 +194,7 @@ class UpcomingDetails extends Component {
                 fontSize: 15,
                 margin: 10,
               }}>
-              {new Date(this.state.order.date).toDateString()}
+              {new Date(order.date).toDateString()}
             </Text>
             <Text
               style={{
@@ -233,7 +203,7 @@ class UpcomingDetails extends Component {
                 fontSize: 15,
                 marginLeft: 10,
               }}>
-              {this.state.order.timeDiscount.time}
+              {order.timeDiscount.time}
             </Text>
             <View
               style={{
@@ -267,7 +237,7 @@ class UpcomingDetails extends Component {
                     fontSize: 14,
                     color: '#d20000',
                   }}>
-                  {this.state.order.timeDiscount.discount}%
+                  {order.timeDiscount.discount}%
                 </Text>
               </View>
             </View>
@@ -309,7 +279,7 @@ class UpcomingDetails extends Component {
                   color: '#000',
                   marginLeft: 10,
                 }}>
-                {this.state.order.name}
+                {order.name}
               </Text>
             </View>
             <View
@@ -327,7 +297,7 @@ class UpcomingDetails extends Component {
                   color: '#000',
                   marginLeft: 10,
                 }}>
-                {this.state.order.mobile}
+                {order.mobile}
               </Text>
             </View>
             <View
@@ -344,7 +314,7 @@ class UpcomingDetails extends Component {
                   color: '#000',
                   marginLeft: 10,
                 }}>
-                {this.state.order.people} Members
+                {order.people} Members
               </Text>
             </View>
           </View>
@@ -383,10 +353,6 @@ class UpcomingDetails extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return state;
-};
+const mapStateToProps = ({reservations}) => ({reservations});
 
-export default connect(mapStateToProps, {updateUpcomingReservation})(
-  UpcomingDetails,
-);
+export default connect(mapStateToProps, {unlockDeal})(UpcomingDetails);

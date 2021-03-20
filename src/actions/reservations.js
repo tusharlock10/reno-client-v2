@@ -1,3 +1,7 @@
+import {Alert, PermissionsAndroid} from 'react-native';
+import Geolocation from 'react-native-geolocation-service';
+import {getPermission} from '../utils/permissions';
+
 import {
   RESERVATIONS_FETCH,
   RESERVATIONS_FETCH_ERROR,
@@ -15,8 +19,23 @@ export const getMyReservations = () => async (dispatch) => {
   }
 };
 
-export const updateUpcomingReservation = (data) => {
-  return {type: UPDATE_UPCOMING_RESERVATION, payload: data};
+export const unlockDeal = (orderId) => (dispatch) => {
+  if (!getPermission(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION)) {
+    Alert.alert(
+      'Location required',
+      'We require your location to unlock the visit',
+    );
+  }
+
+  Geolocation.getCurrentPosition((position) =>
+    _unlockDeal(dispatch, {...position.coords, orderId}),
+  );
+};
+
+const _unlockDeal = async (dispatch, data) => {
+  // private function
+  const response = await axios.post('/unlockDeal', data);
+  dispatch({type: UPDATE_UPCOMING_RESERVATION, payload: response.data});
 };
 
 function errorHandler(err, type, dispatch) {
