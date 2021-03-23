@@ -1,11 +1,11 @@
-import { combineReducers } from "redux";
-// import alert from './alert';
-import { auth } from "./auth";
-import { restaurants } from "./restaurant";
-import { nearby } from "./nearby";
-import { reservations } from "./reservations";
-import { search } from "./search";
-import { createorder } from "./createorder";
+import {combineReducers} from 'redux';
+import {auth} from './auth';
+import {restaurants} from './restaurant';
+import {nearby} from './nearby';
+import {reservations} from './reservations';
+import {search} from './search';
+import {createorder} from './createorder';
+import {misc} from './misc';
 
 export default combineReducers({
   auth,
@@ -13,5 +13,6 @@ export default combineReducers({
   nearby,
   reservations,
   search,
-  createorder
+  createorder,
+  misc,
 });

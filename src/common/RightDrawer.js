@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Text, View, SafeAreaView, TouchableOpacity} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Image from 'react-native-fast-image';
 import {connect} from 'react-redux';
 import {width} from '../constants';
@@ -107,6 +108,10 @@ class RightDrawer extends Component {
             resizeMode="cover"
           />
           <TouchableOpacity
+            onPress={async () => {
+              await AsyncStorage.clear();
+              this.props.navigation.replace('LoginScreen');
+            }}
             style={{
               width,
               flexDirection: 'row',

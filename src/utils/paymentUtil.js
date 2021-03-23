@@ -33,7 +33,7 @@ export const completePayment = async ({
     name: 'Reno',
     order_id: data.id,
     prefill: {email: data.email, name: data.name, contact: data.phoneNumber},
-    theme: {color: 'red'},
+    theme: {color: '#d20000'},
   };
 
   let response;

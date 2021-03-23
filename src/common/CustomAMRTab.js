@@ -244,7 +244,7 @@ class TabBarComponent extends Component {
                 translateY: event.nativeEvent.layout.height,
               })
             }>
-            {this.props.aboutTab}
+            {this.props.aboutTab()}
           </Animated.View>
           <Animated.View
             style={{
@@ -257,7 +257,7 @@ class TabBarComponent extends Component {
                 },
               ],
             }}>
-            {this.props.menuTab}
+            {this.props.menuTab()}
           </Animated.View>
           <Animated.View
             style={{
@@ -270,7 +270,7 @@ class TabBarComponent extends Component {
                 },
               ],
             }}>
-            {this.props.reviewTab}
+            {this.props.reviewTab()}
           </Animated.View>
         </ScrollView>
       </View>

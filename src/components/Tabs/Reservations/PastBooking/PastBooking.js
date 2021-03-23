@@ -132,7 +132,7 @@ class PastBooking extends Component {
                   }}>
                   <Text
                     style={{
-                      color: item.unlockActive ? 'green' : 'red',
+                      color: item.unlockActive ? 'green' : '#d20000',
                       fontFamily: 'Poppins-Medium',
                     }}>
                     {item.unlockActive ? 'Deal Unlocked' : 'Deal Not Unlocked'}

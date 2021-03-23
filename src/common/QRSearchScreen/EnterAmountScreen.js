@@ -151,7 +151,7 @@ class EnterAmountScreen extends Component {
             fontFamily: 'Poppins-SemiBold',
             fontSize: 16,
             includeFontPadding: false,
-            color: paymentResponse.success ? 'green' : 'red',
+            color: paymentResponse.success ? 'green' : '#d20000',
             marginLeft: 10,
           }}>
           {paymentResponse.success ? 'Payment Successful' : 'Payment Failed'}

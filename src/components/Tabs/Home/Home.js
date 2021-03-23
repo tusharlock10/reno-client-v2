@@ -219,6 +219,7 @@ class HomeScreen extends Component {
                       </View>
                     </>
                   }
+                  ListFooterComponent={<View style={{height:150}}/>}
                   showsVerticalScrollIndicator={false}
                   keyExtractor={(item) => item.id}
                   initialNumToRender={10}

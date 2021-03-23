@@ -122,7 +122,7 @@ class MyAccount extends Component {
                         marginLeft: 5,
                         fontFamily: 'Poppins-Regular',
                       }}>
-                      +917217836748
+                      {`+91 ${this.props.auth.user.mobile}`}
                     </Text>
                   </View>
                   <View

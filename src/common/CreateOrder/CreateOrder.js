@@ -16,7 +16,7 @@ import Header from './Header';
 import Footer from './Footer';
 import PeopleComponent from './PeopleComponent';
 import PersonalDetails from './PersonalDetails';
-import AMRTab from './AMRTab/AMRTab';
+import AMRTab from './AMRTab';
 import {connect} from 'react-redux';
 import {indexCreateOrder} from '../../actions/createorder';
 import TermsAndConditions from './TermsAndConditions';
@@ -56,12 +56,12 @@ class CreateOrder extends Component {
     date = date.getDay(date);
     this.day = setDay(date).substring(0, 3) + 'Discount';
     this.state = {
-      TermsAccepted: __DEV__?true:false,
+      TermsAccepted: __DEV__ ? true : false,
       timeStamp: new Date().getTime(),
       visible: false,
       people: 1,
       name: `${this.props.auth.user.firstname} ${this.props.auth.user.lastname}`,
-      number: __DEV__?'9354527144':'',
+      number: __DEV__ ? '9354527144' : '',
       discount: this.props.navigation.state.params.discount,
       time: this.props.navigation.state.params.time,
       timeDiscountId: this.props.navigation.state.params.timeDiscountId,
@@ -81,6 +81,14 @@ class CreateOrder extends Component {
   }
 
   render() {
+    if (!this.props.createorder.orderData) {
+      return (
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <ActivityIndicator size={36} />
+        </View>
+      );
+    }
+
     return (
       <SafeAreaView style={{backgroundColor: '#fff', flex: 1}}>
         <Header
@@ -268,7 +276,11 @@ class CreateOrder extends Component {
               callbackAsName={(name) => this.setState({name})}
               callbackAsNumber={(number) => this.setState({number})}
             />
-            <AMRTab />
+            <AMRTab
+              about={this.props.createorder.orderData.about}
+              menu={this.props.createorder.orderData.menu}
+              userReviewses={this.props.createorder.orderData.userReviewses}
+            />
             <TermsAndConditions
               callbackFromChild={(state) => {
                 this.setState({TermsAccepted: state});
@@ -339,7 +351,7 @@ const styles = StyleSheet.create({
     right: 0,
   },
 });
-mapStateToProps = (state) => {
-  return {createorder: state.createorder, auth: state.auth};
-};
+
+mapStateToProps = ({createorder, auth}) => ({createorder, auth});
+
 export default connect(mapStateToProps, {indexCreateOrder})(CreateOrder);
