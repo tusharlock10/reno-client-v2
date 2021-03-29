@@ -94,6 +94,7 @@ class CreateOrder extends Component {
         <Header
           navigation={this.props.navigation}
           name={this.props.navigation.state.params.name}
+          acceptsRenoPay={this.props.navigation.state.params.acceptsRenoPay}
         />
         <View style={{flex: 1}}>
           <ScrollView

@@ -8,7 +8,7 @@ import {
   FlatList,
 } from 'react-native';
 import Image from 'react-native-fast-image';
-import Ionicons from 'react-native-vector-icons/MaterialCommunityIcons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {width} from '../../constants';
 
 class AMRTab extends Component {
@@ -44,7 +44,7 @@ class AMRTab extends Component {
             {Array(5)
               .fill(0)
               .map((_, index) => (
-                <Ionicons
+                <MaterialCommunityIcons
                   name={index <= rating - 1 ? 'star' : 'star-outline'}
                   size={14}
                   color={'#FDD835'}

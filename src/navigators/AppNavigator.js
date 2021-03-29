@@ -22,6 +22,7 @@ import PrivacyPolicy from '../components/DrawerComponents/PrivacyPolicy';
 import BookingConfirmation from '../common/BookingConfirmation';
 import TypeScreen from '../common/SearchScreen/TypeScreen';
 import Support from '../components/DrawerComponents/Support';
+import BrandTileRestaurants from '../components/Tabs/Home/BrandTileRestaurants';
 
 const AppNavigator = createStackNavigator(
   {
@@ -148,6 +149,12 @@ const AppNavigator = createStackNavigator(
     },
     SupportScreen: {
       screen: Support,
+      navigationOptions: {
+        gesturesEnabled: false,
+      },
+    },
+    BrandTileRestaurants: {
+      screen: BrandTileRestaurants,
       navigationOptions: {
         gesturesEnabled: false,
       },

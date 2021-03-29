@@ -12,7 +12,7 @@ export const indexRestaurantTypes = () => async (dispatch) => {
   try {
     dispatch({type: FETCHING_RESTAURANT_TYPES});
     const response = await axios.get('restaurant/types');
-    dispatch({type: FETCH_RESTAURANT_TYPES, payload: response});
+    dispatch({type: FETCH_RESTAURANT_TYPES, payload: response.data});
   } catch (error) {
     errorHandler(error, FETCHING_RESTAURANT_TYPES_FAILED, dispatch);
   }

@@ -1,166 +1,196 @@
 import React, {Component} from 'react';
-import {Text, View, SafeAreaView, TextInput, FlatList} from 'react-native';
+import {Text, View, SafeAreaView, FlatList} from 'react-native';
 import Image from 'react-native-fast-image';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import {connect} from 'react-redux';
-import {indexSearchRestaurants} from '../../actions/search';
-import {width, height} from '../../constants';
-import Ripple from 'react-native-material-ripple';
+import {width} from '../../constants';
+
+import {Searchbar} from 'react-native-paper';
+import Header from '../Header';
+import {getMyReservations} from '../../actions/reservations';
 import {ActivityIndicator} from 'react-native-paper';
+import {connect} from 'react-redux';
+import Ripple from 'react-native-material-ripple';
 
 class QRSearchScreen extends Component {
-  constructor(props) {
-    super(props);
+  state = {
+    text: '',
+    dataSource: [],
+  };
 
-    this.state = {
-      text: '',
-      dataSource: '',
-    };
-  }
-
-  componentDidMount() {
-    this.props.indexSearchRestaurants();
-  }
-
-  SearchFilterFunction(text) {
-    const newData = this.props.search.restaurants.filter(function (item) {
-      const itemData = item.name.toUpperCase();
-      const textData = text.toUpperCase();
-      return itemData.indexOf(textData) > -1;
-    });
+  searchFilterFunction(text) {
+    const newData = this.props.reservations.orders.upcomingOrders.filter(
+      (item) => {
+        const itemData = item.restaurants.name.toUpperCase();
+        const textData = text.toUpperCase();
+        return itemData.indexOf(textData) > -1;
+      },
+    );
     this.setState({
       dataSource: newData,
       text: text,
     });
   }
+
+  onSearchResultPress(data) {
+    this.props.navigation.navigate('EnterAmountScreen', {data});
+  }
+
+  renderLoading() {
+    if (!this.props.reservations.loading) return;
+    return (
+      <View style={{flex: 1, backgroundColor: '#fff'}}>
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <ActivityIndicator animating={true} color="#404040" size={36} />
+        </View>
+      </View>
+    );
+  }
+
+  renderSearchBar() {
+    if (this.props.reservations.loading) return;
+    return (
+      <Searchbar
+        style={{
+          marginTop: 10,
+          width: width * 0.9,
+          height: 50,
+          marginBottom: 10,
+          alignSelf: 'center',
+          backgroundColor: '#fff',
+          shadowOpacity: 0.25,
+          borderRadius: 10,
+        }}
+        onChangeText={(text) => this.searchFilterFunction(text)}
+        value={this.state.text}
+        placeholder='Search for "Restaurants"'
+        placeholderTextColor="#D1D1D1"
+        inputStyle={{
+          color: '#3E3E3E',
+          fontFamily: 'Poppins-Regular',
+          fontSize: 16,
+        }}
+        autoFocus={false}
+        selectionColor="#d20000"
+      />
+    );
+  }
+
+  renderSearchList() {
+    if (this.props.reservations.loading) return;
+
+    if (this.state.text === '') {
+      return (
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            paddingBottom: 50,
+          }}>
+          <Text
+            style={{
+              fontFamily: 'Poppins-SemiBold',
+              color: '#707070',
+              fontSize: 18,
+              textAlign: 'center',
+              padding: 40,
+            }}>
+            Search and pay at <Text style={{color: '#299e49'}}>Reno Pay</Text>{' '}
+            restaurants
+          </Text>
+        </View>
+      );
+    }
+
+    return (
+      <FlatList
+        keyboardShouldPersistTaps="handled"
+        data={this.state.dataSource}
+        renderItem={({item}) => {
+          return (
+            <Ripple
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                margin: 10,
+              }}
+              onPress={this.onSearchResultPress.bind(this, item)}>
+              <Image
+                source={{uri: item.restaurants.imageurl}}
+                style={{height: 100, width: 100, borderRadius: 10}}
+                resizeMode="cover"
+              />
+              <View
+                style={{
+                  margin: 10,
+                  width: '50%',
+                }}>
+                <Text
+                  style={{
+                    fontFamily: 'Poppins-Medium',
+                    fontSize: 17,
+                    color: '#000',
+                  }}>
+                  {item.restaurants.name}
+                </Text>
+                <Text
+                  style={{
+                    fontFamily: 'Poppins-Regular',
+                    color: '#7a7a7a',
+                    fontSize: 16,
+                  }}>
+                  {item.restaurants.city}
+                </Text>
+                <Text
+                  style={{
+                    fontFamily: 'Poppins-Regular',
+                    color: '#7a7a7a',
+                    fontSize: 14,
+                  }}>
+                  {item.date}{' '}
+                  <Text style={{fontSize:12}}>
+                    {item.timeDiscount.time}
+                  </Text>
+                </Text>
+              </View>
+              <View
+                style={{
+                  height: 40,
+                  width: 40,
+                  backgroundColor: '#d20000',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  marginTop: 10,
+                  borderRadius: 5,
+                }}>
+                <Text
+                  style={{
+                    fontFamily: 'Poppins-Bold',
+                    fontSize: 17,
+                    color: '#fff',
+                  }}>
+                  {item.restaurants.rating}
+                </Text>
+              </View>
+            </Ripple>
+          );
+        }}
+        enableEmptySections={true}
+        style={{marginTop: 10}}
+        keyExtractor={(_, index) => index}
+      />
+    );
+  }
+
   render() {
     return (
       <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
-        <AntDesign
-          name="close"
-          color="#707070"
-          size={25}
-          style={{margin: 15}}
-          onPress={() => this.props.navigation.pop()}
-        />
-        {this.props.search.restaurants ? (
-          <View style={{flex: 1}}>
-            <View
-              style={{
-                height: 70,
-                backgroundColor: '#fff',
-                shadowColor: '#000',
-                shadowOffset: {height: 6, width: 0},
-                shadowOpacity: 0.1,
-                elevation: 10,
-                justifyContent: 'flex-end',
-              }}>
-              <TextInput
-                style={{
-                  fontSize: 25,
-                  fontFamily: 'Poppins-SemiBold',
-                  color: '#000',
-                  marginLeft: 20,
-                  marginBottom: 20,
-                }}
-                onChangeText={(text) => this.SearchFilterFunction(text)}
-                value={this.state.text}
-                autoFocus
-                placeholder='Search For "Restaurants"'
-                placeholderTextColor="#707070"
-                selectionColor="#000"
-              />
-            </View>
-            {this.state.text == '' ? (
-              <View />
-            ) : (
-              <FlatList
-                keyboardShouldPersistTaps="handled"
-                data={this.state.dataSource}
-                renderItem={({item}) => {
-                  return (
-                    <Ripple
-                      style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        margin: 10,
-                      }}
-                      onPress={() =>
-                        this.props.navigation.navigate('EnterAmountScreen', {
-                          imageurl: item.imageurl,
-                          name: item.name,
-                          city: item.city,
-                        })
-                      }>
-                      <Image
-                        source={{uri: item.imageurl}}
-                        style={{height: 100, width: 100, borderRadius: 10}}
-                        resizeMode="cover"
-                      />
-                      <View
-                        style={{
-                          margin: 10,
-                          width: '50%',
-                          justifyContent: 'space-between',
-                        }}>
-                        <Text
-                          style={{
-                            fontFamily: 'Poppins-Medium',
-                            fontSize: 17,
-                            color: '#000',
-                          }}>
-                          {item.name}
-                        </Text>
-                        <Text
-                          style={{
-                            fontFamily: 'Poppins-Regular',
-                            color: '#7a7a7a',
-                            fontSize: 16,
-                          }}>
-                          {item.city}
-                        </Text>
-                      </View>
-                      <View
-                        style={{
-                          height: 40,
-                          width: 40,
-                          backgroundColor: '#d20000',
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                          marginTop: 10,
-                          borderRadius: 5,
-                        }}>
-                        <Text
-                          style={{
-                            fontFamily: 'Poppins-Bold',
-                            fontSize: 17,
-                            color: '#fff',
-                          }}>
-                          {item.rating}
-                        </Text>
-                      </View>
-                    </Ripple>
-                  );
-                }}
-                enableEmptySections={true}
-                style={{marginTop: 10}}
-                keyExtractor={(item, index) => index}
-              />
-            )}
-          </View>
-        ) : (
-          <View
-            style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-            <ActivityIndicator animating={true} color="#d20000" size="large" />
-          </View>
-        )}
+        <Header onBack={() => this.props.navigation.pop()} text="Search" />
+        {this.renderLoading()}
+        {this.renderSearchBar()}
+        {this.renderSearchList()}
       </SafeAreaView>
     );
   }
 }
-mapStateToProps = (state) => {
-  return {search: state.search};
-};
-export default connect(mapStateToProps, {indexSearchRestaurants})(
-  QRSearchScreen,
-);
+mapStateToProps = ({reservations}) => ({reservations});
+export default connect(mapStateToProps, {getMyReservations})(QRSearchScreen);

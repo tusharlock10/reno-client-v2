@@ -1,45 +1,45 @@
-import React, { Component } from "react";
-import { Text, View, SafeAreaView, FlatList } from "react-native";
-import Header from "./Header";
-import axios from "../../api";
-import RenderRestaurants from "../../components/Tabs/Home/RenderRestaurants";
-import { ActivityIndicator } from "react-native-paper";
+import React, {Component} from 'react';
+import {Text, View, SafeAreaView, FlatList} from 'react-native';
+import Header from '../Header';
+import axios from '../../api';
+import RenderRestaurants from '../../components/Tabs/Home/RenderRestaurants';
+import {ActivityIndicator} from 'react-native-paper';
 class TypeScreen extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       loading: true,
-      restaurants: null
+      restaurants: null,
     };
   }
 
   async componentDidMount() {
     const response = await axios.get(
-      `type/${this.props.navigation.state.params.id}`
+      `type/${this.props.navigation.state.params.id}`,
     );
-    this.setState({ restaurants: response, loading: false });
+    this.setState({restaurants: response.data, loading: false});
   }
   render() {
     return (
-      <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
+      <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
         <Header
-          navigation={this.props.navigation}
-          name={this.props.navigation.state.params.name}
+          onBack={() => this.props.navigation.pop()}
+          text={this.props.navigation.state.params.name}
         />
         {this.state.loading ? (
           <View
-            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-          >
+            style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
             <ActivityIndicator animating={true} color="#d20000" size="large" />
           </View>
         ) : (
           <FlatList
             showsVerticalScrollIndicator={false}
-            ListHeaderComponent={<View></View>}
-            keyExtractor={item => item.id}
+            ListHeaderComponent={<View style={{height:20}}/>}
+            ListFooterComponent={<View style={{height:50}}/>}
+            keyExtractor={(item) => item.id}
             data={this.state.restaurants}
-            renderItem={({ item, index }) => {
+            renderItem={({item, index}) => {
               return (
                 <RenderRestaurants
                   id={item.id}

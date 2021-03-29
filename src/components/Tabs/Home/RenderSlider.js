@@ -1,33 +1,43 @@
 import React, {Component} from 'react';
+import {TouchableOpacity, StyleSheet} from 'react-native';
 import Image from 'react-native-fast-image';
-// import Ripple from "react-native-material-ripple";
-import TouchableScale from 'react-native-touchable-scale';
+
+const TILE_WIDTH = 180;
 class App extends Component {
+  onPressTile() {
+    this.props.navigation.navigate('BrandTileRestaurants', {
+      data: this.props.data,
+    });
+  }
+
   render() {
     return (
-      <TouchableScale
-        activeScale={0.96}
-        style={{
-          height: 130,
-          width: 180,
-          borderRadius: 10,
-          backgroundColor: '#fff',
-          marginLeft: 5,
-          marginRight: 5,
-          marginTop: 15,
-          shadowColor: '#000',
-          shadowOffset: {height: 4, width: 1},
-          shadowOpacity: 0.2,
-          marginBottom: 20,
-          elevation: 10,
-        }}>
+      <TouchableOpacity
+        activeOpacity={0.8}
+        style={styles.buttonView}
+        onPress={this.onPressTile.bind(this)}>
         <Image
-          source={{uri: this.props.image}}
-          style={{height: '100%', width: '100%', borderRadius: 10}}
+          source={{uri: this.props.data.imageurl}}
+          style={{flex: 1}}
           resizeMode="cover"
         />
-      </TouchableScale>
+      </TouchableOpacity>
     );
   }
 }
 export default App;
+
+const styles = StyleSheet.create({
+  buttonView: {
+    height: (TILE_WIDTH * 3) / 4,
+    width: TILE_WIDTH,
+    borderRadius: 10,
+    backgroundColor: '#fff',
+    marginLeft: 5,
+    marginRight: 5,
+    marginTop: 15,
+    marginBottom: 20,
+    elevation: 10,
+    overflow: 'hidden',
+  },
+});

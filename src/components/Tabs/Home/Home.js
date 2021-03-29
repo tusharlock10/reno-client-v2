@@ -13,7 +13,7 @@ import Image from 'react-native-fast-image';
 import {Searchbar} from 'react-native-paper';
 import RenderRestaurants from './RenderRestaurants';
 import {connect} from 'react-redux';
-import AntDesign from 'react-native-vector-icons/AntDesign';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import {indexRestaurants, brandTiles} from '../../../actions/restaurant';
 import {width} from '../../../constants';
 import setCityValue from '../../../utils/setCityValue';
@@ -67,7 +67,7 @@ class HomeScreen extends Component {
     const city = await AsyncStorage.getItem('city');
     setCityValue(city);
     this.setState({city});
-    this.props.brandTiles();
+    this.props.brandTiles(city);
     this.props.indexRestaurants();
   }
   onGoBack = (someData) => {
@@ -116,8 +116,8 @@ class HomeScreen extends Component {
                   }}>
                   {this.state.city}
                 </Text>
-                <AntDesign
-                  name="caretdown"
+                <Ionicons
+                  name="caret-down-outline"
                   size={16}
                   color="#d20000"
                   style={{paddingTop: 2}}
@@ -150,32 +150,12 @@ class HomeScreen extends Component {
                     width: 40,
                     borderWidth: 2,
                     borderColor: '#fff',
-                    borderRadius:40/2,
+                    borderRadius: 40 / 2,
                   }}
                   resizeMode="cover"
                 />
               </TouchableOpacity>
             </View>
-            <Searchbar
-              style={{
-                marginTop: 15,
-                width: width * 0.9,
-                height: 50,
-                marginBottom: 5,
-                backgroundColor: '#fff',
-                shadowOpacity: 0.25,
-                borderRadius: 10,
-              }}
-              placeholder='Search for "Restaurants"'
-              placeholderTextColor="#D1D1D1"
-              inputStyle={{
-                color: '#3E3E3E',
-                fontFamily: 'Poppins-Regular',
-                fontSize: 16,
-              }}
-              onFocus={() => this.props.navigation.navigate('SearchScreen')}
-              selectionColor="#d20000"
-            />
             {/*End of header component */}
             {this.props.restaurants.gotRestaurantData &&
             this.props.restaurants.gotBrandTiles ? (
@@ -183,6 +163,35 @@ class HomeScreen extends Component {
                 <FlatList
                   ListHeaderComponent={
                     <>
+                      <TouchableOpacity
+                        activeOpacity={0.8}
+                        onPress={() =>
+                          this.props.navigation.navigate('SearchScreen')
+                        }
+                        style={{
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          paddingHorizontal: 10,
+                          paddingVertical: 5,
+                          borderRadius: 50,
+                          borderWidth: 1,
+                          borderColor: '#A0A0A0',
+                          width: '40%',
+                          alignSelf: 'flex-end',
+                          marginRight: 15,
+                          marginTop: 15,
+                        }}>
+                        <Ionicons name="search" color={'#A0A0A0'} size={14} />
+                        <Text
+                          style={{
+                            fontFamily: 'Poppins-Regular',
+                            color: '#A0A0A0',
+                            fontSize: 12,
+                            marginLeft: 5,
+                          }}>
+                          Search
+                        </Text>
+                      </TouchableOpacity>
                       <FlatList
                         data={this.props.restaurants.brandTiles}
                         showsHorizontalScrollIndicator={false}
@@ -191,7 +200,7 @@ class HomeScreen extends Component {
                         renderItem={({item}) => {
                           return (
                             <RenderSlider
-                              image={item.imageurl}
+                              data={item}
                               navigation={this.props.navigation}
                             />
                           );
@@ -219,7 +228,7 @@ class HomeScreen extends Component {
                       </View>
                     </>
                   }
-                  ListFooterComponent={<View style={{height:150}}/>}
+                  ListFooterComponent={<View style={{height: 150}} />}
                   showsVerticalScrollIndicator={false}
                   keyExtractor={(item) => item.id}
                   initialNumToRender={10}
@@ -233,7 +242,7 @@ class HomeScreen extends Component {
                         timeDiscounts={
                           item[this.day] ? item[this.day].timeDiscounts : []
                         }
-                        isRenoPayEnabled={true}
+                        isRenoPayEnabled={item.acceptsRenoPay}
                         image={item.imageurl}
                         directions={item.googlemapsurl}
                         navigation={this.props.navigation}

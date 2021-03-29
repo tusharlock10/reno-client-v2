@@ -29,110 +29,115 @@ class RenoPay extends Component {
             color: '#707070',
             fontSize: 14,
           }}>
-          Scan And Pay feature for Reno Pay is coming soon. You can search pay
-          for the restaurants accepting
+          You can search pay for the restaurants accepting
           <Text style={{color: '#299e49', fontFamily: 'Poppins-Medium'}}>
             {' '}
             Reno Pay.
           </Text>
         </Text>
-        <Ripple
-          style={{
-            padding: 15,
-            marginHorizontal: 10,
-            backgroundColor: '#d20000',
-            justifyContent: 'center',
-            alignItems: 'center',
-            borderRadius: 6,
-          }}
-          onPress={() => this.props.navigation.navigate('QRSearchScreen')}>
-          <Text
-            style={{
-              fontFamily: 'Poppins-Regular',
-              fontSize: 18,
-              color: '#fff',
-            }}>
-            Search For Restaurants
-          </Text>
-        </Ripple>
-        {this.props.reservations.orders ? (
+        {!this.props.reservations.loading ? (
           !_.isEmpty(this.props.reservations.orders.upcomingOrders) ? (
-            <View style={{alignItems: 'center'}}>
-              <Text
-                style={{
-                  fontFamily: 'Poppins-Regular',
-                  color: '#707070',
-                  fontSize: 13,
-                  marginTop: 20,
-                  marginBottom: 10,
-                }}>
-                UPCOMING BOOKING
-              </Text>
+            <View>
               <Ripple
                 style={{
-                  width: width * 0.9,
-                  height: 100,
-                  flexDirection: 'row',
-                  backgroundColor: '#fff',
+                  padding: 15,
+                  marginHorizontal: 10,
+                  backgroundColor: '#d20000',
+                  justifyContent: 'center',
                   alignItems: 'center',
                   borderRadius: 6,
-                  shadowOpacity: 0.25,
-                  shadowColor: '#000',
-                  shadowOffset: {height: 2, width: 2},
-                  shadowRadius: 7,
-                  elevation: 7,
                 }}
                 onPress={() =>
-                  this.props.navigation.navigate('EnterAmountScreen', {
-                    data: this.props.reservations.orders.upcomingOrders[0],
+                  this.props.navigation.navigate('SearchScreen', {
+                    isRenoPay: true,
                   })
                 }>
-                <Image
-                  source={{
-                    uri: this.props.reservations.orders.upcomingOrders[0]
-                      .restaurants.imageurl,
-                  }}
+                <Text
                   style={{
-                    height: 80,
-                    width: 80,
-                    borderRadius: 5,
-                    marginLeft: 12,
-                  }}
-                />
-                <View style={{margin: 10, justifyContent: 'space-between'}}>
-                  <Text
-                    style={{
-                      fontFamily: 'Poppins-Regular',
-                      color: '#000',
-                      fontSize: 16,
-                    }}>
-                    {
-                      this.props.reservations.orders.upcomingOrders[0]
-                        .restaurants.name
-                    }
-                  </Text>
-                  <Text
-                    style={{
-                      fontFamily: 'Poppins-Regular',
-                      color: '#d20000',
-                      fontSize: 16,
-                    }}>
-                    {
-                      this.props.reservations.orders.upcomingOrders[0]
-                        .timeDiscount.time
-                    }
-                  </Text>
-                </View>
+                    fontFamily: 'Poppins-Regular',
+                    fontSize: 18,
+                    color: '#fff',
+                  }}>
+                  Search For Restaurants
+                </Text>
               </Ripple>
-              <Text
-                style={{
-                  fontFamily: 'Poppins-Regular',
-                  fontSize: 14,
-                  color: '#000',
-                  marginTop: 10,
-                }}>
-                click on the above card to make payment
-              </Text>
+              <View style={{alignItems: 'center'}}>
+                <Text
+                  style={{
+                    fontFamily: 'Poppins-Regular',
+                    color: '#707070',
+                    fontSize: 13,
+                    marginTop: 20,
+                    marginBottom: 10,
+                  }}>
+                  UPCOMING BOOKING
+                </Text>
+                <Ripple
+                  style={{
+                    width: width * 0.9,
+                    height: 100,
+                    flexDirection: 'row',
+                    backgroundColor: '#fff',
+                    alignItems: 'center',
+                    borderRadius: 6,
+                    shadowOpacity: 0.25,
+                    shadowColor: '#000',
+                    shadowOffset: {height: 2, width: 2},
+                    shadowRadius: 7,
+                    elevation: 7,
+                  }}
+                  onPress={() =>
+                    this.props.navigation.navigate('EnterAmountScreen', {
+                      data: this.props.reservations.orders.upcomingOrders[0],
+                    })
+                  }>
+                  <Image
+                    source={{
+                      uri: this.props.reservations.orders.upcomingOrders[0]
+                        .restaurants.imageurl,
+                    }}
+                    style={{
+                      height: 80,
+                      width: 80,
+                      borderRadius: 5,
+                      marginLeft: 12,
+                    }}
+                  />
+                  <View style={{margin: 10, justifyContent: 'space-between'}}>
+                    <Text
+                      style={{
+                        fontFamily: 'Poppins-Regular',
+                        color: '#000',
+                        fontSize: 16,
+                      }}>
+                      {
+                        this.props.reservations.orders.upcomingOrders[0]
+                          .restaurants.name
+                      }
+                    </Text>
+                    <Text
+                      style={{
+                        fontFamily: 'Poppins-Regular',
+                        color: '#d20000',
+                        fontSize: 16,
+                      }}>
+                      {
+                        this.props.reservations.orders.upcomingOrders[0]
+                          .timeDiscount.time
+                      }
+                    </Text>
+                  </View>
+                </Ripple>
+                <Text
+                  style={{
+                    fontFamily: 'Poppins-Regular',
+                    fontSize: 14,
+                    color: '#000',
+                    marginTop: 10,
+                  }}>
+                  click on the above card to make payment
+                </Text>
+              </View>
             </View>
           ) : (
             <Text

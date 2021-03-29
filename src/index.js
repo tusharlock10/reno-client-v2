@@ -5,11 +5,13 @@ import { Provider as PaperProvider } from "react-native-paper";
 import thunk from "redux-thunk";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware, compose } from "redux";
-import logger from "redux-logger";
+import {createLogger} from "redux-logger";
 import AppNavigator from "./navigators/AppNavigator";
 import NavigationService from "./utils/navigationService";
 
 import Reducers from "./reducers";
+
+const logger = createLogger({collapsed:true, duration:true})
 
 const store = createStore(Reducers, applyMiddleware(logger, thunk));
 
