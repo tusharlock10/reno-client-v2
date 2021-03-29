@@ -6,12 +6,13 @@ import {
   SafeAreaView,
   TouchableOpacity,
   StyleSheet,
+  ScrollView,
+  FlatList,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {height, width} from '../../constants';
 import RenderSlots from './RenderSlots';
 import DateComponent from './DateComponent';
-import {ScrollView, FlatList} from 'react-native-gesture-handler';
 import Header from './Header';
 import Footer from './Footer';
 import PeopleComponent from './PeopleComponent';
@@ -22,39 +23,14 @@ import {indexCreateOrder} from '../../actions/createorder';
 import TermsAndConditions from './TermsAndConditions';
 import {ActivityIndicator, Snackbar} from 'react-native-paper';
 import Image from 'react-native-fast-image';
-
-const setDay = function getDay(date) {
-  if (date == 0) {
-    day = 'sunday';
-  }
-  if (date == 1) {
-    day = 'monday';
-  }
-  if (date == 2) {
-    day = 'tuesday';
-  }
-  if (date == 3) {
-    day = 'wednesday';
-  }
-  if (date == 4) {
-    day = 'thursday';
-  }
-  if (date == 5) {
-    day = 'friday';
-  }
-  if (date == 6) {
-    day = 'saturday';
-  }
-
-  return day;
-};
+import {getDayFromNumber} from '../../utils/dateTimeUtils';
 
 class CreateOrder extends Component {
   constructor(props) {
     super(props);
     let date = new Date();
     date = date.getDay(date);
-    this.day = setDay(date).substring(0, 3) + 'Discount';
+    this.day = getDayFromNumber(date).substring(0, 3) + 'Discount';
     this.state = {
       TermsAccepted: __DEV__ ? true : false,
       timeStamp: new Date().getTime(),
@@ -65,6 +41,7 @@ class CreateOrder extends Component {
       discount: this.props.navigation.state.params.discount,
       time: this.props.navigation.state.params.time,
       timeDiscountId: this.props.navigation.state.params.timeDiscountId,
+      imageIndex: 0,
     };
   }
   componentDidMount() {
@@ -89,6 +66,11 @@ class CreateOrder extends Component {
       );
     }
 
+    const imagesData = [
+      this.props.createorder.orderData.imageurl,
+      ...this.props.createorder.orderData.restaurantImages,
+    ];
+
     return (
       <SafeAreaView style={{backgroundColor: '#fff', flex: 1}}>
         <Header
@@ -100,44 +82,90 @@ class CreateOrder extends Component {
           <ScrollView
             showsVerticalScrollIndicator={false}
             keyboardShouldPersistTaps="handled">
-            <Image
-              source={{uri: this.props.navigation.state.params.imageUri}}
-              style={{
-                height: height * 0.3,
-                marginBottom: 5,
-                justifyContent: 'flex-end',
-                width,
-              }}
-              resizeMode="cover">
+            <View>
+              <FlatList
+                data={imagesData}
+                pagingEnabled
+                horizontal
+                snapToInterval={width}
+                showsHorizontalScrollIndicator={false}
+                pagingEnabled
+                onMomentumScrollEnd={(event) => {
+                  const imageIndex = Math.round(
+                    event.nativeEvent.contentOffset.x / width,
+                  );
+                  this.setState({imageIndex});
+                }}
+                keyExtractor={(_, index) => index.toString()}
+                renderItem={({item}) => (
+                  <Image
+                    source={{uri: item}}
+                    style={{
+                      height: (width * 9) / 16,
+                      width,
+                    }}
+                    resizeMode="cover"
+                  />
+                )}
+              />
               <View
                 style={{
-                  height: 38,
-                  width: 60,
-                  marginTop: 45,
-                  opacity: 0.8,
-                  alignSelf: 'flex-end',
-                  borderTopLeftRadius: 5,
+                  position: 'absolute',
+                  right: 0,
+                  bottom: 0,
+                  width,
                   flexDirection: 'row',
-                  backgroundColor: '#fff',
-                  justifyContent: 'center',
                   alignItems: 'center',
                 }}>
-                <Text
-                  style={{
-                    fontFamily: 'Poppins-Regular',
-                    fontSize: 19,
-                    color: '#000',
-                  }}>
-                  4.5
-                </Text>
-                <Ionicons
-                  name="ios-star"
-                  color="#000"
-                  size={20}
-                  style={{marginLeft: 5}}
-                />
+                <View style={{flex: 1}} />
+                <View style={{flex: 1, alignItems: 'center'}}>
+                  <View
+                    style={{
+                      backgroundColor: 'rgba(255, 255, 255, 0.8)',
+                      paddingHorizontal: 8,
+                      paddingVertical: 4,
+                      marginBottom: 3,
+                      borderRadius: 50,
+                      width: 40,
+                      height: 25,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}>
+                    <Text
+                      style={{
+                        fontFamily: 'Poppins-SemiBold',
+                        fontSize: 14,
+                        marginTop: 3,
+                      }}>{`${this.state.imageIndex + 1}/${
+                      imagesData.length
+                    }`}</Text>
+                  </View>
+                </View>
+                <View style={{flex: 1, alignItems: 'flex-end'}}>
+                  <View
+                    style={{
+                      borderTopLeftRadius: 5,
+                      flexDirection: 'row',
+                      backgroundColor: 'rgba(255, 255, 255, 0.8)',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      paddingHorizontal: 8,
+                      paddingVertical: 4,
+                    }}>
+                    <Text
+                      style={{
+                        fontFamily: 'Poppins-Regular',
+                        fontSize: 18,
+                        color: '#000',
+                        marginRight: 5,
+                      }}>
+                      4.5
+                    </Text>
+                    <Ionicons name="star" color="#000" size={18} />
+                  </View>
+                </View>
               </View>
-            </Image>
+            </View>
 
             <View
               style={{
@@ -196,9 +224,9 @@ class CreateOrder extends Component {
               callbackFromMainCalendar={(timeStamp) => {
                 if (this.state.timeStamp != timeStamp) {
                   this.setState({timeStamp});
-                  this.day =
-                    setDay(new Date(timeStamp).getDay()).substring(0, 3) +
-                    'Discount';
+                  this.day = `${getDayFromNumber(
+                    new Date(timeStamp).getDay(),
+                  ).substring(0, 3)}Discount`;
                   this.props.indexCreateOrder(
                     this.props.navigation.state.params.id,
                     timeStamp,

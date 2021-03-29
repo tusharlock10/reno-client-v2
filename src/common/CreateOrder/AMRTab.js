@@ -27,6 +27,7 @@ class AMRTab extends Component {
             borderRadius: 21,
             overflow: 'hidden',
             elevation: 5,
+            backgroundColor:'#fff',marginLeft:3
           }}>
           <Image source={{uri: user.profileImage}} style={{flex: 1}} />
         </View>
@@ -51,7 +52,11 @@ class AMRTab extends Component {
                 />
               ))}
           </View>
-          <Text>{review}</Text>
+          <View style={{flex: 1}}>
+            <Text style={{fontFamily: 'Poppins-Regular', fontSize: 12}}>
+              {review}
+            </Text>
+          </View>
         </View>
       </View>
     );

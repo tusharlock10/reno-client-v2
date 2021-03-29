@@ -1,5 +1,18 @@
 import moment from 'moment';
 
+export const getDayFromNumber = (index) => {
+  const days = [
+    'sunday',
+    'monday',
+    'tuesday',
+    'wednesday',
+    'thursday',
+    'friday',
+    'saturday',
+  ];
+  return days[index]
+};
+
 export const isCurrentTimeInRange = (timeRange) => {
   // eg. timeRange = 21:30-22:00
   // checks if current time is in between the timeRange provided
