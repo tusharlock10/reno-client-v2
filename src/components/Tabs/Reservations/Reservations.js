@@ -34,7 +34,7 @@ class Reservations extends Component {
                 navigation={this.props.navigation}
                 data={
                   this.props.reservations.orders
-                    ? this.props.reservations.orders.pastOrders
+                    ? this.props.reservations.orders.completedOrders
                     : null
                 }
               />

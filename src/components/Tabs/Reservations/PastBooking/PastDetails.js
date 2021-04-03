@@ -24,17 +24,18 @@ class PastDetails extends Component {
   submitUserReview = async () => {
     const {data} = this.props.navigation.state.params;
     const {rating, review} = this.state;
-    if (!rating){return}
+    if (!rating) {
+      return;
+    }
 
     this.setState({submitLoading: true});
-    try{
+    try {
       await axios.post(`/restaurant/${data.restaurants.id}/review`, {
         review,
         rating,
       });
-    }
-    catch(e){
-      alert("Error while uploading your review : ", e)
+    } catch (e) {
+      alert('Error while uploading your review : ', e);
     }
     this.setState({submitLoading: false});
   };
@@ -88,7 +89,7 @@ class PastDetails extends Component {
               style={{
                 fontFamily: 'Poppins-Regular',
                 fontSize: 16,
-                color: rating?'#d20000':'#707070',
+                color: rating ? '#d20000' : '#707070',
               }}>
               Submit
             </Text>
@@ -126,7 +127,7 @@ class PastDetails extends Component {
                 fontSize: 19,
                 color: '#000',
               }}>
-              4.5
+              {data.restaurants.rating}
             </Text>
             <Ionicons
               name="ios-star"
@@ -152,6 +153,17 @@ class PastDetails extends Component {
               }}>
               {data.restaurants.name}
             </Text>
+            {data.cancelled ? (
+              <Text
+                style={{
+                  fontFamily: 'Poppins-Medium',
+                  fontSize: 14,
+                  textAlign: 'center',
+                  color: '#d20000',
+                }}>
+                {'Reservation Cancelled'}
+              </Text>
+            ) : null}
             <View
               style={{
                 backgroundColor: '#d2d2d2',

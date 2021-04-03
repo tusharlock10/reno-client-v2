@@ -5,13 +5,63 @@ import Image from 'react-native-fast-image';
 import {isCurrentTimeInRange} from '../../../../utils/dateTimeUtils';
 
 class UpcomingBookingCard extends React.Component {
+  renderUnlockButton() {
+    const {infoOnly, item} = this.props;
+    if (infoOnly) {
+      return null;
+    }
+
+    if (!item.restaurants.acceptsRenoPay) {
+      return null;
+    }
+
+    const canUnlockTheDeal = isCurrentTimeInRange(item.timeDiscount.time);
+
+    return (
+      <Ripple
+        onPress={() => {
+          if (item.unlockActive) {
+            this.props.navigation.navigate('EnterAmountScreen', {
+              data: item,
+            });
+          } else if (canUnlockTheDeal) {
+            this.props.unlockDeal(item.id);
+          }
+        }}
+        style={{
+          flex: 1,
+          marginHorizontal: 10,
+          marginTop: 5,
+          marginBottom: 10,
+          elevation: 7,
+          borderRadius: 5,
+          height: 50,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: item.unlockActive
+            ? '#299e49'
+            : canUnlockTheDeal
+            ? '#D20000'
+            : '#7a7a7a',
+        }}>
+        <Text
+          style={{
+            fontFamily: 'Poppins-SemiBold',
+            color: 'white',
+            fontSize: 16,
+          }}>
+          {item.unlockActive ? 'Pay with Reno Pay' : 'Unlock your visit'}
+        </Text>
+      </Ripple>
+    );
+  }
+
   render() {
     const {item, index, infoOnly} = this.props;
 
     if (!item.restaurants) {
       return null;
     }
-    const canUnlockTheDeal = isCurrentTimeInRange(item.timeDiscount.time);
     return (
       <Pressable
         style={styles.cardStyle}
@@ -99,46 +149,13 @@ class UpcomingBookingCard extends React.Component {
                 </Text>
               </View>
             </View>
+            <Text style={{fontFamily: 'Poppins-Regular', fontSize: 14, color:'#707070'}}>
+              {item.restaurants.acceptsRenoPay ? 'Pay with Reno Pay' : 'Pay at Restaurant'}
+            </Text>
           </View>
         </View>
 
-        {infoOnly ? null : (
-          <Ripple
-            onPress={() => {
-              if (item.unlockActive) {
-                this.props.navigation.navigate('EnterAmountScreen', {
-                  data: item,
-                });
-              } else if (canUnlockTheDeal) {
-                this.props.unlockDeal(item.id);
-              }
-            }}
-            style={{
-              flex: 1,
-              marginHorizontal: 10,
-              marginTop: 5,
-              marginBottom: 10,
-              elevation: 7,
-              borderRadius: 5,
-              height: 50,
-              justifyContent: 'center',
-              alignItems: 'center',
-              backgroundColor: item.unlockActive
-                ? '#299e49'
-                : canUnlockTheDeal
-                ? '#D20000'
-                : '#7a7a7a',
-            }}>
-            <Text
-              style={{
-                fontFamily: 'Poppins-SemiBold',
-                color: 'white',
-                fontSize: 16,
-              }}>
-              {item.unlockActive ? 'Pay with Reno Pay' : 'Unlock your visit'}
-            </Text>
-          </Ripple>
-        )}
+        {this.renderUnlockButton()}
       </Pressable>
     );
   }

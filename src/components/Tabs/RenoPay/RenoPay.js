@@ -14,9 +14,28 @@ class RenoPay extends Component {
       this.props.getMyReservations();
     });
   }
+
+  onPressUpcomingOrder(upcomingOrder) {
+    if (upcomingOrder.unlockActive) {
+      this.props.navigation.navigate('EnterAmountScreen', {
+        data: upcomingOrder,
+      });
+    } else {
+      this.props.navigation.navigate('UpcomingDetailsScreen', {
+        order: upcomingOrder,
+      });
+    }
+  }
+
   render() {
+    const upcomingOrder = this.props.reservations?.orders?.upcomingOrders?.filter(
+      (order) => order.restaurants.acceptsRenoPay,
+    )[0];
+
     return (
-      <ScrollView style={{backgroundColor: '#fff'}}>
+      <ScrollView
+        style={{backgroundColor: '#fff'}}
+        contentContainerStyle={{flexGrow: 1}}>
         <Image
           source={require('../../../../assets/ScanSoon.jpeg')}
           style={{height: height * 0.4, width: '100%'}}
@@ -36,7 +55,7 @@ class RenoPay extends Component {
           </Text>
         </Text>
         {!this.props.reservations.loading ? (
-          !_.isEmpty(this.props.reservations.orders.upcomingOrders) ? (
+          upcomingOrder ? (
             <View>
               <Ripple
                 style={{
@@ -86,15 +105,10 @@ class RenoPay extends Component {
                     shadowRadius: 7,
                     elevation: 7,
                   }}
-                  onPress={() =>
-                    this.props.navigation.navigate('EnterAmountScreen', {
-                      data: this.props.reservations.orders.upcomingOrders[0],
-                    })
-                  }>
+                  onPress={this.onPressUpcomingOrder.bind(this, upcomingOrder)}>
                   <Image
                     source={{
-                      uri: this.props.reservations.orders.upcomingOrders[0]
-                        .restaurants.imageurl,
+                      uri: upcomingOrder.restaurants.imageurl,
                     }}
                     style={{
                       height: 80,
@@ -110,10 +124,7 @@ class RenoPay extends Component {
                         color: '#000',
                         fontSize: 16,
                       }}>
-                      {
-                        this.props.reservations.orders.upcomingOrders[0]
-                          .restaurants.name
-                      }
+                      {upcomingOrder.restaurants.name}
                     </Text>
                     <Text
                       style={{
@@ -121,35 +132,47 @@ class RenoPay extends Component {
                         color: '#d20000',
                         fontSize: 16,
                       }}>
-                      {
-                        this.props.reservations.orders.upcomingOrders[0]
-                          .timeDiscount.time
-                      }
+                      {upcomingOrder.timeDiscount.time}
+                    </Text>
+                    <Text
+                      style={{
+                        fontFamily: 'Poppins-Regular',
+                        color: upcomingOrder.unlockActive
+                          ? '#299e49'
+                          : '#707070',
+                        fontSize: 14,
+                      }}>
+                      {upcomingOrder.unlockActive
+                        ? 'Click to pay'
+                        : 'Click to unlock the deal'}
                     </Text>
                   </View>
                 </Ripple>
-                <Text
-                  style={{
-                    fontFamily: 'Poppins-Regular',
-                    fontSize: 14,
-                    color: '#000',
-                    marginTop: 10,
-                  }}>
-                  click on the above card to make payment
-                </Text>
               </View>
             </View>
           ) : (
-            <Text
+            <View
               style={{
-                fontFamily: 'Poppins-Regular',
-                color: '#707070',
-                fontSize: 16,
-                marginTop: 20,
-                marginBottom: 10,
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+                paddingHorizontal: 30,
               }}>
-              No Upcoming Bookings
-            </Text>
+              <Text
+                style={{
+                  fontFamily: 'Poppins-Regular',
+                  color: '#707070',
+                  fontSize: 16,
+                  textAlign: 'center',
+                }}>
+                No upcoming bookings for{' '}
+                <Text
+                  style={{fontFamily: 'Poppins-SemiBold', color: '#299e49'}}>
+                  Reno Pay
+                </Text>{' '}
+                restaurants
+              </Text>
+            </View>
           )
         ) : (
           <View

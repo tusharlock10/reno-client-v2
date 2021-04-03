@@ -3,6 +3,7 @@ import {Text, View, FlatList} from 'react-native';
 import Image from 'react-native-fast-image';
 import Ripple from 'react-native-material-ripple';
 import _ from 'lodash';
+import {height, width} from '../../../../constants';
 class PastBooking extends Component {
   render() {
     if (!_.isEmpty(this.props.data)) {
@@ -19,14 +20,14 @@ class PastBooking extends Component {
             return (
               <Ripple
                 style={{
-                  flex:1,
+                  flex: 1,
                   borderRadius: 10,
                   backgroundColor: '#fff',
                   shadowColor: '#00000029',
                   elevation: 7,
                   shadowOpacity: 0.2,
                   marginTop: 15,
-                  marginHorizontal:10,
+                  marginHorizontal: 10,
                 }}
                 onPress={() =>
                   this.props.navigation.navigate('PastDetailsScreen', {
@@ -130,13 +131,25 @@ class PastBooking extends Component {
                     alignSelf: 'center',
                     marginBottom: 15,
                   }}>
-                  <Text
-                    style={{
-                      color: item.unlockActive ? 'green' : '#d20000',
-                      fontFamily: 'Poppins-Medium',
-                    }}>
-                    {item.unlockActive ? 'Deal Unlocked' : 'Deal Not Unlocked'}
-                  </Text>
+                  {item.cancelled ? (
+                    <Text
+                      style={{
+                        color: '#d20000',
+                        fontFamily: 'Poppins-Medium',
+                      }}>
+                      {'Reservation Cancelled'}
+                    </Text>
+                  ) : (
+                    <Text
+                      style={{
+                        color: item.unlockActive ? 'green' : '#d20000',
+                        fontFamily: 'Poppins-Medium',
+                      }}>
+                      {item.unlockActive
+                        ? 'Deal Unlocked'
+                        : 'Deal Not Unlocked'}
+                    </Text>
+                  )}
                 </View>
               </Ripple>
             );
@@ -148,7 +161,7 @@ class PastBooking extends Component {
         <View style={{alignItems: 'center'}}>
           <Image
             source={require('../../../../../assets/no-reservations.png')}
-            style={{height: 110, width: 110, marginTop: 50}}
+            style={{height: height * 0.3, width: width, marginTop: 50}}
             resizeMode="contain"
           />
           <Text
@@ -160,15 +173,18 @@ class PastBooking extends Component {
             }}>
             No Reservations Found
           </Text>
-          <Text
-            style={{
-              marginTop: 8,
-              color: '#777777',
-              fontFamily: 'Poppins-Regular',
-              fontSize: 15,
-            }}>
-            Reserve a table now and avail discounts on your bill
-          </Text>
+          <View style={{flex: 1, paddingHorizontal: 30}}>
+            <Text
+              style={{
+                marginTop: 8,
+                color: '#777777',
+                fontFamily: 'Poppins-Regular',
+                fontSize: 15,
+                textAlign: 'center',
+              }}>
+              Reserve a table now and avail discounts on your bill
+            </Text>
+          </View>
         </View>
       );
     }

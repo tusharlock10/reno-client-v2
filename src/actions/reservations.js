@@ -32,10 +32,19 @@ export const unlockDeal = (orderId) => (dispatch) => {
   );
 };
 
+export const cancelOrder = (orderId, onSuccess) => (dispatch) => {
+  _cancelOrder(dispatch, orderId, onSuccess);
+};
+
 const _unlockDeal = async (dispatch, data) => {
   // private function
   const response = await axios.post('/unlockDeal', data);
   dispatch({type: UPDATE_UPCOMING_RESERVATION, payload: response.data});
+};
+
+const _cancelOrder = async (dispatch, orderId, onSuccess) => {
+  await axios.post(`/cancelBooking/${orderId}`);
+  onSuccess();
 };
 
 function errorHandler(err, type, dispatch) {

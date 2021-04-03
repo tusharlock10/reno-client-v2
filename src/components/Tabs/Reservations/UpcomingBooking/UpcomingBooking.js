@@ -45,15 +45,18 @@ class UpcomingBooking extends Component {
             }}>
             No Reservations Found
           </Text>
-          <Text
-            style={{
-              marginTop: 8,
-              color: '#777777',
-              fontFamily: 'Poppins-Regular',
-              fontSize: 15,
-            }}>
-            Reserve a table now and avail discounts on your bill
-          </Text>
+          <View style={{flex: 1, paddingHorizontal: 30}}>
+            <Text
+              style={{
+                marginTop: 8,
+                color: '#777777',
+                fontFamily: 'Poppins-Regular',
+                fontSize: 15,
+                textAlign: 'center',
+              }}>
+              Reserve a table now and avail discounts on your bill
+            </Text>
+          </View>
         </View>
       );
     }

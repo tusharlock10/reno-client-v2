@@ -32,7 +32,8 @@ class NameInput extends Component {
               fontSize: 16,
               height: 40,
               paddingLeft: 10,
-              fontFamily: "Poppins-Regular"
+              fontFamily: "Poppins-Regular",
+              paddingVertical:0,
             }}
             value={this.props.value}
             onChangeText={this.props.onChangeText}
@@ -111,7 +112,8 @@ class NumberInput extends Component {
                 height: "100%",
                 width: "100%",
                 paddingLeft: 10,
-                fontFamily: "Poppins-Regular"
+                fontFamily: "Poppins-Regular",
+                paddingVertical:0,
               }}
               value={this.props.value}
               onChangeText={this.props.onChangeText}

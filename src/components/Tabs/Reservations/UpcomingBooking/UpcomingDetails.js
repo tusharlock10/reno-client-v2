@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Text, View} from 'react-native';
+import {ActivityIndicator, Text, View} from 'react-native';
 import Image from 'react-native-fast-image';
 import {connect} from 'react-redux';
 import {SafeAreaView} from 'react-navigation';
@@ -8,16 +8,70 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Ripple from 'react-native-material-ripple';
 import Feather from 'react-native-vector-icons/Feather';
 import {ScrollView} from 'react-native-gesture-handler';
-import {unlockDeal} from '../../../../actions/reservations';
+import {unlockDeal, cancelOrder} from '../../../../actions/reservations';
 import {isCurrentTimeInRange} from '../../../../utils/dateTimeUtils';
 
 class UpcomingDetails extends Component {
+  state = {cancelLoading: false};
+
+  renderUnlockButton() {
+    const order =
+      this.props.navigation.state.params.order ||
+      this.props.reservations.orders.upcomingOrders[
+        this.props.navigation.state.params.index
+      ];
+    const canUnlockTheDeal = isCurrentTimeInRange(order.timeDiscount.time);
+
+    if (!order.restaurants.acceptsRenoPay) {
+      return null;
+    }
+
+    return (
+      <Ripple
+        onPress={() => {
+          if (order.unlockActive) {
+            this.props.navigation.navigate('EnterAmountScreen', {
+              data: order,
+            });
+          } else if (canUnlockTheDeal) {
+            this.props.unlockDeal(order.id);
+          }
+        }}
+        style={{
+          alignSelf: 'center',
+          justifyContent: 'center',
+          alignItems: 'center',
+          borderRadius: 12,
+          elevation: 5,
+          shadowOffset: {height: 4, width: 2},
+          shadowRadius: 5,
+          shadowOpacity: 2,
+          backgroundColor: order.unlockActive
+            ? '#299e49'
+            : canUnlockTheDeal
+            ? '#D20000'
+            : '#7a7a7a',
+        }}>
+        <Text
+          style={{
+            margin: 15,
+            fontSize: 17,
+            fontFamily: 'Poppins-Regular',
+            color: '#fff',
+          }}>
+          {order.unlockActive ? 'Pay with Reno Pay' : 'Unlock your visit'}
+        </Text>
+      </Ripple>
+    );
+  }
+
   render() {
     // getting this order directly from the redux state to update the order details live
-    const order = this.props.reservations.orders.upcomingOrders[
-      this.props.navigation.state.params.index
-    ];
-    const canUnlockTheDeal = isCurrentTimeInRange(order.timeDiscount.time);
+    const order =
+      this.props.navigation.state.params.order ||
+      this.props.reservations.orders.upcomingOrders[
+        this.props.navigation.state.params.index
+      ];
     return (
       <SafeAreaView
         style={{flex: 1, backgroundColor: '#F8F8F8'}}
@@ -105,64 +159,31 @@ class UpcomingDetails extends Component {
               {order.restaurants.city}
             </Text>
           </View>
-          <Ripple
-            onPress={() => {
-              if (order.unlockActive) {
-                this.props.navigation.navigate('EnterAmountScreen', {
-                  data: order,
-                });
-              } else if (canUnlockTheDeal) {
-                this.props.unlockDeal(order.id);
-              }
-            }}
-            style={{
-              alignSelf: 'center',
-              justifyContent: 'center',
-              alignItems: 'center',
-              borderRadius: 12,
-              elevation: 5,
-              shadowOffset: {height: 4, width: 2},
-              shadowRadius: 5,
-              shadowOpacity: 2,
-              backgroundColor: order.unlockActive
-                ? '#299e49'
-                : canUnlockTheDeal
-                ? '#D20000'
-                : '#7a7a7a',
-            }}>
-            <Text
-              style={{
-                margin: 15,
-                fontSize: 17,
-                fontFamily: 'Poppins-Regular',
-                color: '#fff',
-              }}>
-              {order.unlockActive ? 'Pay with Reno Pay' : 'Unlock your visit'}
-            </Text>
-          </Ripple>
+          {this.renderUnlockButton()}
           <View
             style={{
               marginTop: 20,
-              shadowColor: '#00000029',
-              shadowOffset: {height: 2, width: 2},
-              shadowRadius: 7,
               borderRadius: 5,
               backgroundColor: '#fff',
-              shadowOpacity: 1,
               width: width * 0.96,
               alignSelf: 'center',
+              flex: 1,
+              alignItems: 'center',
             }}>
             <Text
               style={{
                 fontFamily: 'Poppins-Regular',
                 color: '#000',
                 fontSize: 14,
+                textAlign: 'justify',
                 margin: 10,
               }}>
-              Please unlock your Visit ID at the restaurant. Unlock option
-              appears only in the given time slot for which the reservation is
-              made. After unlocking, you can pay at anytime before leaving the
-              restaurant
+              {order.restaurants.acceptsRenoPay
+                ? `Please unlock your Visit ID at the restaurant. Unlock option\
+appears only in the given time slot for which the reservation is\
+made. After unlocking, you can pay at anytime before leaving the\
+restaurant via Reno Pay`
+                : 'Pay at the restaurant'}
             </Text>
           </View>
           <Text
@@ -319,33 +340,38 @@ class UpcomingDetails extends Component {
             </View>
           </View>
           <Ripple
+            onPress={() => {
+              this.setState({cancelLoading: true});
+              this.props.cancelOrder(order.id, () =>
+                this.props.navigation.pop(),
+              );
+            }}
             rippleColor="#d20000"
             style={{
-              width: width * 0.95,
-              marginTop: 20,
-              marginBottom: 10,
-              borderRadius: 12,
+              marginVertical: 20,
+              borderRadius: 10,
               borderWidth: 1.5,
               justifyContent: 'center',
               alignItems: 'center',
               borderColor: '#d20000',
               elevation: 4,
               backgroundColor: '#fff',
-              shadowColor: '#00000029',
-              shadowOffset: {height: 5, width: 1},
-              shadowRadius: 10,
-              shadowOpacity: 1,
               alignSelf: 'center',
+              height: 45,
+              width: '90%',
             }}>
-            <Text
-              style={{
-                fontFamily: 'Poppins-SemiBold',
-                fontSize: 16,
-                color: '#d20000',
-                margin: 15,
-              }}>
-              Cancel Reservation
-            </Text>
+            {this.state.cancelLoading ? (
+              <ActivityIndicator color={'#d20000'} size={28} />
+            ) : (
+              <Text
+                style={{
+                  fontFamily: 'Poppins-SemiBold',
+                  fontSize: 16,
+                  color: '#d20000',
+                }}>
+                Cancel Reservation
+              </Text>
+            )}
           </Ripple>
         </ScrollView>
       </SafeAreaView>
@@ -355,4 +381,6 @@ class UpcomingDetails extends Component {
 
 const mapStateToProps = ({reservations}) => ({reservations});
 
-export default connect(mapStateToProps, {unlockDeal})(UpcomingDetails);
+export default connect(mapStateToProps, {unlockDeal, cancelOrder})(
+  UpcomingDetails,
+);

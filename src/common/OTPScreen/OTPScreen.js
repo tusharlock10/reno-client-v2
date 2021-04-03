@@ -94,9 +94,7 @@ class OTPScreen extends Component {
             onDismiss={() => this.setState({active: false})}
             action={{
               label: 'Okay',
-              onPress: () => {
-                null;
-              },
+              onPress: () => {},
             }}>
             <Text
               style={{
