@@ -26,9 +26,10 @@ class SearchScreen extends Component {
   }
 
   searchFilterFunction(text) {
+    console.log("HERE RENO PAY IS : ", this.props.navigation)
     const newData = this.props.search.restaurants.filter((item) => {
       if (
-        this.props.navigation.state.params.isRenoPay &&
+        this.props.navigation.state.params?.isRenoPay &&
         !item.acceptsRenoPay
       ) {
         return false;
