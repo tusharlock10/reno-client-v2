@@ -33,7 +33,7 @@ class PrivacyPolicy extends Component {
           }}>
           <Ionicons
             name="md-arrow-back"
-            onPress={() => this.props.navigation.pop()}
+            onPress={() => this.props.navigation.goBack()}
             color="#000"
             size={28}
             style={{marginLeft: 15}}

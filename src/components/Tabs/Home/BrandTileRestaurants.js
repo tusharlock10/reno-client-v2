@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import {View, Text, ActivityIndicator, FlatList} from 'react-native';
+import {connect} from 'react-redux';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Header from '../../../common/Header';
 import RenderRestaurants from './RenderRestaurants';
-import axios from '../../../api';
+import {getDayFromNumber} from '../../../utils/dateTimeUtils';
 
 class BrandTileRestaurants extends Component {
   state = {loading: true, data: []};
@@ -13,8 +14,18 @@ class BrandTileRestaurants extends Component {
   }
 
   getBrandTileData = async () => {
-    const {data} = await axios.get(
-      `/brandTiles/${this.props.navigation.state.params.data.id}`,
+    let brandTile;
+    this.props.restaurants.brandTiles.map((item) => {
+      if (item.id === this.props.route.params.data.id) {
+        brandTile = item;
+      }
+    });
+
+    const brandTileRestaurantIds = brandTile.restaurantses.map(
+      (item) => item.id,
+    );
+    const data = this.props.restaurants.restaurants.filter((restaurant) =>
+      brandTileRestaurantIds.includes(restaurant.id),
     );
     this.setState({data, loading: false});
   };
@@ -35,13 +46,15 @@ class BrandTileRestaurants extends Component {
         showsVerticalScrollIndicator={false}
         keyExtractor={(item) => item.id}
         data={this.state.data}
+        contentContainerStyle={{paddingTop: 20}}
         renderItem={({item}) => {
+          const day = getDayFromNumber(new Date().getDay());
           return (
             <RenderRestaurants
               id={item.id}
               city={item.city}
               name={item.name}
-              timeDiscounts={item[this.day] ? item[this.day].timeDiscounts : []}
+              timeDiscounts={item[day] ? item[day].timeDiscounts : []}
               isRenoPayEnabled={true}
               image={item.imageurl}
               directions={item.googlemapsurl}
@@ -57,8 +70,8 @@ class BrandTileRestaurants extends Component {
     return (
       <View style={{flex: 1}}>
         <Header
-          onBack={() => this.props.navigation.pop()}
-          text={this.props.navigation.state.params.data.type}
+          onBack={() => this.props.navigation.goBack()}
+          text={this.props.route.params.data.type}
         />
         {this.renderLoading()}
         {this.renderRestaurants()}
@@ -67,4 +80,6 @@ class BrandTileRestaurants extends Component {
   }
 }
 
-export default BrandTileRestaurants;
+const mapStateToProps = ({restaurants}) => ({restaurants});
+
+export default connect(mapStateToProps, {})(BrandTileRestaurants);

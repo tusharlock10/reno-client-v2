@@ -4,39 +4,13 @@ import Image from 'react-native-fast-image';
 import {Svg, Polygon} from 'react-native-svg';
 import {height, width} from '../../../constants';
 import RenderSlots from './RenderSlots';
-
-const setDay = function getDay(date) {
-  if (date == 0) {
-    day = 'sunday';
-  }
-  if (date == 1) {
-    day = 'monday';
-  }
-  if (date == 2) {
-    day = 'tuesday';
-  }
-  if (date == 3) {
-    day = 'wednesday';
-  }
-  if (date == 4) {
-    day = 'thursday';
-  }
-  if (date == 5) {
-    day = 'friday';
-  }
-  if (date == 6) {
-    day = 'saturday';
-  }
-
-  return day;
-};
+import {getDayFromNumber} from '../../../utils/dateTimeUtils';
 
 class RenderRestaurants extends Component {
   constructor(props) {
     super(props);
-    let date = new Date();
-    date = date.getDay(date);
-    this.day = setDay(date).substring(0, 3) + 'Discount';
+    this.day =
+      getDayFromNumber(new Date().getDay()).substring(0, 3) + 'Discount';
   }
   render() {
     return (
@@ -45,7 +19,7 @@ class RenderRestaurants extends Component {
           activeOpacity={1}
           rippleDuration={300}
           onPress={() =>
-            this.props.navigation.navigate('CreateOrdersScreen', {
+            this.props.navigation.navigate('CreateOrders', {
               timeDiscounts: this.props.timeDiscounts,
               imageUri: this.props.image,
               id: this.props.id,
@@ -127,7 +101,7 @@ class RenderRestaurants extends Component {
           />
         </TouchableOpacity>
 
-        <View style={{position: 'absolute', left:7, top: 15}}>
+        <View style={{position: 'absolute', left: 7, top: 15}}>
           <View
             style={{
               justifyContent: 'center',

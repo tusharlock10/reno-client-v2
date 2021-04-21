@@ -149,7 +149,7 @@ class Header extends Component {
         }}>
         <Ionicons
           name="md-arrow-back"
-          onPress={() => this.props.navigation.pop()}
+          onPress={() => this.props.navigation.goBack()}
           color={this.props.color}
           size={35}
           style={{marginLeft: 15}}

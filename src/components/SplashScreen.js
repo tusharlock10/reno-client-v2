@@ -29,7 +29,7 @@ class SplashScreen extends Component {
       setCityValue(city);
       setAuthToken(token);
       this.props.loadUser(() => {
-        this.props.navigation.replace('Tabs');
+        this.props.navigation.replace('Main');
       });
     } else {
       this.props.navigation.replace('LoginScreen');

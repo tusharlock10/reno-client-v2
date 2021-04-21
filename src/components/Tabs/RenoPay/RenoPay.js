@@ -9,8 +9,7 @@ import {connect} from 'react-redux';
 import Ripple from 'react-native-material-ripple';
 class RenoPay extends Component {
   componentDidMount() {
-    const {navigation} = this.props;
-    navigation.addListener('willFocus', () => {
+    this.props.navigation.addListener('focus', () => {
       this.props.getMyReservations();
     });
   }
@@ -21,7 +20,7 @@ class RenoPay extends Component {
         data: upcomingOrder,
       });
     } else {
-      this.props.navigation.navigate('UpcomingDetailsScreen', {
+      this.props.navigation.navigate('UpcomingDetails', {
         order: upcomingOrder,
       });
     }

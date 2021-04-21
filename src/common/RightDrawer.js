@@ -79,17 +79,17 @@ class RightDrawer extends Component {
             <DrawerItems
               name="My Account"
               navigation={this.props.navigation}
-              screen="MyAccountScreen"
+              screen="MyAccount"
             />
             <DrawerItems
               name="About Us"
               navigation={this.props.navigation}
-              screen="AboutUsScreen"
+              screen="AboutUs"
             />
             <DrawerItems
               name="Privacy Policy"
               navigation={this.props.navigation}
-              screen="PrivacyPolicyScreen"
+              screen="PrivacyPolicy"
             />
             <DrawerItems
               name="FAQ"
@@ -99,7 +99,7 @@ class RightDrawer extends Component {
             <DrawerItems
               name="Support"
               navigation={this.props.navigation}
-              screen="SupportScreen"
+              screen="Support"
             />
           </View>
           <Image

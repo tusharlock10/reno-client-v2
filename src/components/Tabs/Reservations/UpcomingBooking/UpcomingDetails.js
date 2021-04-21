@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
-import {ActivityIndicator, Text, View} from 'react-native';
+import {ActivityIndicator, Text, View, SafeAreaView} from 'react-native';
 import Image from 'react-native-fast-image';
 import {connect} from 'react-redux';
-import {SafeAreaView} from 'react-navigation';
 import {height, width} from '../../../../constants';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Ripple from 'react-native-material-ripple';
@@ -16,9 +15,9 @@ class UpcomingDetails extends Component {
 
   renderUnlockButton() {
     const order =
-      this.props.navigation.state.params.order ||
+      this.props.route.params.order ||
       this.props.reservations.orders.upcomingOrders[
-        this.props.navigation.state.params.index
+        this.props.route.params.index
       ];
     const canUnlockTheDeal = isCurrentTimeInRange(order.timeDiscount.time);
 
@@ -68,9 +67,9 @@ class UpcomingDetails extends Component {
   render() {
     // getting this order directly from the redux state to update the order details live
     const order =
-      this.props.navigation.state.params.order ||
+      this.props.route.params.order ||
       this.props.reservations.orders.upcomingOrders[
-        this.props.navigation.state.params.index
+        this.props.route.params.index
       ];
     return (
       <SafeAreaView
@@ -90,7 +89,7 @@ class UpcomingDetails extends Component {
           resizeMode="cover">
           <Ionicons
             name="md-arrow-back"
-            onPress={() => this.props.navigation.pop()}
+            onPress={() => this.props.navigation.goBack()}
             color="#fff"
             size={35}
             style={{marginTop: 45, marginLeft: 15}}
@@ -343,7 +342,7 @@ restaurant via Reno Pay`
             onPress={() => {
               this.setState({cancelLoading: true});
               this.props.cancelOrder(order.id, () =>
-                this.props.navigation.pop(),
+                this.props.navigation.goBack(),
               );
             }}
             rippleColor="#d20000"

@@ -30,8 +30,8 @@ class ChangeCity extends Component {
   }
 
   componentWillUnmount() {
-    if (this.props.navigation.state.params.onGoBack) {
-      this.props.navigation.state.params.onGoBack();
+    if (this.props.route.params.onGoBack) {
+      this.props.route.params.onGoBack();
     }
   }
   render() {
@@ -91,7 +91,7 @@ class ChangeCity extends Component {
                 <Ionicons
                   name="md-close"
                   color="#d20000"
-                  onPress={() => this.props.navigation.pop()}
+                  onPress={() => this.props.navigation.goBack()}
                   size={42}
                   style={{ marginRight: 15, marginTop: 5 }}
                 />

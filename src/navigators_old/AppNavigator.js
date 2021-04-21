@@ -47,22 +47,22 @@ const AppNavigator = createStackNavigator(
       path: 'mainTabs',
     },
     /*
-      NOTE: UpcomingDetailsScreen is declared here to hide tab bar on push
+      NOTE: UpcomingDetails is declared here to hide tab bar on push
    */
-    UpcomingDetailsScreen: {
+    UpcomingDetails: {
       screen: UpcomingDetails,
       path: 'upcomingOrders',
       navigationOptions: {
         gesturesEnabled: false,
       },
     },
-    PastDetailsScreen: {
+    PastDetails: {
       screen: PastDetails,
       navigationOptions: {
         gesturesEnabled: false,
       },
     },
-    CreateOrdersScreen: {
+    CreateOrders: {
       screen: CreateOrders,
       navigationOptions: {
         gesturesEnabled: false,
@@ -93,7 +93,7 @@ const AppNavigator = createStackNavigator(
         gesturesEnabled: false,
       },
     },
-    MyAccountScreen: {
+    MyAccount: {
       screen: MyAccount,
       navigationOptions: {
         gesturesEnabled: false,
@@ -117,7 +117,7 @@ const AppNavigator = createStackNavigator(
         gesturesEnabled: false,
       },
     },
-    AboutUsScreen: {
+    AboutUs: {
       screen: AboutUs,
       navigationOptions: {
         gesturesEnabled: false,
@@ -129,7 +129,7 @@ const AppNavigator = createStackNavigator(
         gesturesEnabled: false,
       },
     },
-    PrivacyPolicyScreen: {
+    PrivacyPolicy: {
       screen: PrivacyPolicy,
       navigationOptions: {
         gesturesEnabled: false,
@@ -147,7 +147,7 @@ const AppNavigator = createStackNavigator(
         gesturesEnabled: false,
       },
     },
-    SupportScreen: {
+    Support: {
       screen: Support,
       navigationOptions: {
         gesturesEnabled: false,

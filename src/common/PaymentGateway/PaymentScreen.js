@@ -17,11 +17,11 @@ class PaymentScreen extends Component {
   }
   async componentDidMount() {
     var selectedDays = '';
-    if (this.props.navigation.state.params.days == '90 days') {
+    if (this.props.route.params.days == '90 days') {
       selectedDays = '90';
-    } else if (this.props.navigation.state.params.days == '180 days') {
+    } else if (this.props.route.params.days == '180 days') {
       selectedDays = '180';
-    } else if (this.props.navigation.state.params.days == '360 days') {
+    } else if (this.props.route.params.days == '360 days') {
       selectedDays = '360';
     }
     var response = await axios.post('/reno/get-premium-membership', {

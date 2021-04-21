@@ -55,7 +55,7 @@ export const auth = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         ...payload,
-        loading: true,
+        loading: false,
         isAuthenticated: true
       };
     case AUTH_ERROR:

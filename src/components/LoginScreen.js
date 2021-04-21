@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Text, View, Dimensions} from 'react-native';
+import {Text, View, Dimensions, Alert} from 'react-native';
 import Image from 'react-native-fast-image';
 import {ActivityIndicator} from 'react-native-paper';
 import LinearGradient from 'react-native-linear-gradient';

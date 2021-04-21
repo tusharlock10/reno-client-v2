@@ -25,7 +25,7 @@ class Header extends Component {
         >
           <Ionicons
             name="md-close"
-            onPress={() => this.props.navigation.pop()}
+            onPress={() => this.props.navigation.goBack()}
             color="#000"
             size={30}
             style={{ marginLeft: 15 }}

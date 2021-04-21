@@ -28,9 +28,8 @@ import {getDayFromNumber} from '../../utils/dateTimeUtils';
 class CreateOrder extends Component {
   constructor(props) {
     super(props);
-    let date = new Date();
-    date = date.getDay(date);
-    this.day = getDayFromNumber(date).substring(0, 3) + 'Discount';
+    this.day =
+      getDayFromNumber(new Date().getDay()).substring(0, 3) + 'Discount';
     this.state = {
       TermsAccepted: __DEV__ ? true : false,
       timeStamp: new Date().getTime(),
@@ -38,14 +37,14 @@ class CreateOrder extends Component {
       people: 1,
       name: `${this.props.auth.user.firstname} ${this.props.auth.user.lastname}`,
       number: __DEV__ ? '9354527144' : '',
-      discount: this.props.navigation.state.params.discount,
-      time: this.props.navigation.state.params.time,
-      timeDiscountId: this.props.navigation.state.params.timeDiscountId,
+      discount: this.props.route.params.discount,
+      time: this.props.route.params.time,
+      timeDiscountId: this.props.route.params.timeDiscountId,
       imageIndex: 0,
     };
   }
   componentDidMount() {
-    this.props.indexCreateOrder(this.props.navigation.state.params.id);
+    this.props.indexCreateOrder(this.props.route.params.id);
   }
   openGoogleMaps(url) {
     Linking.canOpenURL(url)
@@ -75,8 +74,8 @@ class CreateOrder extends Component {
       <SafeAreaView style={{backgroundColor: '#fff', flex: 1}}>
         <Header
           navigation={this.props.navigation}
-          name={this.props.navigation.state.params.name}
-          acceptsRenoPay={this.props.navigation.state.params.acceptsRenoPay}
+          name={this.props.route.params.name}
+          acceptsRenoPay={this.props.route.params.acceptsRenoPay}
         />
         <View style={{flex: 1}}>
           <ScrollView
@@ -181,7 +180,7 @@ class CreateOrder extends Component {
                     fontSize: 20,
                     color: '#000',
                   }}>
-                  {this.props.navigation.state.params.name}
+                  {this.props.route.params.name}
                 </Text>
                 <Text
                   style={{
@@ -190,7 +189,7 @@ class CreateOrder extends Component {
                     opacity: 0.7,
                     color: '#000',
                   }}>
-                  {this.props.navigation.state.params.city}
+                  {this.props.route.params.city}
                 </Text>
               </View>
               <TouchableOpacity
@@ -202,7 +201,7 @@ class CreateOrder extends Component {
                 }}
                 onPress={this.openGoogleMaps.bind(
                   this,
-                  this.props.navigation.state.params.directions,
+                  this.props.route.params.directions,
                 )}>
                 <Image
                   source={require('../../../assets/compass.png')}
@@ -228,7 +227,7 @@ class CreateOrder extends Component {
                     new Date(timeStamp).getDay(),
                   ).substring(0, 3)}Discount`;
                   this.props.indexCreateOrder(
-                    this.props.navigation.state.params.id,
+                    this.props.route.params.id,
                     timeStamp,
                   );
                 }
@@ -272,7 +271,7 @@ class CreateOrder extends Component {
                   this.state.timeStamp != null &&
                   this.props.createorder.orderData
                     ? this.props.createorder.orderData.timeDiscounts
-                    : this.props.navigation.state.params.timeDiscounts
+                    : this.props.route.params.timeDiscounts
                 }
                 renderItem={({item, index}) => {
                   return (
@@ -321,7 +320,7 @@ class CreateOrder extends Component {
             people={this.state.people}
             name={this.state.name}
             phoneno={this.state.number}
-            restaurantId={this.props.navigation.state.params.id}
+            restaurantId={this.props.route.params.id}
             timeDiscountId={this.state.timeDiscountId}
             date={this.state.timeStamp}
             callbackFromParent={(show) => {

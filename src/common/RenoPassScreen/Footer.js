@@ -23,7 +23,7 @@ class Footer extends Component {
       >
         <Ripple
           onPress={() =>
-            this.props.navigation.navigate("PaymentGateway", {
+            this.props.navigation.navigate("PaymentScreen", {
               days: this.props.time
             })
           }

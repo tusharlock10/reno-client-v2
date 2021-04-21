@@ -22,7 +22,7 @@ class PastDetails extends Component {
   };
 
   submitUserReview = async () => {
-    const {data} = this.props.navigation.state.params;
+    const {data} = this.props.route.params;
     const {rating, review} = this.state;
     if (!rating) {
       return;
@@ -100,7 +100,7 @@ class PastDetails extends Component {
   }
 
   render() {
-    const {data} = this.props.navigation.state.params;
+    const {data} = this.props.route.params;
     return (
       <View style={{backgroundColor: '#F8F8F8', flex: 1}}>
         <Image
@@ -115,7 +115,7 @@ class PastDetails extends Component {
           resizeMode="cover">
           <Ionicons
             name="md-arrow-back"
-            onPress={() => this.props.navigation.pop()}
+            onPress={() => this.props.navigation.goBack()}
             color="#fff"
             size={35}
             style={{marginTop: 45, marginLeft: 15}}

@@ -6,7 +6,7 @@ const Header = ({name, navigation, acceptsRenoPay}) => {
   return (
     <View style={styles.header}>
       <View style={styles.headerInnerView}>
-        <TouchableOpacity activeOpacity={0.8} onPress={() => navigation.pop()}>
+        <TouchableOpacity activeOpacity={0.8} onPress={() => navigation.goBack()}>
           <Ionicons name={'arrow-back'} size={24} color={'#404040'} />
         </TouchableOpacity>
 

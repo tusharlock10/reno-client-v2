@@ -1,4 +1,5 @@
 import {Alert, PermissionsAndroid} from 'react-native';
+import moment from 'moment';
 import Geolocation from 'react-native-geolocation-service';
 import {getPermission} from '../utils/permissions';
 
@@ -13,7 +14,39 @@ import axios from '../api';
 export const getMyReservations = () => async (dispatch) => {
   try {
     const response = await axios.get('/orders');
-    dispatch({type: RESERVATIONS_FETCH, payload: response.data});
+
+    const orders = response.data;
+    const upcomingOrders = [];
+    const completedOrders = [];
+
+    orders.forEach((order) => {
+      const orderTime = order.timeDiscount.time.split('-')[1];
+      const hours = orderTime.split(':')[0];
+      const minutes = orderTime.split(':')[1];
+      const orderDate = moment(order.date)
+        .set('hours', hours)
+        .set('minutes', minutes);
+
+      if (order.cancelled) {
+        completedOrders.unshift(order);
+      } else if (orderDate < moment()) {
+        if (order.unlockActive && !order.confirmed) {
+          // check if order was unlocked but not paid, then its an upcoming order
+          upcomingOrders.push(order);
+        } else {
+          completedOrders.unshift(order);
+        }
+        // console.log(order);
+      } else {
+        upcomingOrders.push(order);
+        // console.log(order);
+      }
+    });
+
+    dispatch({
+      type: RESERVATIONS_FETCH,
+      payload: {upcomingOrders, completedOrders},
+    });
   } catch (error) {
     errorHandler(error, RESERVATIONS_FETCH_ERROR, dispatch);
   }

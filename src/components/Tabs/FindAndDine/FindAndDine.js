@@ -17,6 +17,7 @@ import Ripple from 'react-native-material-ripple';
 import Geolocation from 'react-native-geolocation-service';
 import AsyncStorage from '@react-native-community/async-storage';
 import {getPermission} from '../../../utils/permissions';
+import {getDayFromNumber} from '../../../utils/dateTimeUtils'
 
 class FindAndDine extends Component {
   state = {
@@ -70,6 +71,8 @@ class FindAndDine extends Component {
             />
             {this.props.nearby.restaurants != null ? (
               this.props.nearby.restaurants.map((marker) => {
+                const day = getDayFromNumber(new Date().getDay());
+                const dayDiscount = `${day.slice(0,3)}Discount`
                 if (marker.distance > this.state.maxDistance) {
                   return null;
                 }
@@ -97,7 +100,8 @@ class FindAndDine extends Component {
                       });
                     }}>
                     <AnimatedPriceMarker
-                      discount={marker.timeDiscounts[0]?.discount || '0'}
+                      discount={marker[day].timeDiscounts[0]?
+                      marker[day].timeDiscounts[0][dayDiscount] : 0}
                     />
                   </Marker>
                 );

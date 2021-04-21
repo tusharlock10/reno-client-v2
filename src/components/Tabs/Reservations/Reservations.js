@@ -9,8 +9,7 @@ import {getMyReservations} from '../../../actions/reservations';
 import {ActivityIndicator} from 'react-native-paper';
 class Reservations extends Component {
   componentDidMount() {
-    const {navigation} = this.props;
-    navigation.addListener('willFocus', () => {
+    this.props.navigation.addListener('focus', () => {
       this.props.getMyReservations();
     });
   }

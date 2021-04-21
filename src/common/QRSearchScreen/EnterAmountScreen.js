@@ -31,7 +31,7 @@ class EnterAmountScreen extends Component {
       email,
       mobile,
       amount: parseInt(this.state.amount),
-      orderId: this.props.navigation.state.params.data.id,
+      orderId: this.props.route.params.data.id,
     };
     const paymentResponse = await completePayment(data);
     this.setState({paymentLoading: false, paymentResponse});
@@ -44,7 +44,7 @@ class EnterAmountScreen extends Component {
           name="md-arrow-back"
           size={28}
           color={'#000'}
-          onPress={() => this.props.navigation.pop()}
+          onPress={() => this.props.navigation.goBack()}
         />
         <Text style={styles.headingText}>Reno Pay</Text>
       </View>
@@ -55,7 +55,7 @@ class EnterAmountScreen extends Component {
     return (
       <UpcomingBookingCard
         infoOnly={true}
-        item={this.props.navigation.state.params.data}
+        item={this.props.route.params.data}
       />
     );
   }

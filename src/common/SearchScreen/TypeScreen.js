@@ -16,7 +16,7 @@ class TypeScreen extends Component {
 
   async componentDidMount() {
     const response = await axios.get(
-      `type/${this.props.navigation.state.params.id}`,
+      `type/${this.props.route.params.id}`,
     );
     this.setState({restaurants: response.data, loading: false});
   }
@@ -24,8 +24,8 @@ class TypeScreen extends Component {
     return (
       <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
         <Header
-          onBack={() => this.props.navigation.pop()}
-          text={this.props.navigation.state.params.name}
+          onBack={() => this.props.navigation.goBack()}
+          text={this.props.route.params.name}
         />
         {this.state.loading ? (
           <View

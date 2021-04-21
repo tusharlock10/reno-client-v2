@@ -119,12 +119,13 @@ class RenderRestaurants extends Component {
           <Ripple
             rippleColor="#d20000"
             onPress={() =>
-              this.props.navigation.navigate('CreateOrdersScreen', {
+              this.props.navigation.navigate('CreateOrders', {
                 timeDiscounts: this.props.data.timeDiscounts,
                 imageUri: this.props.data.imageurl,
                 directions: this.props.data.directions,
                 name: this.props.data.name,
                 city: this.props.data.city,
+                id: this.props.data.id,
               })
             }
             style={{

@@ -10,8 +10,8 @@ import {Snackbar} from 'react-native-paper';
 class OTPScreen extends Component {
   async componentDidMount() {
     await axios.post('/bookingOtp', {
-      mobile: this.props.navigation.state.params.phoneno,
-      restaurantId: this.props.navigation.state.params.restaurantId,
+      mobile: this.props.route.params.phoneno,
+      restaurantId: this.props.route.params.restaurantId,
     });
   }
   constructor(props) {
@@ -52,7 +52,7 @@ class OTPScreen extends Component {
             Enter OTP send to
             <Text style={{fontFamily: 'Poppins-Bold', color: '#767d86'}}>
               {' '}
-              +91 {this.props.navigation.state.params.phoneno}
+              +91 {this.props.route.params.phoneno}
             </Text>
           </Text>
           <OTPInput
@@ -67,12 +67,12 @@ class OTPScreen extends Component {
           />
 
           <Footer
-            people={this.props.navigation.state.params.people}
-            timeDiscountId={this.props.navigation.state.params.timeDiscountId}
-            restaurantId={this.props.navigation.state.params.restaurantId}
-            date={this.props.navigation.state.params.date}
-            name={this.props.navigation.state.params.name}
-            mobile={this.props.navigation.state.params.phoneno}
+            people={this.props.route.params.people}
+            timeDiscountId={this.props.route.params.timeDiscountId}
+            restaurantId={this.props.route.params.restaurantId}
+            date={this.props.route.params.date}
+            name={this.props.route.params.name}
+            mobile={this.props.route.params.phoneno}
             otp={this.state.otp}
             navigation={this.props.navigation}
             active={this.state.visible}
@@ -117,7 +117,7 @@ class Header extends Component {
       <View style={{width, height: 55, justifyContent: 'center'}}>
         <Ionicons
           name="md-arrow-back"
-          onPress={() => this.props.navigation.pop()}
+          onPress={() => this.props.navigation.goBack()}
           color="#000"
           size={35}
           style={{marginLeft: 15}}

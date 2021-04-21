@@ -184,7 +184,7 @@ class QRSearchScreen extends Component {
   render() {
     return (
       <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
-        <Header onBack={() => this.props.navigation.pop()} text="Search" />
+        <Header onBack={() => this.props.navigation.goBack()} text="Search" />
         {this.renderLoading()}
         {this.renderSearchBar()}
         {this.renderSearchList()}

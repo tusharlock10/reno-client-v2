@@ -26,10 +26,9 @@ class SearchScreen extends Component {
   }
 
   searchFilterFunction(text) {
-    console.log("HERE RENO PAY IS : ", this.props.navigation)
     const newData = this.props.search.restaurants.filter((item) => {
       if (
-        this.props.navigation.state.params?.isRenoPay &&
+        this.props.route.params?.isRenoPay &&
         !item.acceptsRenoPay
       ) {
         return false;
@@ -45,12 +44,13 @@ class SearchScreen extends Component {
   }
 
   onSearchResultPress(item) {
-    this.props.navigation.navigate('CreateOrdersScreen', {
+    this.props.navigation.navigate('CreateOrders', {
       city: item.city,
       name: item.name,
       timeDiscounts: item.timeDiscounts,
       imageUri: item.imageurl,
       directions: item.googlemapsurl,
+      id: item.id,
     });
   }
 
@@ -179,7 +179,7 @@ class SearchScreen extends Component {
   render() {
     return (
       <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
-        <Header onBack={() => this.props.navigation.pop()} text="Search" />
+        <Header onBack={() => this.props.navigation.goBack()} text="Search" />
         {this.renderLoading()}
         {this.renderSearchBar()}
         {this.renderSearchList()}

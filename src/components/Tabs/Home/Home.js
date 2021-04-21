@@ -30,9 +30,7 @@ class HomeScreen extends Component {
   async componentDidMount() {
     StatusBar.setBackgroundColor('#fff');
     StatusBar.setBarStyle('dark-content');
-    let date = new Date();
-    date = date.getDay(date);
-    this.day = getDayFromNumber(date);
+    this.day = getDayFromNumber(new Date().getDay());
     this.renderData();
   }
   async renderData() {
@@ -42,7 +40,7 @@ class HomeScreen extends Component {
     this.props.brandTiles(city);
     this.props.indexRestaurants();
   }
-  onGoBack = (someData) => {
+  onGoBack = () => {
     this.renderData();
   };
   render() {

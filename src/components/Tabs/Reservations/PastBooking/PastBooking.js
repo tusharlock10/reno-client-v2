@@ -30,7 +30,7 @@ class PastBooking extends Component {
                   marginHorizontal: 10,
                 }}
                 onPress={() =>
-                  this.props.navigation.navigate('PastDetailsScreen', {
+                  this.props.navigation.navigate('PastDetails', {
                     data: item,
                   })
                 }>

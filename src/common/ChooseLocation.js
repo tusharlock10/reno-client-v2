@@ -87,7 +87,7 @@ class ChangeCity extends Component {
                       <Ripple
                         onPress={async () => {
                           await AsyncStorage.setItem('city', item.city);
-                          this.props.navigation.replace('Tabs');
+                          this.props.navigation.replace('Main');
                         }}
                         style={{
                           borderRadius: 13,

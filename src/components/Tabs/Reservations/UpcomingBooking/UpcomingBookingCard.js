@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash';
 import {View, Text, Pressable, StyleSheet} from 'react-native';
 import Ripple from 'react-native-material-ripple';
 import Image from 'react-native-fast-image';
@@ -68,7 +69,7 @@ class UpcomingBookingCard extends React.Component {
         android_ripple={{color: '#dcdcdc'}}
         onPress={() => {
           if (!infoOnly) {
-            this.props.navigation.navigate('UpcomingDetailsScreen', {index});
+            this.props.navigation.navigate('UpcomingDetails', {index});
           }
         }}>
         <View style={styles.dateView}>
@@ -149,8 +150,15 @@ class UpcomingBookingCard extends React.Component {
                 </Text>
               </View>
             </View>
-            <Text style={{fontFamily: 'Poppins-Regular', fontSize: 14, color:'#707070'}}>
-              {item.restaurants.acceptsRenoPay ? 'Pay with Reno Pay' : 'Pay at Restaurant'}
+            <Text
+              style={{
+                fontFamily: 'Poppins-Regular',
+                fontSize: 14,
+                color: '#707070',
+              }}>
+              {item.restaurants.acceptsRenoPay
+                ? 'Pay with Reno Pay'
+                : 'Pay at Restaurant'}
             </Text>
           </View>
         </View>

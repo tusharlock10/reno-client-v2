@@ -15,7 +15,7 @@ class Slots extends Component {
             marginRight: 4
           }}
           onPress={() =>
-            this.props.navigation.navigate("CreateOrdersScreen", {
+            this.props.navigation.navigate("CreateOrders", {
               discount: this.props.discount,
               time: this.props.time,
               timeDiscountId: this.props.timeDiscountId,
