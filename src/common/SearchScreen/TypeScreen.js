@@ -4,6 +4,7 @@ import Header from '../Header';
 import axios from '../../api';
 import RenderRestaurants from '../../components/Tabs/Home/RenderRestaurants';
 import {ActivityIndicator} from 'react-native-paper';
+import {getDayFromNumber} from '../../utils/dateTimeUtils'
 class TypeScreen extends Component {
   constructor(props) {
     super(props);
@@ -15,9 +16,7 @@ class TypeScreen extends Component {
   }
 
   async componentDidMount() {
-    const response = await axios.get(
-      `type/${this.props.route.params.id}`,
-    );
+    const response = await axios.get(`type/${this.props.route.params.id}`);
     this.setState({restaurants: response.data, loading: false});
   }
   render() {
@@ -35,18 +34,19 @@ class TypeScreen extends Component {
         ) : (
           <FlatList
             showsVerticalScrollIndicator={false}
-            ListHeaderComponent={<View style={{height:20}}/>}
-            ListFooterComponent={<View style={{height:50}}/>}
+            ListHeaderComponent={<View style={{height: 20}} />}
+            ListFooterComponent={<View style={{height: 50}} />}
             keyExtractor={(item) => item.id}
             data={this.state.restaurants}
             renderItem={({item, index}) => {
+              const day = getDayFromNumber(new Date().getDay());
               return (
                 <RenderRestaurants
                   id={item.id}
                   city={item.city}
                   name={item.name}
-                  timeDiscounts={item.timeDiscounts}
-                  isRenoPayEnabled={true}
+                  timeDiscounts={item[day] ? item[day].timeDiscounts : []}
+                  isRenoPayEnabled={item.acceptsRenoPay}
                   image={item.imageurl}
                   directions={item.googlemapsurl}
                   navigation={this.props.navigation}

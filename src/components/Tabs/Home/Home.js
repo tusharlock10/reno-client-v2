@@ -30,7 +30,6 @@ class HomeScreen extends Component {
   async componentDidMount() {
     StatusBar.setBackgroundColor('#fff');
     StatusBar.setBarStyle('dark-content');
-    this.day = getDayFromNumber(new Date().getDay());
     this.renderData();
   }
   async renderData() {
@@ -130,20 +129,19 @@ class HomeScreen extends Component {
                       alignItems: 'center',
                       paddingHorizontal: 10,
                       paddingVertical: 5,
-                      borderRadius: 50,
+                      borderRadius: 10,
                       borderWidth: 1,
                       borderColor: '#A0A0A0',
-                      width: '40%',
-                      alignSelf: 'flex-end',
-                      marginRight: 15,
-                      marginTop: 15,
+                      flex: 1,
+                      marginVertical: 15,
+                      marginHorizontal: 15,
                     }}>
                     <Ionicons name="search" color={'#A0A0A0'} size={14} />
                     <Text
                       style={{
                         fontFamily: 'Poppins-Regular',
                         color: '#A0A0A0',
-                        fontSize: 12,
+                        fontSize: 14,
                         marginLeft: 5,
                       }}>
                       Search
@@ -191,14 +189,13 @@ class HomeScreen extends Component {
               initialNumToRender={10}
               data={this.props.restaurants.restaurants}
               renderItem={({item}) => {
+                const day = getDayFromNumber(new Date().getDay());
                 return (
                   <RenderRestaurants
                     id={item.id}
                     city={item.city}
                     name={item.name}
-                    timeDiscounts={
-                      item[this.day] ? item[this.day].timeDiscounts : []
-                    }
+                    timeDiscounts={item[day] ? item[day].timeDiscounts : []}
                     isRenoPayEnabled={item.acceptsRenoPay}
                     image={item.imageurl}
                     directions={item.googlemapsurl}

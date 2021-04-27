@@ -151,7 +151,7 @@ class SearchScreen extends Component {
                 style={{
                   height: 40,
                   width: 40,
-                  backgroundColor: '#d20000',
+                  backgroundColor: item.rating>3.5?'#299e49':'#d20000',
                   justifyContent: 'center',
                   alignItems: 'center',
                   marginTop: 10,

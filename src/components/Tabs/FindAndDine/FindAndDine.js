@@ -4,7 +4,10 @@ import {
   View,
   StyleSheet,
   PermissionsAndroid,
+  TouchableOpacity,
 } from 'react-native';
+import {openSettings} from 'react-native-permissions';
+import Ripple from 'react-native-material-ripple';
 import _ from 'lodash';
 import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import AnimatedPriceMarker from './RestaurantMarker';
@@ -13,16 +16,17 @@ import {connect} from 'react-redux';
 import {getNearbyRestaurants} from '../../../actions/nearby';
 import NearbyRestaurants from './NearbyRestaurants';
 import {ActivityIndicator} from 'react-native-paper';
-import Ripple from 'react-native-material-ripple';
 import Geolocation from 'react-native-geolocation-service';
 import AsyncStorage from '@react-native-community/async-storage';
 import {getPermission} from '../../../utils/permissions';
-import {getDayFromNumber} from '../../../utils/dateTimeUtils'
+import {getDayFromNumber} from '../../../utils/dateTimeUtils';
 
 class FindAndDine extends Component {
   state = {
     data: null,
     maxDistance: 1000, // in km
+    permissionGranted: false,
+    loading: true,
   };
 
   componentDidMount() {
@@ -30,9 +34,14 @@ class FindAndDine extends Component {
   }
 
   async getCurrentPosition() {
-    if (!getPermission(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION)) {
+    const gotPermission = await getPermission(
+      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+    );
+    if (!gotPermission) {
+      this.setState({permissionGranted: false, loading: false});
       return null;
     }
+    this.setState({permissionGranted: true, loading: false});
 
     const city = await AsyncStorage.getItem('city');
 
@@ -46,7 +55,53 @@ class FindAndDine extends Component {
   }
 
   render() {
-    if (this.props.nearby.restaurants) {
+    if (!this.state.permissionGranted && !this.state.loading) {
+      return (
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: '#fff',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <Text
+            style={{
+              fontFamily: 'Poppins-Bold',
+              fontSize: 24,
+              marginHorizontal: 30,
+              textAlign: 'center',
+            }}>
+            Location Permission Required
+          </Text>
+          <Text
+            style={{
+              fontFamily: 'Poppins-Regular',
+              fontSize: 14,
+              marginVertical: 20,
+              marginHorizontal: 30,
+              textAlign: 'center',
+            }}>
+            To use Nearby and get the best experience, please grant location
+            permission from the app settings
+          </Text>
+          <Ripple
+            rippleColor={'#d20000'}
+            onPress={openSettings}
+            style={{borderRadius: 10, borderWidth: 1, borderColor: '#d20000'}}>
+            <Text
+              style={{
+                fontFamily: 'Poppins-Regular',
+                fontSize: 16,
+                marginHorizontal: 15,
+                marginVertical: 5,
+                color: '#d20000',
+              }}>
+              Open Settings
+            </Text>
+          </Ripple>
+        </View>
+      );
+    } else if (this.props.nearby.restaurants && !this.state.loading) {
       return (
         <View style={{flex: 1}}>
           <MapView
@@ -72,7 +127,7 @@ class FindAndDine extends Component {
             {this.props.nearby.restaurants != null ? (
               this.props.nearby.restaurants.map((marker) => {
                 const day = getDayFromNumber(new Date().getDay());
-                const dayDiscount = `${day.slice(0,3)}Discount`
+                const dayDiscount = `${day.slice(0, 3)}Discount`;
                 if (marker.distance > this.state.maxDistance) {
                   return null;
                 }
@@ -100,8 +155,11 @@ class FindAndDine extends Component {
                       });
                     }}>
                     <AnimatedPriceMarker
-                      discount={marker[day].timeDiscounts[0]?
-                      marker[day].timeDiscounts[0][dayDiscount] : 0}
+                      discount={
+                        marker[day].timeDiscounts[0]
+                          ? marker[day].timeDiscounts[0][dayDiscount]
+                          : 0
+                      }
                     />
                   </Marker>
                 );

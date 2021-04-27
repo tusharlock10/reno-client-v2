@@ -110,7 +110,7 @@ class RightDrawer extends Component {
           <TouchableOpacity
             onPress={async () => {
               await AsyncStorage.clear();
-              this.props.navigation.replace('LoginScreen');
+              this.props.navigation.replace('Login');
             }}
             style={{
               width,

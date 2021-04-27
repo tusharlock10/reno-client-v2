@@ -79,6 +79,7 @@ class CreateOrder extends Component {
         />
         <View style={{flex: 1}}>
           <ScrollView
+            nestedScrollEnabled
             showsVerticalScrollIndicator={false}
             keyboardShouldPersistTaps="handled">
             <View>
@@ -305,6 +306,7 @@ class CreateOrder extends Component {
               callbackAsNumber={(number) => this.setState({number})}
             />
             <AMRTab
+              discount={this.state.discount}
               about={this.props.createorder.orderData.about}
               menu={this.props.createorder.orderData.menu}
               userReviewses={this.props.createorder.orderData.userReviewses}

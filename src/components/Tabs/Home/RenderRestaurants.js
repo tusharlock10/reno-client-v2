@@ -80,9 +80,9 @@ class RenderRestaurants extends Component {
             showsHorizontalScrollIndicator={false}
             style={{marginLeft: 10, marginRight: 10, marginBottom: 3}}
             data={this.props.timeDiscounts}
-            keyExtractor={(item, index) => index.toString()}
+            keyExtractor={item => item.id}
             horizontal
-            renderItem={({item, index}) => {
+            renderItem={({item}) => {
               return (
                 <RenderSlots
                   image={this.props.image}

@@ -27,7 +27,8 @@ class AMRTab extends Component {
             borderRadius: 21,
             overflow: 'hidden',
             elevation: 5,
-            backgroundColor:'#fff',marginLeft:3
+            backgroundColor: '#fff',
+            marginLeft: 3,
           }}>
           <Image source={{uri: user.profileImage}} style={{flex: 1}} />
         </View>
@@ -68,7 +69,6 @@ class AMRTab extends Component {
         <TouchableOpacity
           style={styles.tabInnerView}
           onPress={() => {
-            this.scrollView.scrollTo({x: 0});
             this.setState({index: 0});
           }}>
           <Text
@@ -84,7 +84,6 @@ class AMRTab extends Component {
         <TouchableOpacity
           style={styles.tabInnerView}
           onPress={() => {
-            this.scrollView.scrollTo({x: width});
             this.setState({index: 1});
           }}>
           <Text
@@ -100,7 +99,6 @@ class AMRTab extends Component {
         <TouchableOpacity
           style={styles.tabInnerView}
           onPress={() => {
-            this.scrollView.scrollTo({x: width * 2});
             this.setState({index: 2});
           }}>
           <Text
@@ -115,6 +113,9 @@ class AMRTab extends Component {
   }
 
   renderAbout() {
+    if (this.state.index !== 0) {
+      return;
+    }
     return (
       <View style={{width}}>
         <ScrollView style={styles.aboutView}>
@@ -125,10 +126,97 @@ class AMRTab extends Component {
   }
 
   renderMenu() {
+    if (this.state.index !== 1) {
+      return;
+    }
+
     return (
       <View style={{width}}>
         <View style={styles.aboutView}>
-          {this.props.menu.length ? null : (
+          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <View style={{flex: 1}}>
+              <Text
+                style={{
+                  marginLeft: 15,
+                  fontFamily: 'Poppins-Bold',
+                  fontSize: 16,
+                }}>
+                Item
+              </Text>
+            </View>
+            <View style={{width: 70, alignItems: 'center'}}>
+              <Text style={{fontFamily: 'Poppins-Bold', fontSize: 16}}>
+                Price
+              </Text>
+            </View>
+          </View>
+          {this.props.menu.length ? (
+            this.props.menu.map((item, index) => {
+              const finalPrice = this.props.discount
+                ? parseInt(item.Price * (1 - this.props.discount / 100))
+                : item.Price;
+
+              const originalPrice = this.props.discount ? item.Price : null;
+
+              return (
+                <View
+                  style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
+                  <View
+                    style={{
+                      flex: 1,
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                    }}>
+                    <Text
+                      style={{
+                        fontFamily: 'Poppins-Regular',
+                        fontSize: 12,
+                        width: 15,
+                      }}>{`${index}.`}</Text>
+                    <View style={{flex: 1}}>
+                      <Text
+                        style={{
+                          fontFamily: 'Poppins-Regular',
+                          color: '#d20000',
+                          fontSize: 16,
+                          flexWrap: 'wrap',
+                        }}>
+                        {item.Item}
+                      </Text>
+                    </View>
+                  </View>
+
+                  <View
+                    style={{
+                      width: 70,
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      justifyContent: originalPrice
+                        ? 'space-between'
+                        : 'center',
+                    }}>
+                    {originalPrice ? (
+                      <Text
+                        style={{
+                          fontFamily: 'Poppins-Regular',
+                          textDecorationLine: 'line-through',
+                          fontSize: 12,
+                        }}>
+                        ₹{finalPrice}
+                      </Text>
+                    ) : null}
+                    <Text
+                      style={{
+                        fontFamily: 'Poppins-Regular',
+                        color: '#d20000',
+                      }}>
+                      ₹{finalPrice}
+                    </Text>
+                  </View>
+                </View>
+              );
+            })
+          ) : (
             <View
               style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
               <Text style={styles.menuNotFound}>Menu not found</Text>
@@ -140,6 +228,9 @@ class AMRTab extends Component {
   }
 
   renderReviews() {
+    if (this.state.index !== 2) {
+      return;
+    }
     return (
       <View style={{width}}>
         <View style={styles.aboutView}>
@@ -160,19 +251,11 @@ class AMRTab extends Component {
 
   render() {
     return (
-      <View style={{marginVertical: 25, height: 350}}>
+      <View style={{marginVertical: 25}}>
         {this.renderTabs()}
-        <ScrollView
-          nestedScrollEnabled
-          ref={(ref) => (this.scrollView = ref)}
-          horizontal
-          snapToInterval={width}
-          scrollEnabled={false}
-          showsHorizontalScrollIndicator={false}>
-          {this.renderAbout()}
-          {this.renderMenu()}
-          {this.renderReviews()}
-        </ScrollView>
+        {this.renderAbout()}
+        {this.renderMenu()}
+        {this.renderReviews()}
       </View>
     );
   }
@@ -202,9 +285,6 @@ const styles = StyleSheet.create({
   aboutView: {
     marginHorizontal: 15,
     padding: 10,
-    paddingHorizontal: 15,
-    borderWidth: 1,
-    borderColor: '#707070',
     borderRadius: 10,
     flex: 1,
     fontSize: 14,

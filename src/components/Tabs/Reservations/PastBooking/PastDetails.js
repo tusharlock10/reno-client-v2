@@ -34,6 +34,7 @@ class PastDetails extends Component {
         review,
         rating,
       });
+      alert('Review was submitted');
     } catch (e) {
       alert('Error while uploading your review : ', e);
     }

@@ -1,12 +1,37 @@
 import React, {Component} from 'react';
-import {Text, View, ScrollView, Linking} from 'react-native';
+import {connect} from 'react-redux';
+import {
+  Text,
+  View,
+  ScrollView,
+  Linking,
+  Alert,
+  ActivityIndicator,
+  BackHandler,
+} from 'react-native';
 import Image from 'react-native-fast-image';
 import Foundation from 'react-native-vector-icons/Foundation';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {height, width} from '../../constants';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Ripple from 'react-native-material-ripple';
+import {cancelOrder} from '../../actions/reservations';
 class BookingConfirmation extends Component {
+  state = {cancelLoading: false, cancelled: false};
+
+  onBackPress = () => {
+    this.props.navigation.navigate('Home');
+    return true;
+  };
+
+  componentDidMount() {
+    BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
+  }
+
   openGoogleMaps(url) {
     Linking.canOpenURL(url)
       .then((supported) => {
@@ -116,6 +141,24 @@ class BookingConfirmation extends Component {
     );
   }
 
+  confirmCancelOrder() {
+    if (this.state.cancelLoading || this.state.cancelled) return;
+
+    const orderId = this.props.route.params.data.bookingData.id;
+    Alert.alert('Cancel Booking', 'You are about to cancel this booking.', [
+      {text: 'Back', onPress: () => {}},
+      {
+        text: 'Cancel',
+        onPress: () => {
+          this.setState({cancelLoading: true});
+          this.props.cancelOrder(orderId, () => {
+            this.setState({cancelLoading: false, cancelled: true});
+          });
+        },
+      },
+    ]);
+  }
+
   renderCancelBooking() {
     return (
       <View
@@ -130,21 +173,52 @@ class BookingConfirmation extends Component {
           flexDirection: 'row',
           alignItems: 'center',
         }}>
-        <Ripple
-          style={{
-            flex: 1,
-            marginRight: 10,
-            alignItems: 'center',
-          }}>
-          <Text
+        {this.state.cancelLoading ? (
+          <View
             style={{
-              fontFamily: 'Poppins-Medium',
-              fontSize: 14,
-              color: '#d20000',
+              flex: 1,
+              marginRight: 10,
+              padding: 10,
+              alignItems: 'center',
             }}>
-            Cancel Booking
-          </Text>
-        </Ripple>
+            <ActivityIndicator color={'#d20000'} />
+          </View>
+        ) : this.state.cancelled ? (
+          <View
+            style={{
+              flex: 1,
+              marginRight: 10,
+              padding: 10,
+              alignItems: 'center',
+            }}>
+            <Text
+              style={{
+                fontFamily: 'Poppins-Medium',
+                fontSize: 14,
+                color: '#d20000',
+              }}>
+              Booking Cancelled
+            </Text>
+          </View>
+        ) : (
+          <Ripple
+            onPress={this.confirmCancelOrder.bind(this)}
+            style={{
+              flex: 1,
+              marginRight: 10,
+              padding: 10,
+              alignItems: 'center',
+            }}>
+            <Text
+              style={{
+                fontFamily: 'Poppins-Medium',
+                fontSize: 14,
+                color: '#d20000',
+              }}>
+              Cancel Booking
+            </Text>
+          </Ripple>
+        )}
         <Ripple
           onPress={() => this.props.navigation.navigate('Home')}
           style={{
@@ -344,4 +418,4 @@ class BookingConfirmation extends Component {
     );
   }
 }
-export default BookingConfirmation;
+export default connect(null, {cancelOrder})(BookingConfirmation);
