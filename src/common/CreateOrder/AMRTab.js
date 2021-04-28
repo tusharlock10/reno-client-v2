@@ -133,23 +133,26 @@ class AMRTab extends Component {
     return (
       <View style={{width}}>
         <View style={styles.aboutView}>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <View style={{flex: 1}}>
-              <Text
-                style={{
-                  marginLeft: 15,
-                  fontFamily: 'Poppins-Bold',
-                  fontSize: 16,
-                }}>
-                Item
-              </Text>
+          {this.props.menu.length ? (
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <View style={{flex: 1}}>
+                <Text
+                  style={{
+                    marginLeft: 15,
+                    fontFamily: 'Poppins-Bold',
+                    fontSize: 16,
+                  }}>
+                  Item
+                </Text>
+              </View>
+              <View style={{width: 70, alignItems: 'center'}}>
+                <Text style={{fontFamily: 'Poppins-Bold', fontSize: 16}}>
+                  Price
+                </Text>
+              </View>
             </View>
-            <View style={{width: 70, alignItems: 'center'}}>
-              <Text style={{fontFamily: 'Poppins-Bold', fontSize: 16}}>
-                Price
-              </Text>
-            </View>
-          </View>
+          ) : null}
+
           {this.props.menu.length ? (
             this.props.menu.map((item, index) => {
               const finalPrice = this.props.discount
@@ -202,7 +205,7 @@ class AMRTab extends Component {
                           textDecorationLine: 'line-through',
                           fontSize: 12,
                         }}>
-                        ₹{finalPrice}
+                        ₹{originalPrice}
                       </Text>
                     ) : null}
                     <Text
