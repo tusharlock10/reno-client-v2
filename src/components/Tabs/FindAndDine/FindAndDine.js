@@ -17,7 +17,7 @@ import {getNearbyRestaurants} from '../../../actions/nearby';
 import NearbyRestaurants from './NearbyRestaurants';
 import {ActivityIndicator} from 'react-native-paper';
 import Geolocation from 'react-native-geolocation-service';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {getPermission} from '../../../utils/permissions';
 import {getDayFromNumber} from '../../../utils/dateTimeUtils';
 

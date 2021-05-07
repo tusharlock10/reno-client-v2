@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Text, View, Image} from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import setAuthToken from '../utils/setAuthToken';
 import setCityValue from '../utils/setCityValue';
 import {connect} from 'react-redux';
@@ -12,7 +12,9 @@ import OneSignal from 'react-native-onesignal';
 class SplashScreen extends Component {
   constructor(props) {
     super(props);
-    OneSignal.setAppId('8038393c-ded4-4abc-ac70-4fa7a7668312');
+    if (!__DEV__) {
+      OneSignal.setAppId('8038393c-ded4-4abc-ac70-4fa7a7668312');
+    }
     this.state = {};
   }
 

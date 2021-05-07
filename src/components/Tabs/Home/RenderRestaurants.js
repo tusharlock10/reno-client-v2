@@ -11,6 +11,8 @@ class RenderRestaurants extends Component {
     super(props);
     this.day =
       getDayFromNumber(new Date().getDay()).substring(0, 3) + 'Discount';
+    this.exhaust =
+      getDayFromNumber(new Date().getDay()).substring(0, 3) + 'Exhaust';
   }
   render() {
     return (
@@ -80,11 +82,13 @@ class RenderRestaurants extends Component {
             showsHorizontalScrollIndicator={false}
             style={{marginLeft: 10, marginRight: 10, marginBottom: 3}}
             data={this.props.timeDiscounts}
-            keyExtractor={item => item.id}
+            keyExtractor={(item) => item.id}
             horizontal
             renderItem={({item}) => {
+              let exhausted = item[this.exhaust];
               return (
                 <RenderSlots
+                  exhausted={exhausted}
                   image={this.props.image}
                   discount={item[this.day]}
                   time={item.time}

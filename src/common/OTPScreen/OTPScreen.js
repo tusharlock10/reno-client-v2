@@ -1,30 +1,39 @@
 import React, {Component} from 'react';
 import {Text, View, SafeAreaView} from 'react-native';
 import Image from 'react-native-fast-image';
+import {connect} from 'react-redux';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {width, height} from '../../constants';
 import OTPInput from './OTPInput';
 import Footer from './Footer';
 import axios from '../../api';
 import {Snackbar} from 'react-native-paper';
+import {confirmBooking} from '../../actions/createorder';
+
 class OTPScreen extends Component {
+  state = {
+    visible: false,
+    otp: __DEV__ ? '0000' : '',
+    active: false,
+  };
+
   async componentDidMount() {
     await axios.post('/bookingOtp', {
       mobile: this.props.route.params.phoneno,
       restaurantId: this.props.route.params.restaurantId,
     });
   }
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      visible: false,
-      otp: '',
-      active: false,
-    };
-  }
 
   render() {
+    const {
+      people,
+      timeDiscountId,
+      restaurantId: restaurantsId,
+      name,
+      date,
+      phoneno: mobile,
+    } = this.props.route.params;
+
     return (
       <SafeAreaView style={{backgroundColor: '#fff', flex: 1}}>
         <Header navigation={this.props.navigation} />
@@ -51,8 +60,7 @@ class OTPScreen extends Component {
             }}>
             Enter OTP send to
             <Text style={{fontFamily: 'Poppins-Bold', color: '#767d86'}}>
-              {' '}
-              +91 {this.props.route.params.phoneno}
+              {` +91 ${mobile}`}
             </Text>
           </Text>
           <OTPInput
@@ -67,16 +75,19 @@ class OTPScreen extends Component {
           />
 
           <Footer
-            people={this.props.route.params.people}
-            timeDiscountId={this.props.route.params.timeDiscountId}
-            restaurantId={this.props.route.params.restaurantId}
-            date={this.props.route.params.date}
-            name={this.props.route.params.name}
-            mobile={this.props.route.params.phoneno}
-            otp={this.state.otp}
             navigation={this.props.navigation}
             active={this.state.visible}
             showSnackbar={(state) => this.setState({active: state})}
+            confirmBooking={this.props.confirmBooking}
+            data={{
+              people,
+              mobile,
+              timeDiscountId,
+              restaurantsId,
+              name,
+              date,
+              otp: this.state.otp,
+            }}
           />
           <Snackbar
             visible={this.state.active}
@@ -127,4 +138,4 @@ class Header extends Component {
   }
 }
 
-export default OTPScreen;
+export default connect(null, {confirmBooking})(OTPScreen);

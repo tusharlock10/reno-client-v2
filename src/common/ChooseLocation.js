@@ -2,7 +2,7 @@ import React, {Component, Fragment} from 'react';
 import {Text, View, SafeAreaView, FlatList} from 'react-native';
 import Image from 'react-native-fast-image';
 import {height, width} from '../constants';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from '../api';
 import {ActivityIndicator} from 'react-native-paper';
 import LinearGradient from 'react-native-linear-gradient';

@@ -7,6 +7,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import Image from 'react-native-fast-image';
+import {Snackbar} from 'react-native-paper';
 import {height, width} from '../../../../constants';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Ripple from 'react-native-material-ripple';
@@ -17,32 +18,87 @@ class PastDetails extends Component {
   state = {
     rating: 0,
     review: '',
+    reviewId: null,
+    loadingReview: true,
     isReviewActive: false,
     submitLoading: false,
+    updateReview: false,
+    showInfo: false,
+    submitError: false,
   };
+
+  componentDidMount() {
+    if (this.props.route.params.data.confirmed) {
+      this.getUserReview();
+    }
+  }
+
+  async getUserReview() {
+    const restaurantId = this.props.route.params.data.restaurants.id;
+    const {data} = await axios.get(`/restaurant/${restaurantId}/review/user`);
+    if (data) {
+      this.setState({
+        loadingReview: false,
+        rating: data.rating,
+        review: data.review,
+        reviewId: data.id,
+        isReviewActive: true,
+        updateReview: true,
+      });
+    } else {
+      this.setState({
+        loadingReview: false,
+      });
+    }
+  }
 
   submitUserReview = async () => {
     const {data} = this.props.route.params;
-    const {rating, review} = this.state;
+    const {rating, review, reviewId} = this.state;
     if (!rating) {
       return;
     }
 
     this.setState({submitLoading: true});
     try {
-      await axios.post(`/restaurant/${data.restaurants.id}/review`, {
-        review,
-        rating,
+      const {data: _data} = await axios.post(
+        `/restaurant/${data.restaurants.id}/review`,
+        {
+          review,
+          rating,
+          reviewId,
+        },
+      );
+      this.setState({
+        reviewId: _data.id,
+        updateReview: true,
+        showInfo: true,
+        submitError: false,
       });
-      alert('Review was submitted');
     } catch (e) {
-      alert('Error while uploading your review : ', e);
+      this.setState({
+        showInfo: true,
+        submitError: true,
+      });
     }
     this.setState({submitLoading: false});
   };
 
   renderReviewInput() {
-    const {isReviewActive, rating, review} = this.state;
+    if (!this.props.route.params.data.confirmed) {
+      return null;
+    }
+    const {isReviewActive, rating, review, loadingReview} = this.state;
+
+    if (loadingReview) {
+      return (
+        <ActivityIndicator
+          color={'#d20000'}
+          size={28}
+          style={{marginVertical: 10}}
+        />
+      );
+    }
 
     if (!isReviewActive) {
       return (
@@ -92,7 +148,7 @@ class PastDetails extends Component {
                 fontSize: 16,
                 color: rating ? '#d20000' : '#707070',
               }}>
-              Submit
+              {this.state.updateReview ? 'Update Review' : 'Submit Review'}
             </Text>
           )}
         </View>
@@ -154,7 +210,15 @@ class PastDetails extends Component {
               }}>
               {data.restaurants.name}
             </Text>
-            {data.cancelled ? (
+            {data.confirmed?<Text
+                style={{
+                  fontFamily: 'Poppins-Medium',
+                  fontSize: 14,
+                  textAlign: 'center',
+                  color: 'green',
+                }}>
+                {'Reservation Completed'}
+              </Text>:data.cancelled ? (
               <Text
                 style={{
                   fontFamily: 'Poppins-Medium',
@@ -164,7 +228,15 @@ class PastDetails extends Component {
                 }}>
                 {'Reservation Cancelled'}
               </Text>
-            ) : null}
+            ) : <Text
+                style={{
+                  fontFamily: 'Poppins-Medium',
+                  fontSize: 14,
+                  textAlign: 'center',
+                  color: '#d20000',
+                }}>
+                {'Deal Not Unlocked'}
+              </Text>}
             <View
               style={{
                 backgroundColor: '#d2d2d2',
@@ -318,6 +390,32 @@ class PastDetails extends Component {
           </View>
           <View style={{marginBottom: 100}} />
         </ScrollView>
+        <Snackbar
+          visible={this.state.showInfo}
+          theme={{colors: {accent: 'white'}}}
+          duration={3000}
+          style={{
+            position: 'absolute',
+            bottom: 0,
+            elevation: 10,
+            backgroundColor: this.state.submitError ? '#d20000' : '#299e49',
+            height: 55,
+            width: '90%',
+            alignSelf: 'center',
+            borderRadius: 5,
+          }}
+          onDismiss={() => this.setState({showInfo: false})}>
+          <Text
+            style={{
+              marginLeft: 10,
+              fontFamily: 'Poppins-Medium',
+              color: '#fff',
+            }}>
+            {this.state.submitError
+              ? 'Error in submitting review'
+              : 'Review Submitted'}
+          </Text>
+        </Snackbar>
       </View>
     );
   }
@@ -398,8 +496,9 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginTop: 5,
     overflow: 'hidden',
-    height: 45,
-    width: 80,
+    paddingHorizontal: 8,
+    paddingTop: 15,
+    paddingBottom: 10,
     alignItems: 'center',
     justifyContent: 'center',
   },

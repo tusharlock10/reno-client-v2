@@ -3,7 +3,10 @@ import _ from 'lodash';
 import {View, Text, Pressable, StyleSheet} from 'react-native';
 import Ripple from 'react-native-material-ripple';
 import Image from 'react-native-fast-image';
-import {isCurrentTimeInRange} from '../../../../utils/dateTimeUtils';
+import {
+  isCurrentTimeInRange,
+  getDayFromNumber,
+} from '../../../../utils/dateTimeUtils';
 
 class UpcomingBookingCard extends React.Component {
   renderUnlockButton() {
@@ -59,6 +62,9 @@ class UpcomingBookingCard extends React.Component {
 
   render() {
     const {item, index, infoOnly} = this.props;
+    const discountProperty =
+      getDayFromNumber(new Date(item.date).getDay()).substring(0, 3) +
+      'Discount';
 
     if (!item.restaurants) {
       return null;
@@ -146,7 +152,7 @@ class UpcomingBookingCard extends React.Component {
                     fontSize: 14,
                     color: '#d20000',
                   }}>
-                  {item.timeDiscount.discount}%
+                  {item.timeDiscount[discountProperty]}%
                 </Text>
               </View>
             </View>

@@ -6,6 +6,7 @@ import {
   AUTH_CANCELED,
   LOGOUT,
   CLEAR_PROFILE,
+  RENO_PASS_PURCHASE,
 } from './types';
 import axios from '../api';
 import setAuthToken from '../utils/setAuthToken';
@@ -40,12 +41,11 @@ export const facebookAuth = (data, navigation) => async (dispatch) => {
 
   const response = await axios.post('/auth', user);
   setAuthToken(response.data.token);
-  dispatch(
-    loadUser(() => {
-      dispatch({type: AUTH_SUCCESS, payload: response.data});
-      navigation.replace('ChooseLocation');
-    }),
-  );
+
+  loadUser(() => {
+    dispatch({type: AUTH_SUCCESS, payload: response.data});
+    navigation.replace('ChooseLocation');
+  });
 };
 
 export const googleAuth = (data, navigation) => async (dispatch) => {
@@ -59,12 +59,11 @@ export const googleAuth = (data, navigation) => async (dispatch) => {
 
   const response = await axios.post('/auth', user);
   setAuthToken(response.data.token);
-  dispatch(
-    loadUser(() => {
-      dispatch({type: AUTH_SUCCESS, payload: response.data});
-      navigation.replace('ChooseLocation');
-    }),
-  );
+
+  loadUser(() => {
+    dispatch({type: AUTH_SUCCESS, payload: response.data});
+    navigation.replace('ChooseLocation');
+  });
 };
 
 //logout user
@@ -73,28 +72,10 @@ export const logout = () => (dispatch) => {
   dispatch({type: CLEAR_PROFILE});
   //   history.push("/");
 };
-//sign jwt
-// function jwtSign(payload) {
-//   var jwt_token;
-//   jwt.sign(
-//     payload,
-//     "dfjiksofgjnfgkmitmhibytjhijjjihiytjhybinyithjiyjhihtihjiiohtjyyyyhjtoyhjytohjoyj@21343//",
-//     { expiresIn: 360000 },
-//     (err, token) => {
-//       jwt_token = token;
-//     }
-//   );
 
-//   return jwt_token;
-// }
-
-//error handler ***most important :)
-function errorHandler(err, type, dispatch) {
-  const errors = err.response.data.errors;
-  if (errors) {
-    errors.forEach((error) => {
-      console.error(error);
-    });
-    dispatch({type});
-  }
-}
+export const renoPassPurchase = (data) => {
+  return {
+    type: RENO_PASS_PURCHASE,
+    payload: data,
+  };
+};

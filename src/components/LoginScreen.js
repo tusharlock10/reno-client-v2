@@ -12,7 +12,7 @@ import {connect} from 'react-redux';
 import {facebookAuth, googleAuth, awaitAuth} from '../actions/auth';
 import setAuthToken from '../utils/setAuthToken';
 import {LoginManager, AccessToken} from 'react-native-fbsdk';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Modal from 'react-native-modal';
 
 const height = Dimensions.get('screen').height;

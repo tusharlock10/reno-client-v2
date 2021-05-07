@@ -102,11 +102,13 @@ class RightDrawer extends Component {
               screen="Support"
             />
           </View>
-          <Image
-            source={require('../../assets/PassMain.png')}
-            style={{width: '100%', height: 200, marginTop: 60}}
-            resizeMode="cover"
-          />
+          {this.props.auth.user.renoPass ? (
+            <Image
+              source={require('../../assets/PassMain.png')}
+              style={{width: '100%', height: 200, marginTop: 60}}
+              resizeMode="cover"
+            />
+          ) : null}
           <TouchableOpacity
             onPress={async () => {
               await AsyncStorage.clear();

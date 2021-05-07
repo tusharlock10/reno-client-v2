@@ -14,7 +14,7 @@ class UpcomingBooking extends Component {
     if (!_.isEmpty(this.props.reservations.orders.upcomingOrders)) {
       return (
         <FlatList
-          ListFooterComponent={<View style={{marginBottom: 100}} />}
+          ListFooterComponent={<View style={{height: 150}} />}
           showsVerticalScrollIndicator={false}
           data={this.props.reservations.orders.upcomingOrders}
           keyExtractor={(item) => item.id}

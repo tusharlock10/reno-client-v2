@@ -3,7 +3,6 @@ import {
   Text,
   View,
   SafeAreaView,
-  ImageBackground,
   Clipboard,
   StatusBar,
   ScrollView,
@@ -15,6 +14,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ripple from 'react-native-material-ripple';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import moment from 'moment';
 class MyAccount extends Component {
   state = {city: ''};
 
@@ -23,6 +23,11 @@ class MyAccount extends Component {
   }
 
   render() {
+    const expiry = this.props.auth.user?.renoPass?.premiumExpireDate
+      ? moment(this.props.auth.user.renoPass.premiumExpireDate).format(
+          'Do MMMM YYYY',
+        )
+      : null;
     return (
       <View style={{flex: 1}}>
         <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
@@ -39,15 +44,27 @@ class MyAccount extends Component {
                   alignItems: 'center',
                 }}
                 resizeMode="cover">
-                <Text
-                  style={{
-                    fontFamily: 'Poppins-SemiBold',
-                    color: '#fff',
-                    marginBottom: 40,
-                    fontSize: 15,
-                  }}>
-                  Valid until 31st January 2020
-                </Text>
+                {expiry ? (
+                  <Text
+                    style={{
+                      fontFamily: 'Poppins-SemiBold',
+                      color: '#fff',
+                      marginBottom: 40,
+                      fontSize: 15,
+                    }}>
+                    {`Valid until ${expiry}`}
+                  </Text>
+                ) : (
+                  <Text
+                    style={{
+                      fontFamily: 'Poppins-SemiBold',
+                      color: '#fff',
+                      marginBottom: 40,
+                      fontSize: 15,
+                    }}>
+                    {`Purchase Reno Pass`}
+                  </Text>
+                )}
               </Image>
               <View
                 style={{

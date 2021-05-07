@@ -2,6 +2,7 @@ import {
   FETCHING_RES_ORDER_DATA,
   FETCH_RES_ORDER_DATA,
   FETCH_RES_ORDER_ERROR,
+  USER_HAS_ACTIVE_ORDER,
 } from './types';
 import axios from '../api';
 
@@ -16,6 +17,21 @@ export const indexCreateOrder = (id, date) => async (dispatch) => {
   } catch (error) {
     errorHandler(error, FETCH_RES_ORDER_ERROR, dispatch);
   }
+};
+
+export const updateUserActiveOrder = (value) => ({
+  type: USER_HAS_ACTIVE_ORDER,
+  payload: value,
+});
+
+export const confirmBooking = (data, onSuccess, onError) => async (
+  dispatch,
+) => {
+  const res = await axios.post('/confirmBooking', data);
+  if (res.data.confirmed) {
+    dispatch(updateUserActiveOrder(true));
+    onSuccess(res.data);
+  } else onError();
 };
 
 function errorHandler(err, type, dispatch) {

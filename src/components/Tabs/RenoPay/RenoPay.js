@@ -7,6 +7,7 @@ import {getMyReservations} from '../../../actions/reservations';
 import {height, width} from '../../../constants';
 import {connect} from 'react-redux';
 import Ripple from 'react-native-material-ripple';
+import {isCurrentTimeInRange} from '../../../utils/dateTimeUtils';
 class RenoPay extends Component {
   componentDidMount() {
     this.props.navigation.addListener('focus', () => {
@@ -14,22 +15,38 @@ class RenoPay extends Component {
     });
   }
 
-  onPressUpcomingOrder(upcomingOrder) {
+  onPressUpcomingOrder(upcomingOrder, upcomingOrderIndex) {
     if (upcomingOrder.unlockActive) {
       this.props.navigation.navigate('EnterAmountScreen', {
         data: upcomingOrder,
       });
     } else {
       this.props.navigation.navigate('UpcomingDetails', {
-        order: upcomingOrder,
+        index: upcomingOrderIndex,
       });
     }
   }
 
+  getUpcomingOrder = () => {
+    if (this.props.reservations.loading) {
+      return {upcomingOrder: null, upcomingOrderIndex: null};
+    }
+    const upcomingOrders = this.props.reservations.orders.upcomingOrders;
+
+    for (let i = 0; i < upcomingOrders.length; i++) {
+      const order = upcomingOrders[i];
+      const canUnlockTheDeal = isCurrentTimeInRange(order.timeDiscount.time);
+      const isUpcomingOrder =
+        canUnlockTheDeal && order.restaurants.acceptsRenoPay;
+      if (isUpcomingOrder) {
+        return {upcomingOrder: order, upcomingOrderIndex: i};
+      }
+    }
+    return {upcomingOrder: null, upcomingOrderIndex: null};
+  };
+
   render() {
-    const upcomingOrder = this.props.reservations?.orders?.upcomingOrders?.filter(
-      (order) => order.restaurants.acceptsRenoPay,
-    )[0];
+    const {upcomingOrder, upcomingOrderIndex} = this.getUpcomingOrder();
 
     return (
       <ScrollView
@@ -104,7 +121,11 @@ class RenoPay extends Component {
                     shadowRadius: 7,
                     elevation: 7,
                   }}
-                  onPress={this.onPressUpcomingOrder.bind(this, upcomingOrder)}>
+                  onPress={this.onPressUpcomingOrder.bind(
+                    this,
+                    upcomingOrder,
+                    upcomingOrderIndex,
+                  )}>
                   <Image
                     source={{
                       uri: upcomingOrder.restaurants.imageurl,

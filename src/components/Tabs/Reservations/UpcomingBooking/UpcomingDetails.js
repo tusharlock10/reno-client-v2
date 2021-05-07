@@ -8,17 +8,19 @@ import Ripple from 'react-native-material-ripple';
 import Feather from 'react-native-vector-icons/Feather';
 import {ScrollView} from 'react-native-gesture-handler';
 import {unlockDeal, cancelOrder} from '../../../../actions/reservations';
-import {isCurrentTimeInRange} from '../../../../utils/dateTimeUtils';
+import {
+  isCurrentTimeInRange,
+  getDayFromNumber,
+} from '../../../../utils/dateTimeUtils';
 
 class UpcomingDetails extends Component {
   state = {cancelLoading: false};
 
   renderUnlockButton() {
-    const order =
-      this.props.route.params.order ||
-      this.props.reservations.orders.upcomingOrders[
-        this.props.route.params.index
-      ];
+    const order = this.props.reservations.orders.upcomingOrders[
+      this.props.route.params.index
+    ];
+
     const canUnlockTheDeal = isCurrentTimeInRange(order.timeDiscount.time);
 
     if (!order.restaurants.acceptsRenoPay) {
@@ -66,11 +68,12 @@ class UpcomingDetails extends Component {
 
   render() {
     // getting this order directly from the redux state to update the order details live
-    const order =
-      this.props.route.params.order ||
-      this.props.reservations.orders.upcomingOrders[
-        this.props.route.params.index
-      ];
+    const order = this.props.reservations.orders.upcomingOrders[
+      this.props.route.params.index
+    ];
+    const discountProperty =
+      getDayFromNumber(new Date(order.date).getDay()).substring(0, 3) +
+      'Discount';
     return (
       <SafeAreaView
         style={{flex: 1, backgroundColor: '#F8F8F8'}}
@@ -257,7 +260,7 @@ restaurant via Reno Pay`
                     fontSize: 14,
                     color: '#d20000',
                   }}>
-                  {order.timeDiscount.discount}%
+                  {order.timeDiscount[discountProperty]}%
                 </Text>
               </View>
             </View>

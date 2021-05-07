@@ -35,8 +35,10 @@ export const reservations = (state = INITIAL_STATE, action) => {
         return order;
       });
 
-      state.orders.upcomingOrders = newUpcomingOrders;
-      return {...state};
+      return {
+        ...state,
+        orders: {...state.orders, upcomingOrders: newUpcomingOrders},
+      };
 
     default:
       return state;

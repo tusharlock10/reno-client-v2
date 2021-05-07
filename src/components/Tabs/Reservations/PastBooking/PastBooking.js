@@ -4,19 +4,24 @@ import Image from 'react-native-fast-image';
 import Ripple from 'react-native-material-ripple';
 import _ from 'lodash';
 import {height, width} from '../../../../constants';
+import {getDayFromNumber} from '../../../../utils/dateTimeUtils';
+
 class PastBooking extends Component {
   render() {
     if (!_.isEmpty(this.props.data)) {
       return (
         <FlatList
           showsVerticalScrollIndicator={false}
-          ListFooterComponent={<View style={{marginBottom: 100}} />}
+          ListFooterComponent={<View style={{height: 150}} />}
           data={this.props.data}
           keyExtractor={(item) => item.id}
           renderItem={({item}) => {
             if (!item.restaurants) {
               return null;
             }
+            const discountProperty =
+              getDayFromNumber(new Date(item.date).getDay()).substring(0, 3) +
+              'Discount';
             return (
               <Ripple
                 style={{
@@ -119,7 +124,7 @@ class PastBooking extends Component {
                             fontSize: 14,
                             color: '#d20000',
                           }}>
-                          {item.timeDiscount.discount}%
+                          {item.timeDiscount[discountProperty]}%
                         </Text>
                       </View>
                     </View>
@@ -131,7 +136,15 @@ class PastBooking extends Component {
                     alignSelf: 'center',
                     marginBottom: 15,
                   }}>
-                  {item.cancelled ? (
+                  {item.confirmed ? (
+                    <Text
+                      style={{
+                        color: 'green',
+                        fontFamily: 'Poppins-Medium',
+                      }}>
+                      {'Reservation Completed'}
+                    </Text>
+                  ) : item.cancelled ? (
                     <Text
                       style={{
                         color: '#d20000',
@@ -145,7 +158,9 @@ class PastBooking extends Component {
                         color: item.unlockActive ? 'green' : '#d20000',
                         fontFamily: 'Poppins-Medium',
                       }}>
-                      {item.unlockActive
+                      {item.hasPaymentDispute?
+                      'Payment Dispute Raised'
+                      : item.unlockActive
                         ? 'Deal Unlocked'
                         : 'Deal Not Unlocked'}
                     </Text>

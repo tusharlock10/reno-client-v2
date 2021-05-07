@@ -30,6 +30,8 @@ class CreateOrder extends Component {
     super(props);
     this.day =
       getDayFromNumber(new Date().getDay()).substring(0, 3) + 'Discount';
+    this.exhaust =
+      getDayFromNumber(new Date().getDay()).substring(0, 3) + 'Exhaust';
     this.state = {
       TermsAccepted: __DEV__ ? true : false,
       timeStamp: new Date().getTime(),
@@ -41,6 +43,7 @@ class CreateOrder extends Component {
       time: this.props.route.params.time,
       timeDiscountId: this.props.route.params.timeDiscountId,
       imageIndex: 0,
+      error: '',
     };
   }
   componentDidMount() {
@@ -275,9 +278,11 @@ class CreateOrder extends Component {
                     : this.props.route.params.timeDiscounts
                 }
                 renderItem={({item, index}) => {
+                  let exhausted = item[this.exhaust];
                   return (
                     <RenderSlots
                       discount={item[this.day]}
+                      exhausted={exhausted}
                       time={item.time}
                       id={item.id}
                       backgroundColor={
@@ -317,21 +322,24 @@ class CreateOrder extends Component {
               }}
             />
           </ScrollView>
-          <Footer
-            navigation={this.props.navigation}
-            people={this.state.people}
-            name={this.state.name}
-            phoneno={this.state.number}
-            restaurantId={this.props.route.params.id}
-            timeDiscountId={this.state.timeDiscountId}
-            date={this.state.timeStamp}
-            callbackFromParent={(show) => {
-              if (show) {
-                this.setState({visible: show});
-              }
-            }}
-            active={this.state.TermsAccepted}
-          />
+          {this.props.auth.user.hasActiveOrder ||
+          this.props.auth.user.hasPaymentDispute ? null : (
+            <Footer
+              navigation={this.props.navigation}
+              people={this.state.people}
+              name={this.state.name}
+              phoneno={this.state.number}
+              restaurantId={this.props.route.params.id}
+              timeDiscountId={this.state.timeDiscountId}
+              date={this.state.timeStamp}
+              callbackFromParent={(show, error) => {
+                if (show) {
+                  this.setState({visible: show, error});
+                }
+              }}
+              active={this.state.TermsAccepted}
+            />
+          )}
           <Snackbar
             visible={this.state.visible}
             theme={{colors: {accent: 'white'}}}
@@ -358,7 +366,7 @@ class CreateOrder extends Component {
                 fontFamily: 'Poppins-Medium',
                 color: '#fff',
               }}>
-              Accept Terms & Conditions
+              {this.state.error || 'Accept Terms & Conditions'}
             </Text>
           </Snackbar>
         </View>

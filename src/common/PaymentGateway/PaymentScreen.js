@@ -1,62 +1,34 @@
 import React, {Component} from 'react';
-import {Text, View, SafeAreaView} from 'react-native';
-import {ActivityIndicator} from 'react-native-paper';
-import axios from '../../api';
+import {Text, View, SafeAreaView, Button} from 'react-native';
+import {connect} from 'react-redux';
 import Header from './Header';
-import {WebView} from 'react-native-webview';
-import {width, height} from '../../constants';
+import {completePaymentRenoPass} from '../../utils/paymentUtil';
 
 class PaymentScreen extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      data: null,
-      success: false,
-    };
-  }
-  async componentDidMount() {
-    var selectedDays = '';
-    if (this.props.route.params.days == '90 days') {
-      selectedDays = '90';
-    } else if (this.props.route.params.days == '180 days') {
-      selectedDays = '180';
-    } else if (this.props.route.params.days == '360 days') {
-      selectedDays = '360';
-    }
-    var response = await axios.post('/reno/get-premium-membership', {
-      days: selectedDays,
+  async onPayment() {
+    const {days, amount} = this.props.route.params;
+    const {firstname, lastname, email, mobile} = this.props.auth.user;
+    const name = `${firstname} ${lastname}`;
+    completePaymentRenoPass({
+      amount,
+      name,
+      email,
+      mobile,
+      days,
     });
-    this.setState({data: response.data});
   }
+
   render() {
     return (
       <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
         <Header navigation={this.props.navigation} />
-        {this.state.data == null ? (
-          <View
-            style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-            <ActivityIndicator size="large" color="#d20000" />
-          </View>
-        ) : (
-          <View style={{flex: 1}}>
-            <WebView
-              style={{width, height}}
-              source={{
-                html: this.state.data,
-              }}
-              // injectedJavaScript={jsCode}
-              onNavigationStateChange={(data) => {
-                if (data.title == 'Success') {
-                  this.setState({success: true});
-                }
-              }}
-              // onMessage={this.onMessage}
-            />
-          </View>
-        )}
+        <Text>Hello</Text>
+        <Button onPress={this.onPayment.bind(this)} title="Pay" />
       </SafeAreaView>
     );
   }
 }
-export default PaymentScreen;
+
+const mapStateToProps = ({auth}) => ({auth});
+
+export default connect(mapStateToProps, {})(PaymentScreen);

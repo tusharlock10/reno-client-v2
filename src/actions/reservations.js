@@ -23,23 +23,31 @@ export const getMyReservations = () => async (dispatch) => {
       const orderTime = order.timeDiscount.time.split('-')[1];
       const hours = orderTime.split(':')[0];
       const minutes = orderTime.split(':')[1];
-      const orderDate = moment(order.date)
+      const orderExpiry = moment(order.date)
         .set('hours', hours)
         .set('minutes', minutes);
 
-      if (order.cancelled) {
+      const disputeExpiry = orderExpiry.add(6, 'hour');
+
+      if (order.confirmed) {
         completedOrders.unshift(order);
-      } else if (orderDate < moment()) {
-        if (order.unlockActive && !order.confirmed) {
-          // check if order was unlocked but not paid, then its an upcoming order
-          upcomingOrders.push(order);
-        } else {
-          completedOrders.unshift(order);
-        }
-        // console.log(order);
+      } else if (order.cancelled) {
+        completedOrders.unshift(order);
       } else {
-        upcomingOrders.push(order);
-        // console.log(order);
+        // check if order is unlocked, is yes then add it in upcoming orders
+        if (order.unlockActive) {
+          // if order is unlocked and not paid within 6 hours, send to completedOrders
+          if (disputeExpiry < moment()) {
+            completedOrders.unshift(order);
+          } else {
+            upcomingOrders.unshift(order);
+          }
+        } else if (orderExpiry < moment()) {
+          // means the order date has passed and the user have not unlocked/ cancelled the order
+          completedOrders.unshift(order);
+        } else {
+          upcomingOrders.unshift(order);
+        }
       }
     });
 
@@ -84,7 +92,6 @@ function errorHandler(err, type, dispatch) {
   const errors = err.response.data.errors;
   if (errors) {
     errors.forEach((error) => {
-      //   dispatch(setAlert(error.msg, "danger"));
       console.error(error);
     });
     dispatch({type});

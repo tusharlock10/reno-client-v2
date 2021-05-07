@@ -13,19 +13,15 @@ import {connect} from 'react-redux';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {indexRestaurants, brandTiles} from '../../../actions/restaurant';
 import setCityValue from '../../../utils/setCityValue';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import RenderSlider from './RenderSlider';
 import SlideShow from './Slideshow';
 import {getDayFromNumber} from '../../../utils/dateTimeUtils';
 
 class HomeScreen extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      city: 'Indore',
-    };
-  }
+  state = {
+    city: null,
+  };
 
   async componentDidMount() {
     StatusBar.setBackgroundColor('#fff');
@@ -161,7 +157,9 @@ class HomeScreen extends Component {
                       );
                     }}
                   />
-                  <SlideShow navigation={this.props.navigation} />
+                  {this.props.auth.user.renoPass ? null : (
+                    <SlideShow navigation={this.props.navigation} />
+                  )}
                   <View
                     style={{
                       marginLeft: 25,

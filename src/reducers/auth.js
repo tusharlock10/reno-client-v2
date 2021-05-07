@@ -11,44 +11,46 @@ import {
   LOGIN_FAIL,
   CLEAR_PROFILE,
   LOGIN_SUCCESS,
-  LOGOUT
-} from "../actions/types";
-import AsyncStorage from "@react-native-community/async-storage";
+  LOGOUT,
+  RENO_PASS_PURCHASE,
+  USER_HAS_ACTIVE_ORDER
+} from '../actions/types';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const INITIAL_STATE = {
-  token:null,
+  token: null,
   isAuthenticated: null,
   loading: false,
-  user: null
+  user: null,
 };
 
 async function setAsyncToken(token) {
-  await AsyncStorage.setItem("jwtToken", token);
+  await AsyncStorage.setItem('jwtToken', token);
 }
 
 async function removeAsyncToken() {
-  await AsyncStorage.removeItem("jwtToken");
+  await AsyncStorage.removeItem('jwtToken');
 }
 
 export const auth = (state = INITIAL_STATE, action) => {
-  const { type, payload } = action;
+  const {type, payload} = action;
   switch (type) {
     case USER_LOADED:
       return {
         ...state,
         user: payload,
         loading: false,
-        isAuthenticated: true
+        isAuthenticated: true,
       };
     case AUTH_CANCELED:
       return {
         ...state,
-        loading: false
+        loading: false,
       };
     case AWAIT_AUTH:
       return {
         ...state,
-        loading: true
+        loading: true,
       };
     case AUTH_SUCCESS:
       setAsyncToken(payload.token);
@@ -56,10 +58,17 @@ export const auth = (state = INITIAL_STATE, action) => {
         ...state,
         ...payload,
         loading: false,
-        isAuthenticated: true
+        isAuthenticated: true,
       };
     case AUTH_ERROR:
     case CLEAR_PROFILE:
+    case RENO_PASS_PURCHASE:
+      return {
+        ...state,
+        user: {...state.user, renoPass: action.payload},
+      };
+    case USER_HAS_ACTIVE_ORDER:
+      return {...state, user: {...state.user, hasActiveOrder: action.payload}};
     case LOGOUT:
       removeAsyncToken();
       return {
@@ -67,7 +76,7 @@ export const auth = (state = INITIAL_STATE, action) => {
         loading: false,
         isAuthenticated: false,
         user: null,
-        token: null
+        token: null,
       };
 
     default:

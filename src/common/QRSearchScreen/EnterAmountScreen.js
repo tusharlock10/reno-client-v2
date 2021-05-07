@@ -12,6 +12,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ripple from 'react-native-material-ripple';
 import {completePayment} from '../../utils/paymentUtil';
 import UpcomingBookingCard from '../../components/Tabs/Reservations/UpcomingBooking/UpcomingBookingCard';
+import {updateUserActiveOrder} from '../../actions/createorder';
 
 class EnterAmountScreen extends Component {
   state = {
@@ -25,7 +26,14 @@ class EnterAmountScreen extends Component {
       return;
     }
     this.setState({paymentLoading: true});
-    const {name, email, mobile} = this.props.auth.user;
+    const {
+      firstname,
+      lastname,
+      email,
+      mobile,
+      razorpayKeyId,
+    } = this.props.auth.user;
+    const name = `${firstname} ${lastname}`;
     const data = {
       name,
       email,
@@ -33,7 +41,8 @@ class EnterAmountScreen extends Component {
       amount: parseInt(this.state.amount),
       orderId: this.props.route.params.data.id,
     };
-    const paymentResponse = await completePayment(data);
+    const paymentResponse = await completePayment(razorpayKeyId, data);
+    this.props.updateUserActiveOrder(false);
     this.setState({paymentLoading: false, paymentResponse});
   };
 
@@ -187,7 +196,9 @@ class EnterAmountScreen extends Component {
 
 const mapStateToProps = ({auth}) => ({auth});
 
-export default connect(mapStateToProps, {})(EnterAmountScreen);
+export default connect(mapStateToProps, {updateUserActiveOrder})(
+  EnterAmountScreen,
+);
 
 const styles = StyleSheet.create({
   headingView: {
