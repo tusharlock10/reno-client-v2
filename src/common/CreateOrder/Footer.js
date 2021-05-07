@@ -6,6 +6,15 @@ class Footer extends Component {
   error = '';
 
   canConfirmBooking() {
+    if (this.props.auth.user.hasActiveOrder) {
+      this.error = 'You have an ongoing reservation';
+      return false;
+    }
+    if (this.props.auth.user.hasPaymentDispute) {
+      this.error = 'Payment pending for previous booking';
+      return false;
+    }
+
     if (!this.props.timeDiscountId) {
       this.error = 'Please select a slot';
       return false;

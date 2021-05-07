@@ -19,6 +19,7 @@ class PastBooking extends Component {
             if (!item.restaurants) {
               return null;
             }
+
             const discountProperty =
               getDayFromNumber(new Date(item.date).getDay()).substring(0, 3) +
               'Discount';
@@ -155,12 +156,16 @@ class PastBooking extends Component {
                   ) : (
                     <Text
                       style={{
-                        color: item.unlockActive ? 'green' : '#d20000',
+                        color: item.hasPaymentDispute
+                          ? '#d20000'
+                          : item.unlockActive
+                          ? 'green'
+                          : '#d20000',
                         fontFamily: 'Poppins-Medium',
                       }}>
-                      {item.hasPaymentDispute?
-                      'Payment Dispute Raised'
-                      : item.unlockActive
+                      {item.hasPaymentDispute
+                        ? 'Payment Dispute Raised'
+                        : item.unlockActive
                         ? 'Deal Unlocked'
                         : 'Deal Not Unlocked'}
                     </Text>

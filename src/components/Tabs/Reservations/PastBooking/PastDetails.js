@@ -14,6 +14,8 @@ import Ripple from 'react-native-material-ripple';
 import Feather from 'react-native-vector-icons/Feather';
 import {ScrollView} from 'react-native-gesture-handler';
 import axios from '../../../../api';
+import {getDayFromNumber} from '../../../../utils/dateTimeUtils';
+
 class PastDetails extends Component {
   state = {
     rating: 0,
@@ -158,6 +160,9 @@ class PastDetails extends Component {
 
   render() {
     const {data} = this.props.route.params;
+    const discountProperty =
+      getDayFromNumber(new Date(data.date).getDay()).substring(0, 3) +
+      'Discount';
     return (
       <View style={{backgroundColor: '#F8F8F8', flex: 1}}>
         <Image
@@ -210,7 +215,8 @@ class PastDetails extends Component {
               }}>
               {data.restaurants.name}
             </Text>
-            {data.confirmed?<Text
+            {data.confirmed ? (
+              <Text
                 style={{
                   fontFamily: 'Poppins-Medium',
                   fontSize: 14,
@@ -218,7 +224,8 @@ class PastDetails extends Component {
                   color: 'green',
                 }}>
                 {'Reservation Completed'}
-              </Text>:data.cancelled ? (
+              </Text>
+            ) : data.cancelled ? (
               <Text
                 style={{
                   fontFamily: 'Poppins-Medium',
@@ -228,7 +235,8 @@ class PastDetails extends Component {
                 }}>
                 {'Reservation Cancelled'}
               </Text>
-            ) : <Text
+            ) : (
+              <Text
                 style={{
                   fontFamily: 'Poppins-Medium',
                   fontSize: 14,
@@ -236,7 +244,8 @@ class PastDetails extends Component {
                   color: '#d20000',
                 }}>
                 {'Deal Not Unlocked'}
-              </Text>}
+              </Text>
+            )}
             <View
               style={{
                 backgroundColor: '#d2d2d2',
@@ -318,7 +327,7 @@ class PastDetails extends Component {
                     fontSize: 14,
                     color: '#d20000',
                   }}>
-                  {data.timeDiscount.discount}%
+                  {data.timeDiscount[discountProperty]}%
                 </Text>
               </View>
             </View>

@@ -7,6 +7,7 @@ import {
   RESERVATIONS_FETCH,
   RESERVATIONS_FETCH_ERROR,
   UPDATE_UPCOMING_RESERVATION,
+  USER_HAS_ACTIVE_ORDER,
 } from './types';
 
 import axios from '../api';
@@ -85,6 +86,10 @@ const _unlockDeal = async (dispatch, data) => {
 
 const _cancelOrder = async (dispatch, orderId, onSuccess) => {
   await axios.post(`/cancelBooking/${orderId}`);
+  dispatch({
+    type: USER_HAS_ACTIVE_ORDER,
+    payload: false,
+  });
   onSuccess();
 };
 

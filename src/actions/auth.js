@@ -42,10 +42,12 @@ export const facebookAuth = (data, navigation) => async (dispatch) => {
   const response = await axios.post('/auth', user);
   setAuthToken(response.data.token);
 
-  loadUser(() => {
-    dispatch({type: AUTH_SUCCESS, payload: response.data});
-    navigation.replace('ChooseLocation');
-  });
+  dispatch(
+    loadUser(() => {
+      dispatch({type: AUTH_SUCCESS, payload: response.data});
+      navigation.replace('ChooseLocation');
+    }),
+  );
 };
 
 export const googleAuth = (data, navigation) => async (dispatch) => {
@@ -60,10 +62,12 @@ export const googleAuth = (data, navigation) => async (dispatch) => {
   const response = await axios.post('/auth', user);
   setAuthToken(response.data.token);
 
-  loadUser(() => {
-    dispatch({type: AUTH_SUCCESS, payload: response.data});
-    navigation.replace('ChooseLocation');
-  });
+  dispatch(
+    loadUser(() => {
+      dispatch({type: AUTH_SUCCESS, payload: response.data});
+      navigation.replace('ChooseLocation');
+    }),
+  );
 };
 
 //logout user

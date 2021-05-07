@@ -322,24 +322,24 @@ class CreateOrder extends Component {
               }}
             />
           </ScrollView>
-          {this.props.auth.user.hasActiveOrder ||
-          this.props.auth.user.hasPaymentDispute ? null : (
-            <Footer
-              navigation={this.props.navigation}
-              people={this.state.people}
-              name={this.state.name}
-              phoneno={this.state.number}
-              restaurantId={this.props.route.params.id}
-              timeDiscountId={this.state.timeDiscountId}
-              date={this.state.timeStamp}
-              callbackFromParent={(show, error) => {
-                if (show) {
-                  this.setState({visible: show, error});
-                }
-              }}
-              active={this.state.TermsAccepted}
-            />
-          )}
+
+          <Footer
+            auth={this.props.auth}
+            navigation={this.props.navigation}
+            people={this.state.people}
+            name={this.state.name}
+            phoneno={this.state.number}
+            restaurantId={this.props.route.params.id}
+            timeDiscountId={this.state.timeDiscountId}
+            date={this.state.timeStamp}
+            callbackFromParent={(show, error) => {
+              if (show) {
+                this.setState({visible: show, error});
+              }
+            }}
+            active={this.state.TermsAccepted}
+          />
+
           <Snackbar
             visible={this.state.visible}
             theme={{colors: {accent: 'white'}}}
