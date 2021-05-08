@@ -28,7 +28,7 @@ export const getMyReservations = () => async (dispatch) => {
         .set('hours', hours)
         .set('minutes', minutes);
 
-      const disputeExpiry = orderExpiry.add(6, 'hour');
+      const disputeExpiry = moment(orderExpiry).add(6, 'hour');
 
       if (order.confirmed) {
         completedOrders.unshift(order);
