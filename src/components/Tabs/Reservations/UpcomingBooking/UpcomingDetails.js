@@ -12,6 +12,7 @@ import {
   isCurrentTimeInRange,
   getDayFromNumber,
 } from '../../../../utils/dateTimeUtils';
+import moment from 'moment';
 
 class UpcomingDetails extends Component {
   state = {cancelLoading: false};
@@ -39,14 +40,11 @@ class UpcomingDetails extends Component {
           }
         }}
         style={{
-          alignSelf: 'center',
-          justifyContent: 'center',
-          alignItems: 'center',
           borderRadius: 12,
           elevation: 5,
-          shadowOffset: {height: 4, width: 2},
-          shadowRadius: 5,
-          shadowOpacity: 2,
+          paddingHorizontal: 20,
+          paddingVertical: 7,
+          alignSelf: 'center',
           backgroundColor: order.unlockActive
             ? '#299e49'
             : canUnlockTheDeal
@@ -55,8 +53,7 @@ class UpcomingDetails extends Component {
         }}>
         <Text
           style={{
-            margin: 15,
-            fontSize: 17,
+            fontSize: 18,
             fontFamily: 'Poppins-Regular',
             color: '#fff',
           }}>
@@ -164,13 +161,12 @@ class UpcomingDetails extends Component {
           {this.renderUnlockButton()}
           <View
             style={{
-              marginTop: 20,
-              borderRadius: 5,
+              marginTop: 15,
+              borderRadius: 10,
+              marginHorizontal: 10,
               backgroundColor: '#fff',
-              width: width * 0.96,
-              alignSelf: 'center',
               flex: 1,
-              alignItems: 'center',
+              elevation: 5,
             }}>
             <Text
               style={{
@@ -201,69 +197,80 @@ restaurant via Reno Pay`
           <View
             style={{
               marginTop: 5,
-              shadowColor: '#00000029',
-              shadowOffset: {height: 2, width: 2},
-              shadowRadius: 7,
-              borderRadius: 5,
+              borderRadius: 10,
+              marginHorizontal: 10,
               backgroundColor: '#fff',
-              shadowOpacity: 1,
-              width: width * 0.96,
-              alignSelf: 'center',
+              flex: 1,
+              elevation: 5,
             }}>
             <Text
               style={{
                 fontFamily: 'Poppins-Regular',
                 color: '#000',
-                fontSize: 15,
+                fontSize: 16,
                 margin: 10,
+                marginBottom: 0,
               }}>
-              {new Date(order.date).toDateString()}
+              {'Created on '}
+              <Text
+                style={{
+                  color: '#d20000',
+                }}>
+                {moment(order.date).format('Do MMM YY, h:mm A')}
+              </Text>
             </Text>
+
+            {order.unlockActive ? (
+              <Text
+                style={{
+                  fontFamily: 'Poppins-Regular',
+                  color: '#000',
+                  fontSize: 16,
+                  margin: 10,
+                  marginBottom: 0,
+                }}>
+                {'Unlocked on '}
+                <Text
+                  style={{
+                    color: '#d20000',
+                  }}>
+                  {moment(order.updatedAt).format('Do MMM YY, h:mm A')}
+                </Text>
+              </Text>
+            ) : null}
+
             <Text
               style={{
                 fontFamily: 'Poppins-Regular',
                 color: '#000',
-                fontSize: 15,
-                marginLeft: 10,
-              }}>
-              {order.timeDiscount.time}
-            </Text>
-            <View
-              style={{
-                flexDirection: 'row',
+                fontSize: 16,
                 margin: 10,
-                alignItems: 'center',
+                marginBottom: 0,
               }}>
+              {'Reservation Slot '}
               <Text
                 style={{
-                  fontFamily: 'Poppins-Regular',
-                  fontSize: 15,
-                  color: '#000',
+                  color: '#d20000',
                 }}>
-                Discount Availed
+                {order.timeDiscount.time}
               </Text>
-              <View
+            </Text>
+
+            <Text
+              style={{
+                fontFamily: 'Poppins-Regular',
+                fontSize: 16,
+                color: '#000',
+                margin: 10,
+              }}>
+              {'Discount Availed '}
+              <Text
                 style={{
-                  width: 40,
-                  height: 35,
-                  backgroundColor: '#fff',
-                  marginLeft: 15,
-                  borderRadius: 5,
-                  borderWidth: 1,
-                  borderColor: '#d20000',
-                  justifyContent: 'center',
-                  alignItems: 'center',
+                  color: '#d20000',
                 }}>
-                <Text
-                  style={{
-                    fontFamily: 'Poppins-Regular',
-                    fontSize: 14,
-                    color: '#d20000',
-                  }}>
-                  {order.timeDiscount[discountProperty]}%
-                </Text>
-              </View>
-            </View>
+                {order.timeDiscount[discountProperty]}%
+              </Text>
+            </Text>
           </View>
           <Text
             style={{
@@ -278,14 +285,11 @@ restaurant via Reno Pay`
           <View
             style={{
               marginTop: 5,
-              shadowColor: '#00000029',
-              shadowOffset: {height: 2, width: 2},
-              shadowRadius: 7,
-              borderRadius: 5,
+              borderRadius: 10,
+              marginHorizontal: 10,
               backgroundColor: '#fff',
-              shadowOpacity: 1,
-              width: width * 0.96,
-              alignSelf: 'center',
+              flex: 1,
+              elevation: 5,
             }}>
             <View
               style={{
@@ -299,7 +303,7 @@ restaurant via Reno Pay`
                 style={{
                   fontFamily: 'Poppins-Regular',
                   fontSize: 16,
-                  color: '#000',
+                  color: '#d20000',
                   marginLeft: 10,
                 }}>
                 {order.name}
@@ -317,7 +321,7 @@ restaurant via Reno Pay`
                 style={{
                   fontFamily: 'Poppins-Regular',
                   fontSize: 16,
-                  color: '#000',
+                  color: '#d20000',
                   marginLeft: 10,
                 }}>
                 {order.mobile}
@@ -334,10 +338,10 @@ restaurant via Reno Pay`
                 style={{
                   fontFamily: 'Poppins-Regular',
                   fontSize: 16,
-                  color: '#000',
+                  color: '#d20000',
                   marginLeft: 10,
                 }}>
-                {order.people} Members
+                {order.people} Member{`${order.people === 1 ? '' : 's'}`}
               </Text>
             </View>
           </View>

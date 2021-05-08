@@ -7,6 +7,7 @@ import {
   isCurrentTimeInRange,
   getDayFromNumber,
 } from '../../../../utils/dateTimeUtils';
+import moment from 'moment';
 
 class UpcomingBookingCard extends React.Component {
   renderUnlockButton() {
@@ -85,7 +86,7 @@ class UpcomingBookingCard extends React.Component {
               color: '#000',
               fontSize: 16,
             }}>
-            {new Date(item.date).toDateString()}
+            {moment(item.date).format('Do MMM YY, h:mm A')}
           </Text>
           <Text
             style={{

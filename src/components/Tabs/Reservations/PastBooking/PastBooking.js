@@ -5,6 +5,7 @@ import Ripple from 'react-native-material-ripple';
 import _ from 'lodash';
 import {height, width} from '../../../../constants';
 import {getDayFromNumber} from '../../../../utils/dateTimeUtils';
+import moment from 'moment';
 
 class PastBooking extends Component {
   render() {
@@ -50,9 +51,9 @@ class PastBooking extends Component {
                     style={{
                       fontFamily: 'Poppins-SemiBold',
                       color: '#000',
-                      fontSize: 17,
+                      fontSize: 16,
                     }}>
-                    {new Date(item.date).toDateString()}
+                    {moment(item.date).format('Do MMM YY, h:mm A')}
                   </Text>
                   <Text
                     style={{

@@ -15,6 +15,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import {ScrollView} from 'react-native-gesture-handler';
 import axios from '../../../../api';
 import {getDayFromNumber} from '../../../../utils/dateTimeUtils';
+import moment from 'moment';
 
 class PastDetails extends Component {
   state = {
@@ -163,6 +164,20 @@ class PastDetails extends Component {
     const discountProperty =
       getDayFromNumber(new Date(data.date).getDay()).substring(0, 3) +
       'Discount';
+
+    let updateText;
+    if (data.confirmed) {
+      updateText = 'Paid on ';
+    } else if (data.cancelled) {
+      updateText = 'Cancelled on ';
+    } else if (data.hasPaymentDispute) {
+      updateText = 'Marked Disputed on ';
+    } else if (data.unlockActive) {
+      updateText = 'Unlocked on ';
+    } else {
+      updateText = 'Updated on ';
+    }
+
     return (
       <View style={{backgroundColor: '#F8F8F8', flex: 1}}>
         <Image
@@ -281,56 +296,66 @@ class PastDetails extends Component {
               style={{
                 fontFamily: 'Poppins-Regular',
                 color: '#000',
-                fontSize: 15,
+                fontSize: 16,
                 margin: 10,
+                marginBottom: 0,
               }}>
-              {data.date}
+              {'Created on '}
+              <Text
+                style={{
+                  color: '#d20000',
+                }}>
+                {moment(data.date).format('Do MMM YY, h:mm A')}
+              </Text>
             </Text>
+
             <Text
               style={{
                 fontFamily: 'Poppins-Regular',
                 color: '#000',
-                fontSize: 15,
-                marginLeft: 10,
-              }}>
-              {data.timeDiscount.time}
-            </Text>
-            <View
-              style={{
-                flexDirection: 'row',
+                fontSize: 16,
                 margin: 10,
-                alignItems: 'center',
               }}>
+              {updateText}
               <Text
                 style={{
-                  fontFamily: 'Poppins-Regular',
-                  fontSize: 15,
-                  color: '#000',
+                  color: '#d20000',
                 }}>
-                Discount Availed
+                {moment(data.updatedAt).format('Do MMM YY, h:mm A')}
               </Text>
-              <View
+            </Text>
+
+            <Text
+              style={{
+                fontFamily: 'Poppins-Regular',
+                color: '#000',
+                fontSize: 16,
+                marginLeft: 10,
+              }}>
+              {'Reservation Slot '}
+              <Text
                 style={{
-                  width: 40,
-                  height: 35,
-                  backgroundColor: '#fff',
-                  marginLeft: 15,
-                  borderRadius: 5,
-                  borderWidth: 1,
-                  borderColor: '#d20000',
-                  justifyContent: 'center',
-                  alignItems: 'center',
+                  color: '#d20000',
                 }}>
-                <Text
-                  style={{
-                    fontFamily: 'Poppins-Regular',
-                    fontSize: 14,
-                    color: '#d20000',
-                  }}>
-                  {data.timeDiscount[discountProperty]}%
-                </Text>
-              </View>
-            </View>
+                {data.timeDiscount.time}
+              </Text>
+            </Text>
+
+            <Text
+              style={{
+                fontFamily: 'Poppins-Regular',
+                fontSize: 16,
+                color: '#000',
+                margin: 10,
+              }}>
+              {'Discount Availed '}
+              <Text
+                style={{
+                  color: '#d20000',
+                }}>
+                {data.timeDiscount[discountProperty]}%
+              </Text>
+            </Text>
           </View>
           <Text
             style={{
@@ -355,7 +380,7 @@ class PastDetails extends Component {
                 style={{
                   fontFamily: 'Poppins-Regular',
                   fontSize: 16,
-                  color: '#000',
+                  color: '#d20000',
                   marginLeft: 10,
                 }}>
                 {data.name}
@@ -373,7 +398,7 @@ class PastDetails extends Component {
                 style={{
                   fontFamily: 'Poppins-Regular',
                   fontSize: 16,
-                  color: '#000',
+                  color: '#d20000',
                   marginLeft: 10,
                 }}>
                 {data.mobile}
@@ -390,10 +415,10 @@ class PastDetails extends Component {
                 style={{
                   fontFamily: 'Poppins-Regular',
                   fontSize: 16,
-                  color: '#000',
+                  color: '#d20000',
                   marginLeft: 10,
                 }}>
-                {data.people} Members
+                {data.people} Member{`${data.people === 1 ? '' : 's'}`}
               </Text>
             </View>
           </View>
@@ -445,25 +470,19 @@ const styles = StyleSheet.create({
   },
   reservationDetailsView: {
     marginTop: 5,
-    shadowColor: '#00000029',
-    shadowOffset: {height: 2, width: 2},
-    shadowRadius: 7,
-    borderRadius: 5,
+    borderRadius: 10,
+    marginHorizontal: 10,
     backgroundColor: '#fff',
-    shadowOpacity: 1,
-    width: width * 0.96,
-    alignSelf: 'center',
+    flex: 1,
+    elevation: 5,
   },
   personalDetailsView: {
     marginTop: 5,
-    shadowColor: '#00000029',
-    shadowOffset: {height: 2, width: 2},
-    shadowRadius: 7,
-    borderRadius: 5,
+    borderRadius: 10,
+    marginHorizontal: 10,
     backgroundColor: '#fff',
-    shadowOpacity: 1,
-    width: width * 0.96,
-    alignSelf: 'center',
+    flex: 1,
+    elevation: 5,
   },
   rateButton: {
     alignSelf: 'center',
@@ -485,7 +504,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     marginHorizontal: 15,
     borderRadius: 10,
-    elevation: 5,
+    elevation: 7,
     padding: 10,
   },
   reviewInput: {

@@ -10,42 +10,31 @@ class RenderRestaurants extends Component {
   render() {
     return (
       <View
-        rippleDuration={300}
         style={{
-          width: width * 0.94,
-          height: 100,
-          marginBottom: 20,
-          borderRadius: 8,
+          marginBottom: 70,
+          width: width * 0.9,
           backgroundColor: '#fff',
-          height: 150,
+          elevation: 7,
+          borderRadius: 10,
+          overflow: 'hidden',
           flexDirection: 'row',
-          shadowColor: '#000',
-          shadowOffset: {height: 3, width: 0},
-          shadowOpacity: 0.2,
-          elevation: 4,
         }}>
         <Image
           source={{uri: this.props.data.imageurl}}
           style={{
-            height: 150,
             width: 150,
             overflow: 'hidden',
-            borderTopLeftRadius: 8,
-            borderBottomLeftRadius: 8,
-          }}
-          resizeMode="cover">
+          }}>
           <View
             style={{
-              width: 35,
-              height: 38,
               marginRight: 20,
+              paddingHorizontal: 5,
               backgroundColor: '#fff',
-              opacity: 0.9,
+              opacity: 0.8,
+              paddingVertical: 5,
               alignSelf: 'flex-end',
               borderBottomLeftRadius: 7,
               borderBottomRightRadius: 7,
-              justifyContent: 'center',
-              alignItems: 'center',
             }}>
             <Text
               style={{
@@ -59,15 +48,15 @@ class RenderRestaurants extends Component {
         </Image>
         <View
           style={{
-            marginLeft: 15,
-            marginTop: 10,
             flex: 1,
+            padding: 5,
           }}>
           <Text
             style={{
               fontFamily: 'Poppins-SemiBold',
-              fontSize: 18,
+              fontSize: 16,
               color: '#000',
+              textAlign: 'justify',
             }}>
             {this.props.data.name}
           </Text>
@@ -82,24 +71,22 @@ class RenderRestaurants extends Component {
           <View style={{flexDirection: 'row'}}>
             <View
               style={{
-                marginTop: 10,
                 flexDirection: 'row',
                 alignItems: 'center',
               }}>
               <SimpleLineIcons name="location-pin" color="#7a7a7a" size={15} />
               <Text
                 style={{
-                  fontSize: 15,
+                  fontSize: 14,
                   fontFamily: 'Poppins-Regular',
                   color: '#000',
                   paddingLeft: 5,
                 }}>
-                {this.props.data.distance.toFixed(2)} km
+                {this.props.data.distance.toFixed(1)} km
               </Text>
             </View>
             <View
               style={{
-                marginTop: 10,
                 marginLeft: 10,
                 flexDirection: 'row',
                 alignItems: 'center',
@@ -107,12 +94,11 @@ class RenderRestaurants extends Component {
               <Ionicons name="md-time" color="#7a7a7a" size={18} />
               <Text
                 style={{
-                  fontSize: 15,
+                  fontSize: 14,
                   fontFamily: 'Poppins-Regular',
                   color: '#000',
-                  paddingLeft: 5,
                 }}>
-                {(this.props.data.duration * 60).toString().slice(0, 4)} min
+                {(this.props.data.duration * 60).toString().slice(0, 3)} min
               </Text>
             </View>
           </View>
@@ -129,15 +115,13 @@ class RenderRestaurants extends Component {
               })
             }
             style={{
-              width: '90%',
-              height: 45,
               backgroundColor: '#fff',
               marginTop: 5,
-              borderRadius: 8,
-              justifyContent: 'center',
+              borderRadius: 7.5,
               alignItems: 'center',
               borderWidth: 2,
               borderColor: '#d20000',
+              paddingVertical: 5,
             }}>
             <Text
               style={{
