@@ -297,39 +297,7 @@ class PastDetails extends Component {
                 fontFamily: 'Poppins-Regular',
                 color: '#000',
                 fontSize: 16,
-                margin: 10,
-                marginBottom: 0,
-              }}>
-              {'Created on '}
-              <Text
-                style={{
-                  color: '#d20000',
-                }}>
-                {moment(data.date).format('Do MMM YY, h:mm A')}
-              </Text>
-            </Text>
-
-            <Text
-              style={{
-                fontFamily: 'Poppins-Regular',
-                color: '#000',
-                fontSize: 16,
-                margin: 10,
-              }}>
-              {updateText}
-              <Text
-                style={{
-                  color: '#d20000',
-                }}>
-                {moment(data.updatedAt).format('Do MMM YY, h:mm A')}
-              </Text>
-            </Text>
-
-            <Text
-              style={{
-                fontFamily: 'Poppins-Regular',
-                color: '#000',
-                fontSize: 16,
+                marginTop:20,
                 marginLeft: 10,
               }}>
               {'Reservation Slot '}

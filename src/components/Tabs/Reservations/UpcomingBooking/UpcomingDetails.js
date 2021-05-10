@@ -68,6 +68,9 @@ class UpcomingDetails extends Component {
     const order = this.props.reservations.orders.upcomingOrders[
       this.props.route.params.index
     ];
+    if (!order) {
+      return <View />;
+    }
     const discountProperty =
       getDayFromNumber(new Date(order.date).getDay()).substring(0, 3) +
       'Discount';
@@ -209,42 +212,7 @@ restaurant via Reno Pay`
                 color: '#000',
                 fontSize: 16,
                 margin: 10,
-                marginBottom: 0,
-              }}>
-              {'Created on '}
-              <Text
-                style={{
-                  color: '#d20000',
-                }}>
-                {moment(order.date).format('Do MMM YY, h:mm A')}
-              </Text>
-            </Text>
-
-            {order.unlockActive ? (
-              <Text
-                style={{
-                  fontFamily: 'Poppins-Regular',
-                  color: '#000',
-                  fontSize: 16,
-                  margin: 10,
-                  marginBottom: 0,
-                }}>
-                {'Unlocked on '}
-                <Text
-                  style={{
-                    color: '#d20000',
-                  }}>
-                  {moment(order.updatedAt).format('Do MMM YY, h:mm A')}
-                </Text>
-              </Text>
-            ) : null}
-
-            <Text
-              style={{
-                fontFamily: 'Poppins-Regular',
-                color: '#000',
-                fontSize: 16,
-                margin: 10,
+                marginTop: 20,
                 marginBottom: 0,
               }}>
               {'Reservation Slot '}

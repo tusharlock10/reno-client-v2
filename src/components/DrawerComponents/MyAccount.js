@@ -126,22 +126,24 @@ class MyAccount extends Component {
                       {this.state.city}
                     </Text>
                   </View>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                    }}>
-                    <MaterialIcons name="phone" size={17} color="#777777" />
-                    <Text
+                  {this.props.auth.user.mobile ? (
+                    <View
                       style={{
-                        color: '#777777',
-                        fontSize: 15,
-                        marginLeft: 5,
-                        fontFamily: 'Poppins-Regular',
+                        flexDirection: 'row',
+                        alignItems: 'center',
                       }}>
-                      {`+91 ${this.props.auth.user.mobile}`}
-                    </Text>
-                  </View>
+                      <MaterialIcons name="phone" size={17} color="#777777" />
+                      <Text
+                        style={{
+                          color: '#777777',
+                          fontSize: 15,
+                          marginLeft: 5,
+                          fontFamily: 'Poppins-Regular',
+                        }}>
+                        {`+91 ${this.props.auth.user.mobile}`}
+                      </Text>
+                    </View>
+                  ) : null}
                   <View
                     style={{
                       flexDirection: 'row',

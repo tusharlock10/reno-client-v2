@@ -26,28 +26,25 @@ import Image from 'react-native-fast-image';
 import {getDayFromNumber} from '../../utils/dateTimeUtils';
 
 class CreateOrder extends Component {
-  constructor(props) {
-    super(props);
-    this.day =
-      getDayFromNumber(new Date().getDay()).substring(0, 3) + 'Discount';
-    this.exhaust =
-      getDayFromNumber(new Date().getDay()).substring(0, 3) + 'Exhaust';
-    this.state = {
-      TermsAccepted: __DEV__ ? true : false,
-      timeStamp: new Date().getTime(),
-      visible: false,
-      people: 1,
-      name: `${this.props.auth.user.firstname} ${this.props.auth.user.lastname}`,
-      number: __DEV__ ? '9354527144' : '',
-      discount: this.props.route.params.discount,
-      time: this.props.route.params.time,
-      timeDiscountId: this.props.route.params.timeDiscountId,
-      imageIndex: 0,
-      error: '',
-    };
-  }
+  state = {
+    TermsAccepted: __DEV__ ? true : false,
+    timeStamp: new Date().getTime(),
+    visible: false,
+    people: 1,
+    name: `${this.props.auth.user.firstname} ${this.props.auth.user.lastname}`,
+    number: __DEV__ ? '9354527144' : '',
+    discount: this.props.route.params.discount,
+    time: this.props.route.params.time,
+    timeDiscountId: this.props.route.params.timeDiscountId,
+    imageIndex: 0,
+    error: '',
+  };
+
   componentDidMount() {
-    this.props.indexCreateOrder(this.props.route.params.id);
+    this.props.indexCreateOrder(
+      this.props.route.params.id,
+      this.state.timeStamp,
+    );
   }
   openGoogleMaps(url) {
     Linking.canOpenURL(url)
@@ -227,9 +224,6 @@ class CreateOrder extends Component {
               callbackFromMainCalendar={(timeStamp) => {
                 if (this.state.timeStamp != timeStamp) {
                   this.setState({timeStamp});
-                  this.day = `${getDayFromNumber(
-                    new Date(timeStamp).getDay(),
-                  ).substring(0, 3)}Discount`;
                   this.props.indexCreateOrder(
                     this.props.route.params.id,
                     timeStamp,
@@ -277,16 +271,24 @@ class CreateOrder extends Component {
                     ? this.props.createorder.orderData.timeDiscounts
                     : this.props.route.params.timeDiscounts
                 }
-                renderItem={({item, index}) => {
-                  let exhausted = item[this.exhaust];
+                renderItem={({item}) => {
+                  const exhausted =
+                    getDayFromNumber(
+                      new Date(this.state.timeStamp).getDay(),
+                    ).substring(0, 3) + 'Exhaust';
+                  const day =
+                    getDayFromNumber(
+                      new Date(this.state.timeStamp).getDay(),
+                    ).substring(0, 3) + 'Discount';
+
                   return (
                     <RenderSlots
-                      discount={item[this.day]}
-                      exhausted={exhausted}
+                      discount={item[day]}
+                      exhausted={item[exhausted]}
                       time={item.time}
                       id={item.id}
                       backgroundColor={
-                        this.state.discount == item[this.day] &&
+                        this.state.discount == item[day] &&
                         this.state.time == item.time
                           ? '#FFA500'
                           : '#d20000'

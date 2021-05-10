@@ -6,12 +6,11 @@ import {
 } from './types';
 import axios from '../api';
 
-export const indexCreateOrder = (id, date) => async (dispatch) => {
+export const indexCreateOrder = (id, timeStamp) => async (dispatch) => {
   try {
     dispatch({type: FETCHING_RES_ORDER_DATA});
-    const response = await axios({
-      url: `/restaurant/${id}`,
-      headers: {date},
+    const response = await axios.get(`/restaurant/${id}`, {
+      params: {timeStamp},
     });
     dispatch({type: FETCH_RES_ORDER_DATA, payload: response.data});
   } catch (error) {

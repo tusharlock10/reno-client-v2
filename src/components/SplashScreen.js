@@ -10,19 +10,17 @@ import Video from 'react-native-video';
 import OneSignal from 'react-native-onesignal';
 
 class SplashScreen extends Component {
-  constructor(props) {
-    super(props);
+  state = {};
+
+  componentDidMount() {
     if (!__DEV__) {
       OneSignal.setAppId('8038393c-ded4-4abc-ac70-4fa7a7668312');
     }
-    this.state = {};
-  }
-
-  componentDidMount() {
-    this._navigateTo();
+    setTimeout(this._navigateTo.bind(this), __DEV__?0:4000);
   }
 
   async _navigateTo() {
+    console.log('HERE');
     // await AsyncStorage.setItem("city", "Indore");
     const token = await AsyncStorage.getItem('jwtToken');
     const city = await AsyncStorage.getItem('city');
@@ -55,6 +53,7 @@ class SplashScreen extends Component {
           ref={(ref) => {
             this.videoplayer = ref;
           }}
+          rate={0.9}
           source={require('../../assets/SplashScreen.mp4')}
           style={{width: '100%', height: '100%'}}
           resizeMode="cover"
