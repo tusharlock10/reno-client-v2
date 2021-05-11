@@ -230,7 +230,7 @@ class PastDetails extends Component {
               }}>
               {data.restaurants.name}
             </Text>
-            {data.confirmed ? (
+            {!data.restaurants.acceptsRenoPay ? null : data.confirmed ? (
               <Text
                 style={{
                   fontFamily: 'Poppins-Medium',
@@ -297,7 +297,7 @@ class PastDetails extends Component {
                 fontFamily: 'Poppins-Regular',
                 color: '#000',
                 fontSize: 16,
-                marginTop:20,
+                marginTop: 20,
                 marginLeft: 10,
               }}>
               {'Reservation Slot '}

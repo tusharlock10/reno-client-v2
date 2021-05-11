@@ -138,7 +138,7 @@ class PastBooking extends Component {
                     alignSelf: 'center',
                     marginBottom: 15,
                   }}>
-                  {item.confirmed ? (
+                  {!item.restaurants.acceptsRenoPay ? null : item.confirmed ? (
                     <Text
                       style={{
                         color: 'green',
