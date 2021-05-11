@@ -7,7 +7,6 @@ import {getMyReservations} from '../../../actions/reservations';
 import {height, width} from '../../../constants';
 import {connect} from 'react-redux';
 import Ripple from 'react-native-material-ripple';
-import {isCurrentTimeInRange} from '../../../utils/dateTimeUtils';
 class RenoPay extends Component {
   componentDidMount() {
     this.props.navigation.addListener('focus', () => {
@@ -15,38 +14,20 @@ class RenoPay extends Component {
     });
   }
 
-  onPressUpcomingOrder(upcomingOrder, upcomingOrderIndex) {
+  onPressUpcomingOrder(upcomingOrder) {
     if (upcomingOrder.unlockActive) {
       this.props.navigation.navigate('EnterAmountScreen', {
         data: upcomingOrder,
       });
     } else {
       this.props.navigation.navigate('UpcomingDetails', {
-        index: upcomingOrderIndex,
+        data: upcomingOrder,
       });
     }
   }
 
-  getUpcomingOrder = () => {
-    if (this.props.reservations.loading) {
-      return {upcomingOrder: null, upcomingOrderIndex: null};
-    }
-    const upcomingOrders = this.props.reservations.orders.upcomingOrders;
-
-    for (let i = 0; i < upcomingOrders.length; i++) {
-      const order = upcomingOrders[i];
-      const canUnlockTheDeal = isCurrentTimeInRange(order.timeDiscount.time);
-      const isUpcomingOrder =
-        canUnlockTheDeal && order.restaurants.acceptsRenoPay;
-      if (isUpcomingOrder) {
-        return {upcomingOrder: order, upcomingOrderIndex: i};
-      }
-    }
-    return {upcomingOrder: null, upcomingOrderIndex: null};
-  };
-
   render() {
-    const {upcomingOrder, upcomingOrderIndex} = this.getUpcomingOrder();
+    const upcomingOrder = this.props.reservations?.orders?.upcomingOrders[0];
 
     return (
       <ScrollView
@@ -71,31 +52,31 @@ class RenoPay extends Component {
           </Text>
         </Text>
         {!this.props.reservations.loading ? (
-          upcomingOrder ? (
-            <View>
-              <Ripple
+          <View>
+            <Ripple
+              style={{
+                padding: 15,
+                marginHorizontal: 10,
+                backgroundColor: '#d20000',
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderRadius: 6,
+              }}
+              onPress={() =>
+                this.props.navigation.navigate('SearchScreen', {
+                  isRenoPay: true,
+                })
+              }>
+              <Text
                 style={{
-                  padding: 15,
-                  marginHorizontal: 10,
-                  backgroundColor: '#d20000',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  borderRadius: 6,
-                }}
-                onPress={() =>
-                  this.props.navigation.navigate('SearchScreen', {
-                    isRenoPay: true,
-                  })
-                }>
-                <Text
-                  style={{
-                    fontFamily: 'Poppins-Regular',
-                    fontSize: 18,
-                    color: '#fff',
-                  }}>
-                  Search For Restaurants
-                </Text>
-              </Ripple>
+                  fontFamily: 'Poppins-Regular',
+                  fontSize: 18,
+                  color: '#fff',
+                }}>
+                Search For Restaurants
+              </Text>
+            </Ripple>
+            {upcomingOrder ? (
               <View style={{alignItems: 'center'}}>
                 <Text
                   style={{
@@ -121,11 +102,7 @@ class RenoPay extends Component {
                     shadowRadius: 7,
                     elevation: 7,
                   }}
-                  onPress={this.onPressUpcomingOrder.bind(
-                    this,
-                    upcomingOrder,
-                    upcomingOrderIndex,
-                  )}>
+                  onPress={this.onPressUpcomingOrder.bind(this, upcomingOrder)}>
                   <Image
                     source={{
                       uri: upcomingOrder.restaurants.imageurl,
@@ -169,31 +146,32 @@ class RenoPay extends Component {
                   </View>
                 </Ripple>
               </View>
-            </View>
-          ) : (
-            <View
-              style={{
-                flex: 1,
-                justifyContent: 'center',
-                alignItems: 'center',
-                paddingHorizontal: 30,
-              }}>
-              <Text
+            ) : (
+              <View
                 style={{
-                  fontFamily: 'Poppins-Regular',
-                  color: '#707070',
-                  fontSize: 16,
-                  textAlign: 'center',
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  paddingHorizontal: 30,
+                  marginTop:30
                 }}>
-                No upcoming bookings for{' '}
                 <Text
-                  style={{fontFamily: 'Poppins-SemiBold', color: '#299e49'}}>
-                  Reno Pay
-                </Text>{' '}
-                restaurants
-              </Text>
-            </View>
-          )
+                  style={{
+                    fontFamily: 'Poppins-Regular',
+                    color: '#707070',
+                    fontSize: 16,
+                    textAlign: 'center',
+                  }}>
+                  No upcoming bookings for{' '}
+                  <Text
+                    style={{fontFamily: 'Poppins-SemiBold', color: '#299e49'}}>
+                    Reno Pay
+                  </Text>{' '}
+                  restaurants
+                </Text>
+              </View>
+            )}
+          </View>
         ) : (
           <View
             style={{

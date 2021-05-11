@@ -9,6 +9,7 @@ import {getMyReservations} from '../../actions/reservations';
 import {ActivityIndicator} from 'react-native-paper';
 import {connect} from 'react-redux';
 import Ripple from 'react-native-material-ripple';
+import _ from 'lodash';
 
 class QRSearchScreen extends Component {
   state = {
@@ -16,7 +17,8 @@ class QRSearchScreen extends Component {
     dataSource: [],
   };
 
-  searchFilterFunction(text) {
+  searchFilterFunction = _.debounce(() => {
+    const text = this.state.text;
     const newData = this.props.reservations.orders.upcomingOrders.filter(
       (item) => {
         const itemData = item.restaurants.name.toUpperCase();
@@ -26,9 +28,8 @@ class QRSearchScreen extends Component {
     );
     this.setState({
       dataSource: newData,
-      text: text,
     });
-  }
+  }, 350);
 
   onSearchResultPress(data) {
     this.props.navigation.navigate('EnterAmountScreen', {data});
@@ -59,7 +60,10 @@ class QRSearchScreen extends Component {
           shadowOpacity: 0.25,
           borderRadius: 10,
         }}
-        onChangeText={(text) => this.searchFilterFunction(text)}
+        onChangeText={(text) => {
+          this.setState({text});
+          this.searchFilterFunction();
+        }}
         value={this.state.text}
         placeholder='Search for "Restaurants"'
         placeholderTextColor="#D1D1D1"
@@ -147,9 +151,7 @@ class QRSearchScreen extends Component {
                     fontSize: 14,
                   }}>
                   {item.date}{' '}
-                  <Text style={{fontSize:12}}>
-                    {item.timeDiscount.time}
-                  </Text>
+                  <Text style={{fontSize: 12}}>{item.timeDiscount.time}</Text>
                 </Text>
               </View>
               <View

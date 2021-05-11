@@ -18,9 +18,7 @@ class UpcomingDetails extends Component {
   state = {cancelLoading: false};
 
   renderUnlockButton() {
-    const order = this.props.reservations.orders.upcomingOrders[
-      this.props.route.params.index
-    ];
+    const order = this.props.route.params.data;
 
     const canUnlockTheDeal = isCurrentTimeInRange(order.timeDiscount.time);
 
@@ -65,9 +63,7 @@ class UpcomingDetails extends Component {
 
   render() {
     // getting this order directly from the redux state to update the order details live
-    const order = this.props.reservations.orders.upcomingOrders[
-      this.props.route.params.index
-    ];
+    const order = this.props.route.params.data;
     if (!order) {
       return <View />;
     }

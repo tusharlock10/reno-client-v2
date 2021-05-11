@@ -13,6 +13,7 @@ import {
 import {ActivityIndicator} from 'react-native-paper';
 import {connect} from 'react-redux';
 import Ripple from 'react-native-material-ripple';
+import _ from 'lodash';
 
 class SearchScreen extends Component {
   state = {
@@ -25,12 +26,10 @@ class SearchScreen extends Component {
     this.props.indexSearchRestaurants();
   }
 
-  searchFilterFunction(text) {
+  searchFilterFunction = _.debounce(() => {
+    const text = this.state.text;
     const newData = this.props.search.restaurants.filter((item) => {
-      if (
-        this.props.route.params?.isRenoPay &&
-        !item.acceptsRenoPay
-      ) {
+      if (this.props.route.params?.isRenoPay && !item.acceptsRenoPay) {
         return false;
       }
       const itemData = item.name.toUpperCase();
@@ -39,9 +38,8 @@ class SearchScreen extends Component {
     });
     this.setState({
       dataSource: newData,
-      text: text,
     });
-  }
+  }, 350);
 
   onSearchResultPress(item) {
     this.props.navigation.navigate('CreateOrders', {
@@ -79,7 +77,10 @@ class SearchScreen extends Component {
           shadowOpacity: 0.25,
           borderRadius: 10,
         }}
-        onChangeText={(text) => this.searchFilterFunction(text)}
+        onChangeText={(text) => {
+          this.setState({text});
+          this.searchFilterFunction();
+        }}
         value={this.state.text}
         placeholder='Search for "Restaurants"'
         placeholderTextColor="#D1D1D1"
@@ -151,7 +152,7 @@ class SearchScreen extends Component {
                 style={{
                   height: 40,
                   width: 40,
-                  backgroundColor: item.rating>3.5?'#299e49':'#d20000',
+                  backgroundColor: item.rating > 3.5 ? '#299e49' : '#d20000',
                   justifyContent: 'center',
                   alignItems: 'center',
                   marginTop: 10,
