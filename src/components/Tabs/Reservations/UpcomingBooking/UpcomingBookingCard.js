@@ -76,7 +76,7 @@ class UpcomingBookingCard extends React.Component {
         android_ripple={{color: '#dcdcdc'}}
         onPress={() => {
           if (!infoOnly) {
-            this.props.navigation.navigate('UpcomingDetails', {index});
+            this.props.navigation.navigate('UpcomingDetails', {data: item});
           }
         }}>
         <View style={styles.dateView}>
@@ -171,6 +171,18 @@ class UpcomingBookingCard extends React.Component {
         </View>
 
         {this.renderUnlockButton()}
+        {item.restaurants.hasPickup ? (
+          <Text
+            style={{
+              marginLeft: 15,
+              fontSize: 14,
+              fontFamily: 'Poppins-SemiBold',
+              color: '#d20000',
+              alignSelf: 'center',
+            }}>
+            Pickup/Takeaway
+          </Text>
+        ) : null}
       </Pressable>
     );
   }

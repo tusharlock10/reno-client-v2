@@ -319,6 +319,7 @@ class CreateOrder extends Component {
               userReviewses={this.props.createorder.orderData.userReviewses}
             />
             <TermsAndConditions
+            conditions={this.props.createorder.orderData.conditions}
               callbackFromChild={(state) => {
                 this.setState({TermsAccepted: state});
               }}
