@@ -116,7 +116,7 @@ class RenderRestaurants extends Component {
               borderTopRightRadius: 5,
               borderBottomRightRadius: 5,
               borderTopLeftRadius: 5,
-              paddingHorizontal:10
+              paddingHorizontal: 10,
             }}>
             <Text
               style={{
@@ -125,18 +125,6 @@ class RenderRestaurants extends Component {
               }}>
               {this.props.isRenoPayEnabled ? 'Reno Pay' : 'Pay at Restaurant'}
             </Text>
-            {this.props.hasPickup ? (
-              <Text
-                style={{
-                  color: '#FFF',
-                  fontSize: 10,
-                  fontFamily: 'Poppins-SemiBold',
-                  marginTop:-4,
-                  marginBottom:2
-                }}>
-                Pickup/Takeaway
-              </Text>
-            ) : null}
           </View>
           <View
             style={{
@@ -144,7 +132,7 @@ class RenderRestaurants extends Component {
               height: 0,
               backgroundColor: 'transparent',
               borderStyle: 'solid',
-              top: this.props.hasPickup?32:16,
+              top: 16,
               left: 4.4,
               borderLeftWidth: 8,
               position: 'absolute',
@@ -159,6 +147,51 @@ class RenderRestaurants extends Component {
             }}
           />
         </View>
+
+        {this.props.hasPickup ? (
+          <View style={{position: 'absolute', right: 7, top: 15}}>
+            <View
+              style={{
+                justifyContent: 'center',
+                elevation: 9,
+                backgroundColor: this.props.isRenoPayEnabled
+                  ? '#299e49'
+                  : '#d29034',
+                borderTopRightRadius: 5,
+                borderBottomLeftRadius: 5,
+                borderTopLeftRadius: 5,
+                paddingHorizontal: 10,
+              }}>
+              <Text
+                style={{
+                  color: '#FFF',
+                  fontFamily: 'Poppins-SemiBold',
+                }}>
+                Pickup/Takeaway
+              </Text>
+            </View>
+            <View
+              style={{
+                width: 0,
+                height: 0,
+                backgroundColor: 'transparent',
+                borderStyle: 'solid',
+                top: 16,
+                right: 4.4,
+                borderLeftWidth: 8,
+                position: 'absolute',
+                borderRightWidth: 8,
+                borderBottomWidth: 16,
+                borderLeftColor: 'transparent',
+                borderRightColor: 'transparent',
+                borderBottomColor: this.props.isRenoPayEnabled
+                  ? '#258f42'
+                  : '#be8228',
+                transform: [{rotate: '-45deg'}],
+              }}
+            />
+          </View>
+        ) : null}
       </View>
     );
   }
