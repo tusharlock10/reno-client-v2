@@ -109,8 +109,6 @@ class RenderRestaurants extends Component {
           <View
             style={{
               justifyContent: 'center',
-              alignItems: 'flex-end',
-              height: 30,
               elevation: 9,
               backgroundColor: this.props.isRenoPayEnabled
                 ? '#299e49'
@@ -118,15 +116,27 @@ class RenderRestaurants extends Component {
               borderTopRightRadius: 5,
               borderBottomRightRadius: 5,
               borderTopLeftRadius: 5,
+              paddingHorizontal:10
             }}>
             <Text
               style={{
                 color: '#FFF',
-                marginHorizontal: 10,
                 fontFamily: 'Poppins-SemiBold',
               }}>
               {this.props.isRenoPayEnabled ? 'Reno Pay' : 'Pay at Restaurant'}
             </Text>
+            {this.props.hasPickup ? (
+              <Text
+                style={{
+                  color: '#FFF',
+                  fontSize: 10,
+                  fontFamily: 'Poppins-SemiBold',
+                  marginTop:-4,
+                  marginBottom:2
+                }}>
+                Pickup/Takeaway
+              </Text>
+            ) : null}
           </View>
           <View
             style={{
@@ -134,7 +144,7 @@ class RenderRestaurants extends Component {
               height: 0,
               backgroundColor: 'transparent',
               borderStyle: 'solid',
-              top: 22,
+              top: this.props.hasPickup?32:16,
               left: 4.4,
               borderLeftWidth: 8,
               position: 'absolute',

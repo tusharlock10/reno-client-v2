@@ -158,18 +158,6 @@ class UpcomingDetails extends Component {
             </Text>
           </View>
           {this.renderUnlockButton()}
-          {order.restaurants.hasPickup ? (
-          <Text
-            style={{
-              marginLeft: 15,
-              fontSize: 14,
-              fontFamily: 'Poppins-SemiBold',
-              color: '#d20000',
-              alignSelf: 'center',
-            }}>
-            Pickup/Takeaway
-          </Text>
-        ) : null}
           <View
             style={{
               marginTop: 15,

@@ -167,22 +167,20 @@ class UpcomingBookingCard extends React.Component {
                 ? 'Pay with Reno Pay'
                 : 'Pay at Restaurant'}
             </Text>
+            {item.restaurants.hasPickup ? (
+              <Text
+                style={{
+                  fontFamily: 'Poppins-Regular',
+                  fontSize: 12,
+                  color: '#707070',
+                }}>
+                Pickup/Takeaway
+              </Text>
+            ) : null}
           </View>
         </View>
 
         {this.renderUnlockButton()}
-        {item.restaurants.hasPickup ? (
-          <Text
-            style={{
-              marginLeft: 15,
-              fontSize: 14,
-              fontFamily: 'Poppins-SemiBold',
-              color: '#d20000',
-              alignSelf: 'center',
-            }}>
-            Pickup/Takeaway
-          </Text>
-        ) : null}
       </Pressable>
     );
   }

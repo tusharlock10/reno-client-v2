@@ -56,6 +56,7 @@ class BrandTileRestaurants extends Component {
               name={item.name}
               timeDiscounts={item[day] ? item[day].timeDiscounts : []}
               isRenoPayEnabled={item.acceptsRenoPay}
+              hasPickup={item.hasPickup}
               image={item.imageurl}
               directions={item.googlemapsurl}
               navigation={this.props.navigation}
