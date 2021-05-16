@@ -272,6 +272,10 @@ class CreateOrder extends Component {
                     : this.props.route.params.timeDiscounts
                 }
                 renderItem={({item}) => {
+                  const fullDay = getDayFromNumber(
+                    new Date(this.state.timeStamp).getDay(),
+                  );
+
                   const exhausted =
                     getDayFromNumber(
                       new Date(this.state.timeStamp).getDay(),
@@ -281,10 +285,17 @@ class CreateOrder extends Component {
                       new Date(this.state.timeStamp).getDay(),
                     ).substring(0, 3) + 'Discount';
 
+                  if (!item[day]) {
+                    return null;
+                  }
+
                   return (
                     <RenderSlots
                       discount={item[day]}
-                      exhausted={item[exhausted]}
+                      exhausted={
+                        item[exhausted] ||
+                        this.props.createorder.orderData[fullDay].exhausted
+                      }
                       time={item.time}
                       id={item.id}
                       backgroundColor={
@@ -315,11 +326,11 @@ class CreateOrder extends Component {
             <AMRTab
               discount={this.state.discount}
               about={this.props.createorder.orderData.about}
-              menu={this.props.createorder.orderData.menu}
+              restaurantMenu={this.props.createorder.orderData.restaurantMenu}
               userReviewses={this.props.createorder.orderData.userReviewses}
             />
             <TermsAndConditions
-            conditions={this.props.createorder.orderData.conditions}
+              conditions={this.props.createorder.orderData.conditions}
               callbackFromChild={(state) => {
                 this.setState({TermsAccepted: state});
               }}

@@ -49,6 +49,9 @@ class BrandTileRestaurants extends Component {
         contentContainerStyle={{paddingTop: 20}}
         renderItem={({item}) => {
           const day = getDayFromNumber(new Date().getDay());
+          if (!item[day]) {
+            return null;
+          }
           return (
             <RenderRestaurants
               id={item.id}

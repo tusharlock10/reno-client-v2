@@ -55,11 +55,11 @@ class AboutUs extends Component {
                 fontSize: 16,
               }}
               onPress={() =>
-                Linking.openURL('https://goreno.in/').catch((err) =>
+                Linking.openURL('https://www.renoapp.in/').catch((err) =>
                   console.error(err),
                 )
               }>
-              www.goreno.in
+              www.renoapp.in
             </Text>
             <Text
               style={{
@@ -69,13 +69,13 @@ class AboutUs extends Component {
                 color: '#000',
                 fontSize: 16,
               }}>
-              Founded in 2018 India's first, Reno's mission is to connect empty
-              tables to empty mouths by offering real time discounts on a 30 min
+              Founded in 2018 India's first, RenoApp's mission is to connect empty
+              tables to empty stomachs by offering real time discounts on a 30 min
               slot basis with discounts of up to 50% every day at all of its
               participating restaurants, bars, and cafes through its mobile app.
               Users can choose to dine anywhere, from upscale hotels to popular
               food chains, and enjoy the same discounts with no strings
-              attached, while restaurants get to fill their un-utilised capacity
+              attached, while restaurants get to fill their un-utilized capacity
               during off-peak hours. The best of the best part, it's free to
               use.
             </Text>

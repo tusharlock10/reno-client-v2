@@ -188,6 +188,15 @@ class HomeScreen extends Component {
               data={this.props.restaurants.restaurants}
               renderItem={({item}) => {
                 const day = getDayFromNumber(new Date().getDay());
+                if (!item[day]) {
+                  return null;
+                }
+                if (item[day]?.exhausted) {
+                  item[day].timeDiscounts = item[day].timeDiscounts.map((t) => {
+                    t[day.substring(0, 3) + 'Exhaust'] = item[day].exhausted;
+                    return t;
+                  });
+                }
                 return (
                   <RenderRestaurants
                     id={item.id}

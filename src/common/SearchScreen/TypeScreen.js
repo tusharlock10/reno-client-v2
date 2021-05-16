@@ -4,7 +4,7 @@ import Header from '../Header';
 import axios from '../../api';
 import RenderRestaurants from '../../components/Tabs/Home/RenderRestaurants';
 import {ActivityIndicator} from 'react-native-paper';
-import {getDayFromNumber} from '../../utils/dateTimeUtils'
+import {getDayFromNumber} from '../../utils/dateTimeUtils';
 class TypeScreen extends Component {
   constructor(props) {
     super(props);
@@ -40,6 +40,9 @@ class TypeScreen extends Component {
             data={this.state.restaurants}
             renderItem={({item, index}) => {
               const day = getDayFromNumber(new Date().getDay());
+              if (!item[day]) {
+                return null;
+              }
               return (
                 <RenderRestaurants
                   id={item.id}

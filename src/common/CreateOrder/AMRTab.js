@@ -133,7 +133,7 @@ class AMRTab extends Component {
     return (
       <View style={{width}}>
         <View style={styles.aboutView}>
-          {this.props.menu.length ? (
+          {this.props.restaurantMenu.length ? (
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <View style={{flex: 1}}>
                 <Text
@@ -153,13 +153,15 @@ class AMRTab extends Component {
             </View>
           ) : null}
 
-          {this.props.menu.length ? (
-            this.props.menu.map((item, index) => {
+          {this.props.restaurantMenu.length ? (
+            this.props.restaurantMenu.map((item, index) => {
+              const Price = item.split(',')[0];
+              const Item = item.substring(item.indexOf(',') + 1);
               const finalPrice = this.props.discount
-                ? parseInt(item.Price * (1 - this.props.discount / 100))
-                : item.Price;
+                ? parseInt(Price * (1 - this.props.discount / 100))
+                : Price;
 
-              const originalPrice = this.props.discount ? item.Price : null;
+              const originalPrice = this.props.discount ? Price : null;
 
               return (
                 <View
@@ -175,7 +177,7 @@ class AMRTab extends Component {
                         fontFamily: 'Poppins-Regular',
                         fontSize: 12,
                         width: 15,
-                      }}>{`${index}.`}</Text>
+                      }}>{`${index+1}.`}</Text>
                     <View style={{flex: 1}}>
                       <Text
                         style={{
@@ -184,7 +186,7 @@ class AMRTab extends Component {
                           fontSize: 16,
                           flexWrap: 'wrap',
                         }}>
-                        {item.Item}
+                        {Item}
                       </Text>
                     </View>
                   </View>

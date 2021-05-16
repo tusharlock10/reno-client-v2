@@ -11,7 +11,8 @@ class Footer extends Component {
       return false;
     }
     if (this.props.auth.user.hasPaymentDispute) {
-      this.error = 'Payment pending for previous booking';
+      this.error =
+        'Payment dispute for past reservation Found. Unable to create new booking.';
       return false;
     }
 

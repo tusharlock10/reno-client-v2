@@ -176,10 +176,7 @@ class UpcomingDetails extends Component {
                 margin: 10,
               }}>
               {order.restaurants.acceptsRenoPay
-                ? `Please unlock your Visit ID at the restaurant. Unlock option\
-appears only in the given time slot for which the reservation is\
-made. After unlocking, you can pay at anytime before leaving the\
-restaurant via Reno Pay`
+                ? `Please unlock your visit ID at the restaurant. Unlock option appears only in the given time slot for which the reservation is made. After unlocking, you can pay anytime before leaving the restaurant via Renopay`
                 : 'Pay at the restaurant'}
             </Text>
           </View>

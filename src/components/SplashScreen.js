@@ -20,7 +20,6 @@ class SplashScreen extends Component {
   }
 
   async _navigateTo() {
-    console.log('HERE');
     // await AsyncStorage.setItem("city", "Indore");
     const token = await AsyncStorage.getItem('jwtToken');
     const city = await AsyncStorage.getItem('city');
@@ -53,7 +52,7 @@ class SplashScreen extends Component {
           ref={(ref) => {
             this.videoplayer = ref;
           }}
-          rate={0.9}
+          rate={1.1}
           source={require('../../assets/SplashScreen.mp4')}
           style={{width: '100%', height: '100%'}}
           resizeMode="cover"

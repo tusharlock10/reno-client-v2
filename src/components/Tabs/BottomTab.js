@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, StyleSheet, TouchableOpacity, Text} from 'react-native';
+import {View, StyleSheet, TouchableOpacity, Text, Image} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import {width} from '../../constants';
 
@@ -15,13 +15,20 @@ class BottomTab extends Component {
         onPress={() => {
           this.props.navigation.navigate(screen);
         }}>
-        <Icon
-          name={iconName}
-          size={ICON_SIZE}
-          color={
-            this.props.state.index === index ? ACTIVE_COLOR : INACTIVE_COLOR
-          }
-        />
+        {index == 2 ? (
+          <Image
+            style={{width: ICON_SIZE + 4, height: ICON_SIZE + 4}}
+            source={require('../../../assets/reno_logo_main.png')}
+          />
+        ) : (
+          <Icon
+            name={iconName}
+            size={ICON_SIZE}
+            color={
+              this.props.state.index === index ? ACTIVE_COLOR : INACTIVE_COLOR
+            }
+          />
+        )}
         <Text
           style={{
             fontFamily: 'Poppins-Regular',
